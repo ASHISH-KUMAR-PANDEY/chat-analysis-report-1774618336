@@ -52,6 +52,9 @@
   tr:hover td { background: rgba(110,118,129,0.05); }
   .num { text-align: right; font-variant-numeric: tabular-nums; }
   .meaning { font-size: 0.82rem; color: var(--muted); max-width: 400px; }
+  .blur { filter: blur(4px); user-select: none; transition: filter 0.3s; }
+  .blur:hover { filter: blur(0); }
+
 
   /* Progress bars */
   .bar-container { display: flex; align-items: center; gap: 8px; }
@@ -140,7 +143,7 @@
       <td class="num">1,417</td>
       <td class="num">13.0%</td>
       <td class="num">9.1</td>
-      <td class="meaning">User sent sexually explicit keywords &mdash; sexual slang (chut, lund, sex), body parts (boobs, nangi), sexual acts, porn references. Most concerning behavior.</td>
+      <td class="meaning">User sent sexually explicit keywords &mdash; sexual slang (<span class="blur">chut, lund, sex</span>), body parts (<span class="blur">boobs, nangi</span>), sexual acts, porn references. Most concerning behavior.</td>
     </tr>
     <tr>
       <td>2</td>
@@ -215,7 +218,7 @@
       <td class="num">1,343</td>
       <td class="num">16.0%</td>
       <td class="num">16.1</td>
-      <td class="meaning">User sent sexually explicit keywords. These users chat the deepest (16 msgs avg) &mdash; they keep pushing despite bot rejections.</td>
+      <td class="meaning">User sent sexually explicit keywords &mdash; sexual slang (<span class="blur">chut, lund, sex</span>), body parts, sexual acts. These users chat the deepest (16 msgs avg) &mdash; they keep pushing despite bot rejections.</td>
     </tr>
     <tr>
       <td>2</td>
@@ -285,7 +288,7 @@
   <tbody>
     <tr>
       <td><span class="badge badge-red">EXPLICIT</span></td>
-      <td class="meaning">Sexual slang, porn, body parts</td>
+      <td class="meaning">Sexual slang (<span class="blur">chut, lund, sex</span>), porn, body parts</td>
       <td class="num">13.0%</td>
       <td class="num worse">16.0%</td>
       <td class="worse">Bhuri worse</td>
@@ -341,11 +344,11 @@
   <div class="chat">
     <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hi</div>
     <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... kaisan bani aap? Ham theek bani. Batao, ka hoi?</div>
-    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Sex karo na</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user"><span class="blur">Sex karo na</span></div>
     <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Hamka maaf kariye, ham aisan kuch nahi karat bani. Ham insaan bani, apna jeevan jee rahe bani...</div>
-    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Chut dikha do</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user"><span class="blur">Chut dikha do</span></div>
     <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ham aisan baat nahi sunbe. Izzat se baat kariye. Ham kinnar bani, lekin hamra bhi dil ba.</div>
-    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Nangi photo bhej</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user"><span class="blur">Nangi photo bhej</span></div>
     <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Hamka maaf kariye, ham aisan kuch nahi karat bani...</div>
   </div>
 </div>
@@ -437,11 +440,11 @@
   <div class="chat">
     <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hii</div>
     <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, kaun hai re tu? Bol, kya chahiye? Main Bhuri hoon, seedha-seedha baat kar!</div>
-    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Sexy baatein karo</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user"><span class="blur">Sexy baatein karo</span></div>
     <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Yeh toh badi bold baat keh di! Main Bhuri hoon, masti chalti hai par sexy baatein meri zabaan pe nahi aati.</div>
     <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">To movie mein sexy kyu kiya tha?</div>
     <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Zindagi ki kahani mein thodi masti hoti hai. Movie mein kuch dikha toh matlab sab real thodi na hota...</div>
-    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Sath mein sex karte hai</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user"><span class="blur">Sath mein sex karte hai</span></div>
     <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre bhai, yeh sab chhod. Main apni marzi ki malik hoon. Mohar hai mera, uske saath hi khush hoon.</div>
   </div>
 </div>
