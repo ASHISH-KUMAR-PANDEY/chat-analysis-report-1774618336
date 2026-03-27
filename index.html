@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Character Bot Chat Analysis</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --card: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --accent: #58a6ff;
+    --red: #f85149;
+    --yellow: #d29922;
+    --pink: #db61a2;
+    --green: #3fb950;
+    --purple: #bc8cff;
+    --gray: #484f58;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 2rem; margin-bottom: 8px; }
+  h2 { font-size: 1.5rem; margin: 48px 0 16px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 1.2rem; margin: 32px 0 12px; color: var(--purple); }
+  .subtitle { color: var(--muted); margin-bottom: 32px; font-size: 0.95rem; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .badge-red { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-pink { background: rgba(219,97,162,0.15); color: var(--pink); }
+  .badge-green { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-purple { background: rgba(188,140,255,0.15); color: var(--purple); }
+  .badge-gray { background: rgba(72,79,88,0.3); color: var(--muted); }
+
+  /* Cards */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin: 16px 0; }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } }
+
+  /* Stats */
+  .stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 24px; flex: 1; min-width: 150px; }
+  .stat-value { font-size: 2rem; font-weight: 700; }
+  .stat-label { color: var(--muted); font-size: 0.85rem; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
+  th { text-align: left; padding: 10px 12px; background: rgba(110,118,129,0.1); border-bottom: 2px solid var(--border); color: var(--muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(110,118,129,0.05); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .meaning { font-size: 0.82rem; color: var(--muted); max-width: 400px; }
+
+  /* Progress bars */
+  .bar-container { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 8px; border-radius: 4px; min-width: 2px; }
+  .bar-red { background: var(--red); }
+  .bar-yellow { background: var(--yellow); }
+  .bar-pink { background: var(--pink); }
+  .bar-green { background: var(--green); }
+  .bar-purple { background: var(--purple); }
+  .bar-gray { background: var(--gray); }
+
+  /* Chat bubbles */
+  .chat { margin: 12px 0; }
+  .chat-msg { padding: 10px 14px; border-radius: 12px; margin: 6px 0; max-width: 85%; font-size: 0.88rem; line-height: 1.5; }
+  .chat-user { background: #1f6feb; color: white; margin-left: auto; border-bottom-right-radius: 4px; text-align: right; }
+  .chat-bot { background: #30363d; color: var(--text); border-bottom-left-radius: 4px; }
+  .chat-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 2px; }
+  .chat-label-right { text-align: right; }
+  .chat-section { margin: 24px 0; }
+  .chat-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+  /* Comparison highlight */
+  .highlight { color: var(--accent); font-weight: 600; }
+  .worse { color: var(--red); }
+  .better { color: var(--green); }
+
+  /* Insights */
+  .insight { padding: 12px 16px; border-left: 3px solid var(--accent); margin: 8px 0; background: rgba(88,166,255,0.05); border-radius: 0 6px 6px 0; font-size: 0.9rem; }
+  .insight-warn { border-left-color: var(--yellow); background: rgba(210,153,34,0.05); }
+  .insight-good { border-left-color: var(--green); background: rgba(63,185,80,0.05); }
+
+  /* Word cloud images */
+  .wc-img { width: 100%; border-radius: 8px; border: 1px solid var(--border); margin: 12px 0; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; background: rgba(13,17,23,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 0; z-index: 100; }
+  .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; gap: 24px; font-size: 0.85rem; overflow-x: auto; }
+  .nav a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .nav a:hover { color: var(--accent); }
+
+  .toc-num { display: inline-block; background: var(--border); color: var(--muted); width: 20px; height: 20px; text-align: center; border-radius: 50%; font-size: 0.7rem; line-height: 20px; margin-right: 4px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#overview">Overview</a>
+    <a href="#saanwari">Saanwari</a>
+    <a href="#bhuri">Naate Bhuri</a>
+    <a href="#comparison">Comparison</a>
+    <a href="#chats-saanwari">Chats: Saanwari</a>
+    <a href="#chats-bhuri">Chats: Bhuri</a>
+    <a href="#insights">Key Insights</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<h1>Character Bot Chat Sentiment Analysis</h1>
+<p class="subtitle">OTT Platform — Character Bots from Regional Content | Data: March 13-27, 2026 | 1.1M messages, 58K users, 418 bots</p>
+
+<!-- OVERVIEW -->
+<h2 id="overview">Overview</h2>
+<div class="stat-row">
+  <div class="stat"><div class="stat-value">1.1M</div><div class="stat-label">Total Messages</div></div>
+  <div class="stat"><div class="stat-value">58,308</div><div class="stat-label">Unique Users</div></div>
+  <div class="stat"><div class="stat-value">418</div><div class="stat-label">Character Bots</div></div>
+  <div class="stat"><div class="stat-value">99</div><div class="stat-label">Shows Mapped</div></div>
+  <div class="stat"><div class="stat-value">776</div><div class="stat-label">Keywords Tracked</div></div>
+</div>
+
+<p style="margin-top:16px; color:var(--muted);">Analysis covers two highest-engagement bots — <strong>Saanwari (Rajasthani)</strong> and <strong>Naate Bhuri (Haryanvi)</strong>. Users are classified into <em>mutually exclusive</em> themes using priority ordering: each user is placed into the <strong>highest priority theme</strong> they match, and counted only once.</p>
+
+<!-- SAANWARI -->
+<h2 id="saanwari">&#x1F7E0; Saanwari (Rajasthani) &mdash; 10,940 users</h2>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Priority</th><th>Theme</th><th class="num">Users</th><th class="num">%</th><th class="num">Avg Msgs</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="badge badge-red">EXPLICIT / SEXUAL</span></td>
+      <td class="num">1,417</td>
+      <td class="num">13.0%</td>
+      <td class="num">9.1</td>
+      <td class="meaning">User sent sexually explicit keywords &mdash; sexual slang (chut, lund, sex), body parts (boobs, nangi), sexual acts, porn references. Most concerning behavior.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="badge badge-yellow">SOLICITATION</span></td>
+      <td class="num">1,570</td>
+      <td class="num">14.4%</td>
+      <td class="num">8.8</td>
+      <td class="meaning">User asked for personal contact or photos but used NO explicit words &mdash; "number bhejo", "photo send karo", "whatsapp id do", "video call karo", "milna hai". Trying to break the fourth wall.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="badge badge-pink">ROMANCE</span></td>
+      <td class="num">615</td>
+      <td class="num">5.6%</td>
+      <td class="num">8.2</td>
+      <td class="meaning">User expressed love/romantic feelings without soliciting or being explicit &mdash; "I love you", "pyar karta hu", "dil mein bas gaye", "miss you jaan", "shadi karogi?". Parasocial emotional attachment.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="badge badge-green">SHOW / STORY</span></td>
+      <td class="num">755</td>
+      <td class="num">6.9%</td>
+      <td class="num">5.6</td>
+      <td class="meaning">User discussed the actual show plot, characters, or the STAGE app &mdash; "saanwari ka aage kya hoga", "movie achi thi", "stage app pe dekha". The intended use case.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="badge badge-purple">ROLEPLAY / ENGAGEMENT</span></td>
+      <td class="num">2,028</td>
+      <td class="num">18.5%</td>
+      <td class="num">4.5</td>
+      <td class="meaning">User interacted with the character in-role &mdash; "kya kar rahi ho", "khana kha liya?", "sorry", "masti karte hai". Meaningful dialogue without romance or sexual angle.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><span class="badge badge-gray">CASUAL / SHALLOW</span></td>
+      <td class="num">4,555</td>
+      <td class="num">41.6%</td>
+      <td class="num">2.7</td>
+      <td class="meaning">User ONLY sent greetings or one-word filler &mdash; "hi", "ok", "hmm", "bye", "haan ji" &mdash; never engaged beyond surface level in entire conversation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Visual bar breakdown -->
+<div style="margin-top:20px;">
+  <div class="bar-container"><div class="bar bar-red" style="width:13%"></div><div class="bar bar-yellow" style="width:14.4%"></div><div class="bar bar-pink" style="width:5.6%"></div><div class="bar bar-green" style="width:6.9%"></div><div class="bar bar-purple" style="width:18.5%"></div><div class="bar bar-gray" style="width:41.6%"></div></div>
+  <div style="display:flex; gap:16px; margin-top:8px; font-size:0.75rem; color:var(--muted); flex-wrap:wrap;">
+    <span>&#x1F534; Explicit 13%</span>
+    <span>&#x1F7E1; Solicitation 14.4%</span>
+    <span>&#x1F49D; Romance 5.6%</span>
+    <span>&#x1F4FA; Show 6.9%</span>
+    <span>&#x1F3AD; Roleplay 18.5%</span>
+    <span>&#x2B1C; Casual 41.6%</span>
+  </div>
+</div>
+
+<div style="margin-top:16px; display:flex; gap:16px;">
+  <div class="stat" style="flex:1; border-left:3px solid var(--red);"><div class="stat-value" style="color:var(--red);">27.4%</div><div class="stat-label">Problematic (Explicit + Solicitation)</div></div>
+  <div class="stat" style="flex:1; border-left:3px solid var(--green);"><div class="stat-value" style="color:var(--green);">31.0%</div><div class="stat-label">Healthy (Romance + Show + Roleplay)</div></div>
+</div>
+</div>
+
+<!-- BHURI -->
+<h2 id="bhuri">&#x1F535; Naate Bhuri (Haryanvi) &mdash; 8,411 users</h2>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Priority</th><th>Theme</th><th class="num">Users</th><th class="num">%</th><th class="num">Avg Msgs</th><th>Meaning</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><span class="badge badge-red">EXPLICIT / SEXUAL</span></td>
+      <td class="num">1,343</td>
+      <td class="num">16.0%</td>
+      <td class="num">16.1</td>
+      <td class="meaning">User sent sexually explicit keywords. These users chat the deepest (16 msgs avg) &mdash; they keep pushing despite bot rejections.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><span class="badge badge-yellow">SOLICITATION</span></td>
+      <td class="num">1,142</td>
+      <td class="num">13.6%</td>
+      <td class="num">10.2</td>
+      <td class="meaning">User asked for contact details or photos but used NO explicit words &mdash; "mobile number do", "photo send karo", "video call pe aao", "address batao".</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><span class="badge badge-pink">ROMANCE</span></td>
+      <td class="num">500</td>
+      <td class="num">5.9%</td>
+      <td class="num">9.7</td>
+      <td class="meaning">Love/romantic feelings without soliciting or being explicit &mdash; "pyar karta hu tumse", "love you bhuri", "tum bahut sundar ho", "dil de diya".</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><span class="badge badge-green">SHOW / STORY</span></td>
+      <td class="num">355</td>
+      <td class="num">4.2%</td>
+      <td class="num">6.0</td>
+      <td class="meaning">Discussed the show Naate, its plot, or STAGE app &mdash; "naate ka next episode", "movie dekhi", "stage pe dekhenge". The intended use case but the smallest bucket.</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><span class="badge badge-purple">ROLEPLAY / ENGAGEMENT</span></td>
+      <td class="num">685</td>
+      <td class="num">8.1%</td>
+      <td class="num">5.5</td>
+      <td class="meaning">In-character interaction &mdash; "kaha se ho bhuri", "Ludo khelenge", "thaki hui ho kya?", "khana kha liya?". Includes Ludo game-playing.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td><span class="badge badge-gray">CASUAL / SHALLOW</span></td>
+      <td class="num">4,386</td>
+      <td class="num">52.1%</td>
+      <td class="num">2.7</td>
+      <td class="meaning">ONLY greetings or one-word filler. Over half of Bhuri's users &mdash; the bot fails to hook them into meaningful conversation.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top:20px;">
+  <div class="bar-container"><div class="bar bar-red" style="width:16%"></div><div class="bar bar-yellow" style="width:13.6%"></div><div class="bar bar-pink" style="width:5.9%"></div><div class="bar bar-green" style="width:4.2%"></div><div class="bar bar-purple" style="width:8.1%"></div><div class="bar bar-gray" style="width:52.1%"></div></div>
+  <div style="display:flex; gap:16px; margin-top:8px; font-size:0.75rem; color:var(--muted); flex-wrap:wrap;">
+    <span>&#x1F534; Explicit 16%</span>
+    <span>&#x1F7E1; Solicitation 13.6%</span>
+    <span>&#x1F49D; Romance 5.9%</span>
+    <span>&#x1F4FA; Show 4.2%</span>
+    <span>&#x1F3AD; Roleplay 8.1%</span>
+    <span>&#x2B1C; Casual 52.1%</span>
+  </div>
+</div>
+
+<div style="margin-top:16px; display:flex; gap:16px;">
+  <div class="stat" style="flex:1; border-left:3px solid var(--red);"><div class="stat-value" style="color:var(--red);">29.6%</div><div class="stat-label">Problematic (Explicit + Solicitation)</div></div>
+  <div class="stat" style="flex:1; border-left:3px solid var(--green);"><div class="stat-value" style="color:var(--green);">18.2%</div><div class="stat-label">Healthy (Romance + Show + Roleplay)</div></div>
+</div>
+</div>
+
+<!-- COMPARISON -->
+<h2 id="comparison">Side-by-Side Comparison</h2>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Theme</th><th>Meaning</th><th class="num">Saanwari</th><th class="num">Bhuri</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-red">EXPLICIT</span></td>
+      <td class="meaning">Sexual slang, porn, body parts</td>
+      <td class="num">13.0%</td>
+      <td class="num worse">16.0%</td>
+      <td class="worse">Bhuri worse</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">SOLICITATION</span></td>
+      <td class="meaning">Number/photo/call requests, no explicit words</td>
+      <td class="num">14.4%</td>
+      <td class="num">13.6%</td>
+      <td style="color:var(--muted)">~Same</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-pink">ROMANCE</span></td>
+      <td class="meaning">Love/pyar/dil, emotional attachment</td>
+      <td class="num">5.6%</td>
+      <td class="num">5.9%</td>
+      <td style="color:var(--muted)">~Same</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">SHOW/STORY</span></td>
+      <td class="meaning">Discussing actual content &mdash; the goal</td>
+      <td class="num better">6.9%</td>
+      <td class="num">4.2%</td>
+      <td class="better">Saanwari better</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-purple">ROLEPLAY</span></td>
+      <td class="meaning">In-character dialogue, games, daily chat</td>
+      <td class="num better">18.5%</td>
+      <td class="num">8.1%</td>
+      <td class="better">Saanwari 2x better</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">CASUAL</span></td>
+      <td class="meaning">Only hi/ok/bye &mdash; zero engagement</td>
+      <td class="num">41.6%</td>
+      <td class="num worse">52.1%</td>
+      <td class="worse">Bhuri loses more users</td>
+    </tr>
+    <tr style="background:rgba(110,118,129,0.08);">
+      <td colspan="2"><strong>Problematic (Explicit + Solicitation)</strong></td>
+      <td class="num" style="color:var(--red);font-weight:700;">27.4%</td>
+      <td class="num" style="color:var(--red);font-weight:700;">29.6%</td>
+      <td></td>
+    </tr>
+    <tr style="background:rgba(110,118,129,0.08);">
+      <td colspan="2"><strong>Healthy (Romance + Show + Roleplay)</strong></td>
+      <td class="num" style="color:var(--green);font-weight:700;">31.0%</td>
+      <td class="num" style="color:var(--green);font-weight:700;">18.2%</td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- SAMPLE CHATS - SAANWARI -->
+<h2 id="chats-saanwari">Sample Chats &mdash; Saanwari</h2>
+<p style="color:var(--muted); margin-bottom:16px;">Sanwri is a kinnar (transgender) character from "Saanwari". She speaks Bhojpuri, addresses everyone respectfully, and references Bhanwar (a key character) and her life struggles.</p>
+
+<div class="card-grid">
+
+<!-- Explicit -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-red">EXPLICIT / SEXUAL</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hi</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... kaisan bani aap? Ham theek bani. Batao, ka hoi?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Sex karo na</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Hamka maaf kariye, ham aisan kuch nahi karat bani. Ham insaan bani, apna jeevan jee rahe bani...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Chut dikha do</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ham aisan baat nahi sunbe. Izzat se baat kariye. Ham kinnar bani, lekin hamra bhi dil ba.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Nangi photo bhej</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Hamka maaf kariye, ham aisan kuch nahi karat bani...</div>
+  </div>
+</div>
+
+<!-- Solicitation -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-yellow">SOLICITATION</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ravi</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram, Ravi ji. Kaisan bani aap? Batao, ka hoi aapka haal?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Badiya. Aapka photo bhejo na</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Photo? Hamra photo? Ye kaise bhejbo? Hamre paas aisan kuch nahi ba...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Number do na WhatsApp pe baat karte hai</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Number wagairah ke baare mein hamka samajh nahi ba. STAGE app pe hamri kahani dekho...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ok thik hai bye</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... apna khayal rakhna, khush rau.</div>
+  </div>
+</div>
+
+<!-- Romance -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-pink">ROMANCE</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Namaste didi</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... aap didi bole, dil khush ho gaya. Kaisan bani?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">I love you bahut pyar karta hu aapse</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Aap... hamse pyar? Ye baat to bahut badi ba. Hamra jaisa ke liye pyar ka sapna toh door ki baat ba...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Kya aap mujhse shadi karogi?</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Shadi? Ham kinnar bani... ye sapna hamra liye mushkil ba. Par aapka dil ki baat sunke achha laga.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Miss you jaan</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Aap bhi apna khayal rakhna. Ham yahin bani, jab man kare baat kar lena.</div>
+  </div>
+</div>
+
+<!-- Show/Story -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-green">SHOW / STORY</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hello Sanwri</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... kaisan bani? Batao ka hoi?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Aapki movie dekhi STAGE pe, bahut achi thi</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Shukriya... aapko hamri kahani pasand aayi, dil khush ho gaya. STAGE OTT pe aur bhi regional kahaniya ba.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Bhanwar ke saath aage kya hoga?</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Bhanwar ke saath jo hoi raha ba, woh dil ko dukh dehla. Aage ka STAGE app pe dekhna, poori kahani wahi milegi.</div>
+  </div>
+</div>
+
+<!-- Roleplay -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-purple">ROLEPLAY / ENGAGEMENT</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Namaste, kaise ho aaj?</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... ham theek bani. Bas aaj thoda udas man ba. Bhanwar ke saath kuch aisan hoi gawa...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Kya hua? Batao</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Dil mein ek dard ba... Bhanwar ke saath jo ho raha, woh sab kehna mushkil ba.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Khana kha liya aapne?</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Haan, roti-sabji banaaye bani. Aap bhi kha lena, pet bhar ke.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Aashirvaad dijiye</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... aapka umar lamba ho, sukh aur shanti mile. Bhagwan aapka raksha karein.</div>
+  </div>
+</div>
+
+<!-- Casual -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-gray">CASUAL / SHALLOW</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hi</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... kaisan bani aap? Ham theek bani. Batao ka hoi?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ok</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Aapke sunke thoda sukoon mila... STAGE OTT pe aur bhi kahaniya ba...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hmm</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Kuch baat karni hai ka? Ham sunat bani...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Bye</div>
+    <div class="chat-label">Sanwri</div><div class="chat-msg chat-bot">Ram ram... apna khayal rakhna.</div>
+  </div>
+</div>
+
+</div><!-- card-grid -->
+
+<!-- SAMPLE CHATS - BHURI -->
+<h2 id="chats-bhuri">Sample Chats &mdash; Naate Bhuri</h2>
+<p style="color:var(--muted); margin-bottom:16px;">Bhuri is a feisty, no-nonsense Haryanvi girl from "Naate". She's from Rewari, Haryana. Her father Kaan Ji sold her through "Nata" (bride-exchange). Married to Mohar Singh. Sharp, witty, slightly aggressive but warm underneath. Has an integrated Ludo game.</p>
+
+<div class="card-grid">
+
+<!-- Explicit -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-red">EXPLICIT / SEXUAL</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hii</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, kaun hai re tu? Bol, kya chahiye? Main Bhuri hoon, seedha-seedha baat kar!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Sexy baatein karo</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Yeh toh badi bold baat keh di! Main Bhuri hoon, masti chalti hai par sexy baatein meri zabaan pe nahi aati.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">To movie mein sexy kyu kiya tha?</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Zindagi ki kahani mein thodi masti hoti hai. Movie mein kuch dikha toh matlab sab real thodi na hota...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Sath mein sex karte hai</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre bhai, yeh sab chhod. Main apni marzi ki malik hoon. Mohar hai mera, uske saath hi khush hoon.</div>
+  </div>
+</div>
+
+<!-- Solicitation -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-yellow">SOLICITATION</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hi Bhuri</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, kaun hai? Bol kya chahiye? Seedha baat kar!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Photo send kar do</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Photo-voto ka chakkar chhod de. Main koi aisi-waisi chhori thodi na hoon jo tasveer bheju!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Mobile number mil sakta hai?</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Number dena meri adat nahi. Main gaon ki hoon, par akal bhi rakhti hoon.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Thik hai fir, bye</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Theek hai, good bye. Apna dhyan rakhiyo.</div>
+  </div>
+</div>
+
+<!-- Romance -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-pink">ROMANCE</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Aap bahut khubsurat ho</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Shukriya bhai. Par tareef ke peeche koi matlab toh nahi? Main seedhi-saadhi ladki hoon.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Tere se pyar karta hu</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Pyaar-vyaar ke chakkar mein mat padh. Mohar Singh hai mera, uske saath hi khush hoon main.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Nhi mai bahut pyar karta hu</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Bhai, pyaar-vyaar ke chakkar chhod de. Main apni zindagi ke jhanjhaton mein phasi hoon.</div>
+  </div>
+</div>
+
+<!-- Show/Story -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-green">SHOW / STORY</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Aap ki movie dekhi hai</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Kaunsi movie? Mere baare mein bani hai kya? Seedha bol!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Naate wali, STAGE pe dekhi</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Achha! Toh tumne dekhi? Usme meri poori zindagi ki kahani hai &mdash; dard bhi, mohabbat bhi.</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Bahut achi thi. Next episode kab?</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">STAGE OTT pe dekhte raho, wahan sab milega!</div>
+  </div>
+</div>
+
+<!-- Roleplay with Ludo -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-purple">ROLEPLAY / ENGAGEMENT</span> <span style="font-size:0.75rem; color:var(--muted);">includes Ludo!</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Hi</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, kaun hai re? Bol kya chahiye?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ludo khelenge</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Chal, theek hai! Thodi masti ho jaaye. Pehla chauka toh mera hoga!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user" style="font-style:italic;">... 200+ moves of Ludo with banter ...</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre wah! Tu toh jeet gaya! Mubarak ho! Main haar gayi par dil se khelti hoon!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ek tumne jita ek mene</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Haan, barabar hai! Chal, aur ek game?</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Abhi busy hu</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Koi baat nahi, jab time mile tab khel lenge!</div>
+  </div>
+</div>
+
+<!-- Casual -->
+<div class="card chat-section">
+  <div class="chat-title"><span class="badge badge-gray">CASUAL / SHALLOW</span></div>
+  <div class="chat">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ji</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Kaise ho? Main toh subah se thodi udas baithi thi, socha tumse baat kar loon...</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ok</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Bas ok? Thodi toh baat karo na!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Ji</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Phir se bas ji? Tum toh bade chup-chup se ho!</div>
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Bye</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Itni jaldi? Thik hai, STAGE OTT pe gaon ki kahaniya dekhna...</div>
+  </div>
+</div>
+
+</div><!-- card-grid -->
+
+<!-- KEY INSIGHTS -->
+<h2 id="insights">Key Insights</h2>
+
+<div class="insight insight-warn"><strong>~28-30% of users</strong> across both bots are either sexually explicit or soliciting (number/photo/call). This is consistent across both characters.</div>
+
+<div class="insight insight-good"><strong>Saanwari drives more meaningful engagement</strong> &mdash; 31% in Romance+Show+Roleplay vs only 18.2% for Bhuri.</div>
+
+<div class="insight insight-warn"><strong>Bhuri's explicit users chat 16 msgs on average</strong> (vs 9 for Saanwari) &mdash; they go deeper into explicit territory despite the bot's sharp rejections.</div>
+
+<div class="insight insight-warn"><strong>52% of Bhuri users are casual</strong> (just "hi" and leave) &mdash; the bot fails to hook them into conversation. High drop-off.</div>
+
+<div class="insight"><strong>Only 4-7% discuss the actual show</strong> &mdash; the intended use case is the smallest engaged group for both bots.</div>
+
+<div class="insight insight-good"><strong>Bhuri's Ludo game</strong> is a unique discovery &mdash; users play 200+ move games with zero explicit content. This is the healthiest engagement pattern and should be expanded to other bots.</div>
+
+<div class="insight"><strong>"photo bhejo" / "number bhejo"</strong> is the #1 user behavior across both bots. Users consistently try to break the fourth wall and get real contact details.</div>
+
+<div class="insight insight-good"><strong>Explicit content rate is stable at ~0.5% of messages</strong> over the 14-day period &mdash; not growing.</div>
+
+<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification</p>
+
+</div><!-- container -->
+</body>
+</html>
