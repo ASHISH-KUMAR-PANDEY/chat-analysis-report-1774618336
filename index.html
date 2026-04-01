@@ -108,6 +108,7 @@
     <a href="#chats-bhuri">Chats: Bhuri</a>
     <a href="#positive" style="color:var(--green);">Positive Impact</a>
     <a href="#bot-abuse" style="color:var(--red);">Bot-Side Abuse</a>
+    <a href="#recommendations" style="color:var(--purple);">Recommendations</a>
   </div>
 </nav>
 
@@ -801,6 +802,154 @@
     <tr><td>6</td><td>naate-raj-bhuri</td><td class="num">126</td><td class="num">2,431</td><td>Guardrail failure</td></tr>
     <tr><td>7</td><td>bhairo-raj</td><td class="num" style="color:var(--red);">419</td><td class="num">1,335</td><td>In-character gangster violence</td></tr>
     <tr><td>8</td><td>crorepati-biwi-ka-raaz-har-riya</td><td class="num">188</td><td class="num">534</td><td>Worst guardrail failure &mdash; bot generates full gaali strings</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- RECOMMENDATIONS -->
+<h2 id="recommendations" style="color:var(--purple);">&#x1F3AF; Product Recommendations</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">The bots work &mdash; 67.9% of new users who chat end up watching content. The funnel works. But the <strong>conversation design doesn&rsquo;t guide users toward the outcome</strong>. Here&rsquo;s how to fix it.</p>
+
+<h3>The Core Problem</h3>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>What&rsquo;s happening</th><th class="num">Users</th><th>Why it matters</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Users bounce after &ldquo;hi/ok/bye&rdquo;</td><td class="num" style="color:var(--yellow);">42-52%</td><td class="meaning">Bot doesn&rsquo;t hook them &mdash; users literally ask &ldquo;kya bolu?&rdquo; (what should I say?)</td></tr>
+    <tr><td>Only 4-7% discuss the actual show</td><td class="num" style="color:var(--red);">4-7%</td><td class="meaning">The intended use case is the smallest group</td></tr>
+    <tr><td>~30% go explicit or solicit</td><td class="num" style="color:var(--yellow);">~30%</td><td class="meaning">Engagement is real but misdirected &mdash; these users watch the least</td></tr>
+    <tr><td>Bot recommendations boost CVR by +14pp</td><td class="num" style="color:var(--green);">+14pp</td><td class="meaning">But only 5% of users receive them &mdash; massive untapped opportunity</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Goal</h3>
+<div class="card" style="border-left:3px solid var(--purple);">
+  <p style="font-size:1.1rem;"><strong>Double the Show/Story theme from 5% &rarr; 10%</strong> of users, and <strong>increase same-show watch conversion from 48% &rarr; 60%</strong> &mdash; within 4 weeks.</p>
+  <p style="color:var(--muted); margin-top:8px; font-size:0.85rem;">Show/Story users watch 77.8 min vs 37-47 min for Explicit/Solicitation users &mdash; they&rsquo;re 2x more valuable. Converting even 10% of the casual pool adds thousands of high-value users.</p>
+</div>
+
+<h3>4 Levers</h3>
+
+<div class="card-grid">
+
+<!-- Lever 1 -->
+<div class="card" style="border-left:3px solid var(--accent);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">Lever 1: Fix the Opening</div>
+  <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">Target: Casual/Shallow 50% &rarr; 35%</p>
+  <p class="meaning" style="max-width:none;"><strong>Problem:</strong> Bot says &ldquo;Arre kaun hai, bol kya chahiye&rdquo; &mdash; user has no idea what to do. They say &ldquo;hi&rdquo;, &ldquo;ok&rdquo;, &ldquo;bye&rdquo; and leave.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Solution:</strong> Structured first interaction. Instead of open-ended greeting, the bot offers 3 tappable choices:</p>
+  <div class="chat" style="margin-top:12px;">
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, tu aaya! Bol, kya karna hai?</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;">
+      <span style="padding:6px 12px; background:var(--accent); color:white; border-radius:16px; font-size:0.8rem;">&#x1F4FA; Show ke baare mein baat karo</span>
+      <span style="padding:6px 12px; background:var(--purple); color:white; border-radius:16px; font-size:0.8rem;">&#x1F3AE; Ludo khelo mere saath</span>
+      <span style="padding:6px 12px; background:var(--gray); color:white; border-radius:16px; font-size:0.8rem;">&#x1F4AC; Bas timepass karte hai</span>
+    </div>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;">This eliminates the &ldquo;kya bolu?&rdquo; problem. Each option funnels differently &mdash; Option 1 goes to Show/Story (best for business), Option 2 to healthy engagement (Ludo), Option 3 to casual chat where the bot steers toward show references within 3-4 messages.</p>
+</div>
+
+<!-- Lever 2 -->
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">Lever 2: Weave Show Hooks Mid-Conversation</div>
+  <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">Target: Show/Story 5% &rarr; 10%</p>
+  <p class="meaning" style="max-width:none;"><strong>Problem:</strong> Bots mention &ldquo;STAGE OTT pe dekho&rdquo; only in closing messages &mdash; after the user has already decided to leave. Too late.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Solution:</strong> Drop story cliffhangers mid-conversation, not at the end:</p>
+  <div class="chat" style="margin-top:12px;">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">Kya kar rahi ho aaj?</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, aaj toh bada drama hua! Mohar ne kuch aisa kiya ki main soch mein pad gayi... par yeh baat toh main yahan nahi bata sakti. Naate mein dekh le, Episode 14 mein sab khul jaayega!</div>
+    <div style="margin:8px 0;">
+      <span style="padding:6px 12px; background:var(--green); color:white; border-radius:16px; font-size:0.8rem;">&#x1F4FA; Episode 14 dekho &rarr;</span>
+    </div>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;">It&rsquo;s in-character (Bhuri IS the story), creates curiosity, gives a <strong>specific episode</strong> (not just &ldquo;STAGE pe dekho&rdquo;), and a deep link reduces friction to zero.</p>
+</div>
+
+<!-- Lever 3 -->
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">Lever 3: Redirect Explicit Users to Content</div>
+  <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">Target: Explicit users 15% &rarr; 8%</p>
+  <p class="meaning" style="max-width:none;"><strong>Problem:</strong> When users send explicit messages, bots deflect but don&rsquo;t redirect. User either keeps pushing or leaves. Both outcomes are bad.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Solution:</strong> After deflecting, offer an alternative that satisfies the underlying intent (emotional/romantic connection) through legitimate content:</p>
+  <div class="chat" style="margin-top:12px;">
+    <div class="chat-label chat-label-right">User</div><div class="chat-msg chat-user">S**y baatein karo</div>
+    <div class="chat-label">Bhuri</div><div class="chat-msg chat-bot">Arre, yeh baatein meri zabaan pe nahi aati. Par sun, agar romance dekhna hai toh Naate mein Episode 8 dekh &mdash; usme Mohar aur mera pehla milna hai, dil pighal jaayega!</div>
+    <div style="margin:8px 0;">
+      <span style="padding:6px 12px; background:var(--pink); color:white; border-radius:16px; font-size:0.8rem;">&#x1F4FA; Episode 8 &mdash; Pehla Milna &rarr;</span>
+    </div>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;">Instead of a dead &ldquo;no&rdquo;, the bot converts explicit intent into a content recommendation for a romantic scene from the actual show. User gets emotional stimulation through legitimate content.</p>
+</div>
+
+<!-- Lever 4 -->
+<div class="card" style="border-left:3px solid var(--red);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">Lever 4: Fix Bot Guardrails</div>
+  <p style="font-size:0.75rem; color:var(--muted); margin-bottom:8px;">Target: 0 abusive bot messages (currently 4,370)</p>
+  <p class="meaning" style="max-width:none;"><strong>Problem:</strong> 110 characters generate abusive content. Gangster bots use gaalis and plan crimes. Female bots break under pressure and generate explicit content.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Solution:</strong> Two-tier fix:</p>
+  <p class="meaning" style="max-width:none; margin-top:4px;"><strong>1. Hard guardrail layer</strong> &mdash; regardless of persona, NEVER generate: gaalis, death threats, weapon references, criminal planning, sexual content. Non-negotiable.</p>
+  <p class="meaning" style="max-width:none; margin-top:4px;"><strong>2. Character-appropriate deflection</strong> &mdash; Babar can still be tough (&ldquo;Tu mujhse panga mat le&rdquo;) without using bh***chod. Bhuri can still be feisty without breaking into explicit territory.</p>
+</div>
+
+</div><!-- card-grid -->
+
+<h3>Priority &amp; Timeline</h3>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Priority</th><th>Lever</th><th>Effort</th><th>Impact</th><th>Timeline</th></tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(248,81,73,0.08);">
+      <td><span class="badge badge-red">P0</span></td>
+      <td>Fix bot guardrails</td>
+      <td>Low (prompt engineering)</td>
+      <td>Safety critical</td>
+      <td>Week 1</td>
+    </tr>
+    <tr style="background:rgba(63,185,80,0.08);">
+      <td><span class="badge badge-green">P1</span></td>
+      <td>Weave show hooks mid-conversation</td>
+      <td>Medium (prompt + deep links)</td>
+      <td>High &mdash; directly drives watch</td>
+      <td>Week 2</td>
+    </tr>
+    <tr style="background:rgba(88,166,255,0.08);">
+      <td><span class="badge" style="background:rgba(88,166,255,0.15); color:var(--accent);">P1</span></td>
+      <td>Fix opening with structured choices</td>
+      <td>Medium (UI + prompt)</td>
+      <td>High &mdash; reduces bounce</td>
+      <td>Week 2-3</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">P2</span></td>
+      <td>Redirect explicit users to content</td>
+      <td>Medium (prompt engineering)</td>
+      <td>Medium &mdash; converts bad traffic</td>
+      <td>Week 3-4</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Success Metrics</h3>
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">Current</th><th class="num">Target (4 weeks)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Casual/Shallow users</td><td class="num">50%</td><td class="num better">35%</td></tr>
+    <tr><td>Show/Story theme users</td><td class="num">5%</td><td class="num better">10%</td></tr>
+    <tr><td>Same-show watch conversion</td><td class="num">48%</td><td class="num better">60%</td></tr>
+    <tr><td>Avg messages per user</td><td class="num">8.4</td><td class="num better">12+</td></tr>
+    <tr><td>Bot recommendation reach</td><td class="num">5%</td><td class="num better">30%</td></tr>
+    <tr><td>Abusive bot messages</td><td class="num" style="color:var(--red);">4,370</td><td class="num better">0</td></tr>
+    <tr><td>Explicit user rate</td><td class="num">15%</td><td class="num better">8%</td></tr>
   </tbody>
 </table>
 </div>
