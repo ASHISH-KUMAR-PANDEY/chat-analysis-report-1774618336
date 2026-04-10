@@ -830,6 +830,137 @@
 </div>
 </div>
 
+<h3>Volume Split: Treatment vs Control</h3>
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+<div style="font-weight:600; margin-bottom:4px; color:var(--yellow);">&#x26A0; Critical Caveat: Massively Imbalanced Groups</div>
+<p class="meaning" style="max-width:none;">Treatment group contains all primary lead characters (Bhuri, Bhairavi, Saanwari, Sonam) while control group contains supporting/secondary characters (Bhairo, Kaan Ji, Mohar Singh, Ramkaran). This makes direct A/B comparison unreliable &mdash; the treatment characters naturally attract 42x more users. The experiment needs restructuring with comparable characters on each side.</p>
+</div>
+
+<div class="stat-row" style="margin-top:16px;">
+  <div class="stat" style="border-left:3px solid var(--green);"><div class="stat-value" style="color:var(--green);">319K</div><div class="stat-label">User Messages (Treatment)</div></div>
+  <div class="stat" style="border-left:3px solid var(--accent);"><div class="stat-value" style="color:var(--accent);">7.5K</div><div class="stat-label">User Messages (Control)</div></div>
+  <div class="stat" style="border-left:3px solid var(--green);"><div class="stat-value" style="color:var(--green);">49K</div><div class="stat-label">Unique Users (Treatment)</div></div>
+  <div class="stat" style="border-left:3px solid var(--accent);"><div class="stat-value" style="color:var(--accent);">1.7K</div><div class="stat-label">Unique Users (Control)</div></div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">Treatment (13 chars)</th><th class="num">Control (13 chars)</th><th class="num">Unassigned (rest)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Total User Messages</td><td class="num" style="color:var(--green);">318,907</td><td class="num">7,535</td><td class="num">676,634</td></tr>
+    <tr><td>Total Bot Responses</td><td class="num">496,114</td><td class="num">20,524</td><td class="num">1,477,071</td></tr>
+    <tr><td>Unique Users</td><td class="num" style="color:var(--green);">48,986</td><td class="num">1,691</td><td class="num">91,937</td></tr>
+    <tr><td>Unique Conversations</td><td class="num">103,323</td><td class="num">5,518</td><td class="num">367,012</td></tr>
+    <tr><td>Active Characters (in data)</td><td class="num">8</td><td class="num">5</td><td class="num">493</td></tr>
+    <tr><td>Avg User Msgs / User</td><td class="num" style="color:var(--green);">6.5</td><td class="num">4.5</td><td class="num">7.4</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Per-Character Volume</h3>
+
+<div class="card-grid">
+
+<div class="card">
+<div style="font-weight:600; margin-bottom:8px; color:var(--green);">Treatment Group (Lead Characters)</div>
+<table>
+  <thead>
+    <tr><th>Character</th><th class="num">Users</th><th class="num">User Msgs</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>naate-har-bhuri</td><td class="num" style="color:var(--green);">26,052</td><td class="num">110,475</td></tr>
+    <tr><td>bhairavi-raj-bhairavi</td><td class="num">15,010</td><td class="num">35,027</td></tr>
+    <tr><td>naate-raj-bhuri</td><td class="num">14,086</td><td class="num">54,440</td></tr>
+    <tr><td>jaan-legi-sonam-bho-sonam</td><td class="num">13,392</td><td class="num">29,865</td></tr>
+    <tr><td>naate-raj-kaan-ji</td><td class="num">13,005</td><td class="num">18,273</td></tr>
+    <tr><td>naate-bho-bhuri</td><td class="num">12,514</td><td class="num">51,690</td></tr>
+    <tr><td>bhairavi-bho-bhairavi</td><td class="num">5,486</td><td class="num">5,942</td></tr>
+    <tr><td>naate-guj-bhuri</td><td class="num">3,778</td><td class="num">13,195</td></tr>
+    <tr><td colspan="3" style="color:var(--muted); font-size:0.8rem;">+ 5 more characters with no ClickHouse activity (Saanwari variants, Riya)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="card">
+<div style="font-weight:600; margin-bottom:8px; color:var(--accent);">Control Group (Supporting Characters)</div>
+<table>
+  <thead>
+    <tr><th>Character</th><th class="num">Users</th><th class="num">User Msgs</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>bhairavi-guj-bhairavi</td><td class="num">2,980</td><td class="num">4,510</td></tr>
+    <tr><td>saanwari-guj-bhairo</td><td class="num">2,118</td><td class="num">1,681</td></tr>
+    <tr><td>naate-guj-kaan-ji</td><td class="num">175</td><td class="num">514</td></tr>
+    <tr><td>naate-bho-kaan-ji</td><td class="num">167</td><td class="num">618</td></tr>
+    <tr><td>jaan-legi-sonam-bho-ramkaran</td><td class="num">78</td><td class="num">212</td></tr>
+    <tr><td colspan="3" style="color:var(--muted); font-size:0.8rem;">+ 8 more characters with no ClickHouse activity (Mohar Singh, Vishal, Bhairo variants)</td></tr>
+  </tbody>
+</table>
+<div class="insight insight-warn" style="margin-top:12px;">Control group's largest character (Bhairavi-Guj, 3K users) is smaller than treatment's smallest active character (Bhuri-Guj, 3.8K). Only 5 of 13 control characters have any activity.</div>
+</div>
+
+</div>
+
+<h3>Depth Distribution by Group</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Depth Bucket</th><th class="num">Treatment</th><th class="num">Treatment %</th><th class="num">Control</th><th class="num">Control %</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bounce (0-2 msgs)</td>
+      <td class="num">76,628</td>
+      <td class="num">74.2%</td>
+      <td class="num">4,697</td>
+      <td class="num worse">85.1%</td>
+      <td class="better">Treatment 11pp lower bounce</td>
+    </tr>
+    <tr>
+      <td>Shallow (3-9 msgs)</td>
+      <td class="num">19,625</td>
+      <td class="num better">19.0%</td>
+      <td class="num">644</td>
+      <td class="num">11.7%</td>
+      <td class="better">Treatment 7pp more shallow engagement</td>
+    </tr>
+    <tr>
+      <td>Medium (10-19 msgs)</td>
+      <td class="num">4,460</td>
+      <td class="num better">4.3%</td>
+      <td class="num">119</td>
+      <td class="num">2.2%</td>
+      <td class="better">Treatment 2x more medium-depth</td>
+    </tr>
+    <tr>
+      <td>Deep (20+ msgs)</td>
+      <td class="num" style="color:var(--green);">2,610</td>
+      <td class="num better">2.5%</td>
+      <td class="num">58</td>
+      <td class="num">1.1%</td>
+      <td class="better">Treatment 2.4x more deep conversations</td>
+    </tr>
+  </tbody>
+</table>
+<div style="margin-top:16px;">
+  <div style="font-size:0.82rem; color:var(--muted); margin-bottom:4px;">Treatment depth distribution</div>
+  <div class="bar-container"><div class="bar bar-gray" style="width:74.2%"></div><div class="bar bar-yellow" style="width:19%"></div><div class="bar bar-purple" style="width:4.3%"></div><div class="bar bar-green" style="width:2.5%"></div></div>
+  <div style="font-size:0.82rem; color:var(--muted); margin-top:12px; margin-bottom:4px;">Control depth distribution</div>
+  <div class="bar-container"><div class="bar bar-gray" style="width:85.1%"></div><div class="bar bar-yellow" style="width:11.7%"></div><div class="bar bar-purple" style="width:2.2%"></div><div class="bar bar-green" style="width:1.1%"></div></div>
+  <div style="display:flex; gap:16px; margin-top:8px; font-size:0.75rem; color:var(--muted); flex-wrap:wrap;">
+    <span>&#x2B1C; Bounce</span>
+    <span>&#x1F7E1; Shallow</span>
+    <span>&#x1F7E3; Medium</span>
+    <span>&#x1F7E2; Deep</span>
+  </div>
+</div>
+<div class="insight insight-warn" style="margin-top:16px;">Treatment shows better depth distribution across every bucket, but this could be driven by character popularity (lead characters naturally get more engagement) rather than auto-research insights alone. A fair test requires pairing lead vs lead.</div>
+</div>
+
 <h3>Learning Pipeline Baseline (Last Run: Apr 3, 2026)</h3>
 <div class="card">
 <table>
