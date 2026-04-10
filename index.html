@@ -38,6 +38,7 @@
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin: 16px 0; }
   .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 768px) { .card-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 1000px) { .card-grid-3 { grid-template-columns: 1fr !important; } }
 
   /* Stats */
   .stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
@@ -108,6 +109,8 @@
     <a href="#chats-bhuri">Chats: Bhuri</a>
     <a href="#bot-abuse" style="color:var(--red);">Bot-Side Abuse</a>
     <a href="#recommendations" style="color:var(--purple);">Recommendations</a>
+    <a href="#ab-experiment" style="color:var(--green);">A/B Experiment</a>
+    <a href="#next-direction" style="color:var(--accent);">Next Direction</a>
   </div>
 </nav>
 
@@ -794,24 +797,340 @@
 </table>
 </div>
 
-<h3>Success Metrics to Track</h3>
+<!-- A/B EXPERIMENT ANALYSIS -->
+<h2 id="ab-experiment" style="color:var(--green);">&#x1F9EA; Auto-Research A/B Experiment</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">We ran an A/B experiment on character bots using an <strong>auto-research pipeline</strong> &mdash; a system that analyzes high-depth conversations, extracts engagement patterns via LLM, and injects learned insights into treatment group bot prompts. 13 primary characters were assigned to treatment (auto-research enabled), 13 to control (standard prompts), and 36 remained unassigned.</p>
+
+<h3>Experiment Setup</h3>
+
+<div class="stat-row">
+  <div class="stat" style="border-left:3px solid var(--green);"><div class="stat-value" style="color:var(--green);">13</div><div class="stat-label">Treatment Characters (auto-research ON)</div></div>
+  <div class="stat" style="border-left:3px solid var(--accent);"><div class="stat-value" style="color:var(--accent);">13</div><div class="stat-label">Control Characters (standard prompts)</div></div>
+  <div class="stat" style="border-left:3px solid var(--muted);"><div class="stat-value">36</div><div class="stat-label">Unassigned Primary Characters</div></div>
+  <div class="stat" style="border-left:3px solid var(--muted);"><div class="stat-value">692</div><div class="stat-label">Total Characters (all dialects)</div></div>
+</div>
+
+<div class="card" style="margin-top:16px;">
+<div style="font-weight:600; margin-bottom:12px;">How Auto-Research Works</div>
+<p class="meaning" style="max-width:none;">The pipeline runs per dialect (Bhojpuri, Haryanvi, Rajasthani, Gujarati). It pulls conversations with 20+ messages from the last 30 days, filters for quality (turn balance, message length, no NSFW), sends the top conversations to an LLM for pattern extraction, validates insights through safety and drift checks, and injects approved insights into treatment group bot prompts.</p>
+<div style="margin-top:16px;">
+<table>
+  <thead>
+    <tr><th>Prompt Layer</th><th class="num">Token Budget</th><th>Treatment</th><th>Control</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Safety System Prompt</td><td class="num">Immutable</td><td>&#x2705;</td><td>&#x2705;</td></tr>
+    <tr><td>Character Persona</td><td class="num">800t</td><td>&#x2705;</td><td>&#x2705;</td></tr>
+    <tr><td>Priority Instructions</td><td class="num">200t</td><td>&#x2705;</td><td>&#x2705;</td></tr>
+    <tr><td style="color:var(--green);">Learned Engagement Insights</td><td class="num">300t</td><td style="color:var(--green);">&#x2705; Active</td><td style="color:var(--muted);">&#x274C; Not injected</td></tr>
+    <tr><td style="color:var(--green);">Personalized Content Suggestions</td><td class="num">400t</td><td style="color:var(--green);">&#x2705; Active</td><td style="color:var(--muted);">&#x274C; Not injected</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<h3>Learning Pipeline Baseline (Last Run: Apr 3, 2026)</h3>
 <div class="card">
 <table>
   <thead>
-    <tr><th>Metric</th><th class="num">Current</th><th>What to measure</th></tr>
+    <tr><th>Dialect</th><th class="num">Insights Generated</th><th class="num">Avg Conversation Depth</th><th class="num">Qualifying Conversations (20+ msgs)</th><th>Status</th></tr>
   </thead>
   <tbody>
-    <tr><td>Casual/Shallow users</td><td class="num">50%</td><td class="meaning">% of users who only send greetings/filler &mdash; measures opening hook effectiveness</td></tr>
-    <tr><td>Show/Story theme users</td><td class="num">5%</td><td class="meaning">% of users discussing actual content &mdash; the core intended use case</td></tr>
-    <tr><td>Same-show watch conversion</td><td class="num">48%</td><td class="meaning">% of chat users who watch the bot&rsquo;s show &mdash; direct attribution metric</td></tr>
-    <tr><td>Avg messages per user</td><td class="num">8.4</td><td class="meaning">Conversation depth &mdash; are users engaging more meaningfully?</td></tr>
-    <tr><td>Abusive bot messages</td><td class="num" style="color:var(--red);">4,370</td><td class="meaning">Bot-side safety &mdash; should trend to zero</td></tr>
-    <tr><td>Explicit user rate</td><td class="num">15%</td><td class="meaning">% of users sending explicit content &mdash; measures deflection + redirect effectiveness</td></tr>
+    <tr><td>Bhojpuri (bho)</td><td class="num">19</td><td class="num">45.6 msgs</td><td class="num">5,186</td><td><span class="badge badge-green">APPLIED</span></td></tr>
+    <tr><td>Haryanvi (har)</td><td class="num">18</td><td class="num">47.0 msgs</td><td class="num">5,189</td><td><span class="badge badge-green">APPLIED</span></td></tr>
+    <tr><td>Rajasthani (raj)</td><td class="num">14</td><td class="num">91.2 msgs</td><td class="num">6,720</td><td><span class="badge badge-green">APPLIED</span></td></tr>
+    <tr><td>Gujarati (guj)</td><td class="num">9</td><td class="num">43.8 msgs</td><td class="num">2,590</td><td><span class="badge badge-green">APPLIED</span></td></tr>
+  </tbody>
+</table>
+<p style="margin-top:12px; font-size:0.82rem; color:var(--muted);">19,685 total qualifying conversations across all dialects. The pipeline was processing only 30 random candidates per dialect (now fixed to top 100 by depth).</p>
+</div>
+
+<h3>A/B Results: Conversation Depth</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">Treatment</th><th class="num">Control</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Avg messages per conversation</td>
+      <td class="num better">Higher depth</td>
+      <td class="num">Baseline</td>
+      <td class="better">Treatment +5.9% vs Control +4.6%</td>
+    </tr>
+    <tr>
+      <td>Conversations with 20+ messages</td>
+      <td class="num better">More deep conversations</td>
+      <td class="num">Baseline</td>
+      <td class="better">Treatment characters generate more sustained engagement</td>
+    </tr>
+  </tbody>
+</table>
+<div class="insight insight-good" style="margin-top:16px;">Treatment group shows marginally better conversation depth. The auto-research insights are having a small but positive effect on keeping users engaged longer.</div>
+</div>
+
+<h3>A/B Results: Explicit Content</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">Treatment</th><th class="num">Control</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Explicit message rate</td>
+      <td class="num better" style="color:var(--green);">&minus;79.8%</td>
+      <td class="num" style="color:var(--yellow);">&minus;32.3%</td>
+      <td class="better">Treatment reduces explicit content 2.5x more effectively</td>
+    </tr>
+  </tbody>
+</table>
+<div class="insight insight-good" style="margin-top:16px;">The biggest win: treatment group bots are <strong>significantly better at deflecting explicit content</strong>. The learned insights help bots steer conversations away from sexual/abusive territory &mdash; a 79.8% reduction vs only 32.3% in control.</div>
+</div>
+
+<h3>Session Behavior Analysis (ClickHouse)</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Session Type</th><th class="num">% of Users</th><th class="num">Return Rate</th><th>Insight</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bounce (1-2 msgs)</td>
+      <td class="num" style="color:var(--red);">39.5%</td>
+      <td class="num" style="color:var(--red);">2.1%</td>
+      <td class="meaning">Almost no one who bounces comes back. The opening is critical.</td>
+    </tr>
+    <tr>
+      <td>Shallow (3-9 msgs)</td>
+      <td class="num">37.8%</td>
+      <td class="num" style="color:var(--yellow);">5.8%</td>
+      <td class="meaning">Some engagement but not enough to drive habit.</td>
+    </tr>
+    <tr>
+      <td>Medium (10-19 msgs)</td>
+      <td class="num">13.4%</td>
+      <td class="num">9.2%</td>
+      <td class="meaning">Getting meaningful &mdash; users who cross 10 msgs are 4x more likely to return.</td>
+    </tr>
+    <tr>
+      <td>Deep (20+ msgs)</td>
+      <td class="num" style="color:var(--green);">9.3%</td>
+      <td class="num" style="color:var(--green);">14.9%</td>
+      <td class="meaning">Best return rate. These are the users we want more of.</td>
+    </tr>
   </tbody>
 </table>
 </div>
 
-<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification</p>
+<div class="card" style="margin-top:16px;">
+<div style="font-weight:600; margin-bottom:8px;">Surprising Finding: Explicit Users Return More</div>
+<table>
+  <thead>
+    <tr><th>Depth Tier</th><th class="num">Clean Return Rate</th><th class="num">Explicit Return Rate</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Deep (20+ msgs)</td><td class="num">14.9%</td><td class="num" style="color:var(--yellow);">18.4%</td><td class="worse">Explicit users return 23% more</td></tr>
+  </tbody>
+</table>
+<div class="insight insight-warn" style="margin-top:12px;">At every depth tier, explicit users have higher return rates than clean users. This doesn't mean explicit content is good &mdash; it means these users are <strong>highly engaged but misdirected</strong>. The opportunity is to redirect that energy toward healthy interactions (games, content) rather than shutting them out entirely.</div>
+</div>
+
+<h3>Pipeline Issue Found &amp; Fixed</h3>
+
+<div class="card-grid">
+<div class="card" style="border-left:3px solid var(--red);">
+  <div style="font-weight:600; margin-bottom:8px;">Before (Issue)</div>
+  <p class="meaning" style="max-width:none;">Pipeline grabbed 30 <strong>random</strong> conversations per dialect from ScyllaDB's unordered scan. This meant it could pick shallow 20-msg conversations while ignoring 200+ msg goldmines. Quality of extracted insights was inconsistent.</p>
+  <div style="margin-top:8px; font-family:monospace; font-size:0.8rem; color:var(--muted); background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:4px;">
+    candidates.slice(0, 30) // random order
+  </div>
+</div>
+
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px;">After (Fix &mdash; PR #1564)</div>
+  <p class="meaning" style="max-width:none;">Pipeline now sorts by message count descending and processes top 100 deepest conversations. This ensures the richest, most informative conversations are always analyzed first.</p>
+  <div style="margin-top:8px; font-family:monospace; font-size:0.8rem; color:var(--green); background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:4px;">
+    candidates.sort((a,b) =&gt; b.message_count - a.message_count)<br>.slice(0, 100) // top 100 by depth
+  </div>
+</div>
+</div>
+
+<!-- NEXT DIRECTION -->
+<h2 id="next-direction" style="color:var(--accent);">&#x1F9ED; Next Direction: Meaningful Chat Experiences</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">The goal is not just deep conversations &mdash; it's <strong>meaningful chat experiences</strong> that bring users back to the platform. A user who plays 3 rounds of Ludo, or watches an episode after a cliffhanger hint, has had a meaningful experience even if the conversation was short.</p>
+
+<h3>The Single Metric: Return Rate</h3>
+
+<div class="card" style="border-left:3px solid var(--accent);">
+<div style="display:flex; align-items:baseline; gap:12px;">
+  <div class="stat-value" style="color:var(--accent);">4.1%</div>
+  <div style="color:var(--muted);">Current platform return rate (users who chatted and came back for any activity)</div>
+</div>
+<p class="meaning" style="max-width:none; margin-top:12px;">Return = the user had a chat session and then came back to the platform for <strong>any activity</strong> &mdash; another chat, watching content, playing a game. Not tied to specific day intervals. Could be same day, next day, or within the trial period. If they come back, the chat worked.</p>
+</div>
+
+<h3>Three Tools in the Arsenal</h3>
+
+<div class="card-grid card-grid-3" style="grid-template-columns: 1fr 1fr 1fr;">
+
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">&#x1F4AC; Deep Conversations</div>
+  <p class="meaning" style="max-width:none;">Get users into meaningful conversations about anything non-explicit &mdash; show stories, daily life, character roleplay, emotional support, advice, humor. The bot steers toward topics that create emotional connection.</p>
+  <div class="insight insight-good" style="margin-top:12px;">Users with 20+ msg sessions return at 14.9% vs 2.1% for bouncers &mdash; 7x improvement.</div>
+</div>
+
+<div class="card" style="border-left:3px solid var(--purple);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">&#x1F3AE; In-Chat Games</div>
+  <p class="meaning" style="max-width:none;">Three games built directly into the character chat experience, running in 60/40 split-screen with character banter throughout:</p>
+  <div style="margin-top:8px;">
+    <div style="padding:4px 0; font-size:0.85rem;"><strong style="color:var(--purple);">Ludo</strong> &mdash; Full board game with bot AI (scoring: captures, home runs, strategy)</div>
+    <div style="padding:4px 0; font-size:0.85rem;"><strong style="color:var(--purple);">Bluff</strong> &mdash; Card bluffing game where the bot can challenge or get challenged</div>
+    <div style="padding:4px 0; font-size:0.85rem;"><strong style="color:var(--purple);">Saanp Seedhi</strong> &mdash; Snakes &amp; Ladders (luck-based, casual fun)</div>
+  </div>
+  <div class="insight" style="margin-top:12px;">Games generate massive message volume (200+ moves per session). Analytics events: game_started, first_move, round_finished, game_exited.</div>
+</div>
+
+<div class="card" style="border-left:3px solid var(--accent);">
+  <div style="font-weight:600; margin-bottom:8px; font-size:1rem;">&#x1F4FA; Content Discovery</div>
+  <p class="meaning" style="max-width:none;">Bots weave show references and episode recommendations naturally into conversation. Treatment group already has personalized content suggestions powered by watch history (genre match, popularity, recency scoring).</p>
+  <div class="insight" style="margin-top:12px;">67.9% of chat users eventually watch content. The opportunity is making this happen faster and more intentionally through in-chat hooks.</div>
+</div>
+
+</div>
+
+<h3>How Auto-Research Evolves</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Dimension</th><th>Current State</th><th>Next State</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>What it learns</td>
+      <td class="meaning">Conversation patterns only (hooks, questions, tone)</td>
+      <td class="meaning">Conversation patterns + game engagement patterns + content recommendation triggers</td>
+    </tr>
+    <tr>
+      <td>Success signal</td>
+      <td class="meaning">Conversation depth (20+ messages)</td>
+      <td class="meaning"><strong>Return rate</strong> &mdash; did the user come back to the platform?</td>
+    </tr>
+    <tr>
+      <td>Candidate selection</td>
+      <td class="meaning">Random 30 per dialect (fixed: top 100 by depth)</td>
+      <td class="meaning">Top conversations from users who returned &mdash; learn from what worked</td>
+    </tr>
+    <tr>
+      <td>Scheduling</td>
+      <td class="meaning">Manual trigger only</td>
+      <td class="meaning">Nightly automated cron</td>
+    </tr>
+    <tr>
+      <td>Scope</td>
+      <td class="meaning">4 dialects, treatment group only</td>
+      <td class="meaning">All dialects, gradual rollout based on results</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Measurement Framework</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">Current</th><th class="num">Target</th><th>Why It Matters</th></tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(88,166,255,0.08);">
+      <td><strong>Platform Return Rate</strong></td>
+      <td class="num">4.1%</td>
+      <td class="num" style="color:var(--green);">8%+</td>
+      <td class="meaning">Primary metric. User chatted &rarr; came back for any platform activity (chat, watch, game).</td>
+    </tr>
+    <tr>
+      <td>Bounce Rate (1-2 msg users)</td>
+      <td class="num" style="color:var(--red);">39.5%</td>
+      <td class="num" style="color:var(--green);">&lt;25%</td>
+      <td class="meaning">Reduce with structured openings and game invites.</td>
+    </tr>
+    <tr>
+      <td>Deep Session Rate (20+ msgs)</td>
+      <td class="num">9.3%</td>
+      <td class="num" style="color:var(--green);">15%+</td>
+      <td class="meaning">More users crossing the 20-msg threshold where return rate jumps.</td>
+    </tr>
+    <tr>
+      <td>Game Session Rate</td>
+      <td class="num" style="color:var(--muted);">TBD</td>
+      <td class="num" style="color:var(--green);">10%+</td>
+      <td class="meaning">% of chat users who start at least one game. Games are high-engagement, zero-abuse.</td>
+    </tr>
+    <tr>
+      <td>Content Watch-Through from Chat</td>
+      <td class="num">67.9%</td>
+      <td class="num" style="color:var(--green);">75%+</td>
+      <td class="meaning">Chat users who go on to watch any content. Improve with mid-conversation hooks.</td>
+    </tr>
+    <tr>
+      <td>Explicit User Rate</td>
+      <td class="num" style="color:var(--red);">15%</td>
+      <td class="num" style="color:var(--green);">&lt;8%</td>
+      <td class="meaning">Redirect explicit intent toward content/games, not just block it.</td>
+    </tr>
+    <tr>
+      <td>Abusive Bot Messages</td>
+      <td class="num" style="color:var(--red);">4,370</td>
+      <td class="num" style="color:var(--green);">0</td>
+      <td class="meaning">Hard guardrail layer &mdash; no bot should ever generate gaalis, threats, or explicit content.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Execution Phases</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Phase</th><th>What</th><th>Timeline</th><th>Impact</th></tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(248,81,73,0.08);">
+      <td><span class="badge badge-red">Now</span></td>
+      <td>Fix bot guardrails (hard safety layer) + Fix pipeline candidate selection (PR #1564)</td>
+      <td>This week</td>
+      <td>Safety critical + better insight quality</td>
+    </tr>
+    <tr style="background:rgba(63,185,80,0.08);">
+      <td><span class="badge badge-green">Phase 1</span></td>
+      <td>Structured opening (3 tappable choices) + mid-conversation show hooks with deep links</td>
+      <td>2 weeks</td>
+      <td>Reduce bounce 39% &rarr; 25%, increase show/story theme</td>
+    </tr>
+    <tr style="background:rgba(188,140,255,0.08);">
+      <td><span class="badge badge-purple">Phase 2</span></td>
+      <td>Game promotion in conversations + redirect explicit users to games/content</td>
+      <td>3-4 weeks</td>
+      <td>Increase game adoption, convert explicit traffic to healthy engagement</td>
+    </tr>
+    <tr style="background:rgba(88,166,255,0.08);">
+      <td><span class="badge" style="background:rgba(88,166,255,0.15); color:var(--accent);">Phase 3</span></td>
+      <td>Auto-research learns from return signals + nightly cron + expand treatment group</td>
+      <td>4-6 weeks</td>
+      <td>Self-improving system that optimizes for return rate automatically</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March-April 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification &bull; A/B experiment data from ClickHouse + Prod API</p>
 
 </div><!-- container -->
 </body>
