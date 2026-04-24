@@ -1691,114 +1691,55 @@
 </div>
 
 <!-- PRs IN FLIGHT -->
-<h2 id="prs-in-flight" style="color:var(--pink);">&#x1F527; PRs In Flight &mdash; What's Being Shipped</h2>
+<h2 id="prs-in-flight" style="color:var(--pink);">&#x1F527; What's Being Shipped Next</h2>
 
-<p style="color:var(--muted); margin-bottom:16px;">Three PRs form the current improvement stack. One is merged and already showing the depth lift visible in the Trend Update above. Two are in review and address the next bottleneck &mdash; connecting deep sessions to content watches via the recommendation carousel.</p>
+<p style="color:var(--muted); margin-bottom:16px;">Three sets of changes are in the works. One is already live &mdash; you can see the engagement lift in the trend section above. Two are ready to ship and focus on turning chat conversations into actual content watches.</p>
 
 <div class="card-grid">
 
 <div class="card" style="border-left:3px solid var(--green);">
   <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-    <div style="font-weight:600; font-size:1rem;">&#x2705; PR #1564 &mdash; Depth-sorted auto-research candidates</div>
-    <span class="badge badge-green">MERGED</span>
+    <div style="font-weight:600; font-size:1rem;">&#x2705; Smarter bots, starting automatically every night</div>
+    <span class="badge badge-green">LIVE</span>
   </div>
-  <div style="font-size:0.78rem; color:var(--muted); margin-bottom:8px;">stage-nest-backend &bull; merged Apr 16, 2026</div>
-  <p class="meaning" style="max-width:none;"><strong>What:</strong> The nightly learning pipeline was sampling a random 30 conversations per dialect from ScyllaDB's unordered scan. Changed to sort by <code>message_count DESC</code> and raise the cap to 100 &mdash; so insights are always extracted from the deepest, richest conversations available.</p>
-  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Why it mattered:</strong> The extracted insights feed back into every character's system prompt. Better source material means better learned patterns means better bot behavior.</p>
-  <div class="insight insight-good" style="margin-top:12px;"><strong>Measured impact:</strong> Deep-tier sessions 0.09% &rarr; 0.98% (10.9&times;). Avg msgs/session 1.04 &rarr; 1.90. Step-change visible within one cron cycle of the merge.</div>
-  <div style="margin-top:10px; font-size:0.82rem;">
-    <a href="https://github.com/vatsanatech/stage-nest-backend/pull/1564" style="color:var(--accent);">github.com/vatsanatech/stage-nest-backend/pull/1564</a>
-  </div>
+  <p class="meaning" style="max-width:none; margin-top:10px;"><strong>What changed:</strong> The bots quietly learn from the most engaging conversations users have had &mdash; the ones where people really opened up. That learning used to happen randomly and manually. Now it runs automatically every night, pulling from the richest conversations, and updates every character's personality with what's working.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What you'll feel as a user:</strong> Bots sound more alive, more consistent, less "chatbot-y." They pick up on storytelling, flirty banter, and emotional moments that real users respond to &mdash; and they get better at this week over week, without anyone writing a new prompt.</p>
+  <div class="insight insight-good" style="margin-top:12px;">Live since mid-April. The engagement lift documented in the Trend Update section is the first visible outcome.</div>
 </div>
 
 <div class="card" style="border-left:3px solid var(--purple);">
   <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-    <div style="font-weight:600; font-size:1rem;">&#x1F7E0; PR #1602 &mdash; Content recommendation carousel (backend)</div>
-    <span class="badge badge-purple">OPEN</span>
+    <div style="font-weight:600; font-size:1rem;">&#x1F7E0; Chat that actually leads you to content</div>
+    <span class="badge badge-purple">READY TO SHIP</span>
   </div>
-  <div style="font-size:0.78rem; color:var(--muted); margin-bottom:8px;">stage-nest-backend &bull; 7 phases, 12 files, +1,071 lines</div>
-  <p class="meaning" style="max-width:none;"><strong>What:</strong> Wires up the broken <code>[[RECOMMEND:Title]]</code> tag pipeline. LLM tags in bot responses now resolve to real ContentCard DTOs (with thumbnails + deep links), gated by server-side safety rails.</p>
-  <div style="margin-top:10px;">
-    <div style="font-size:0.85rem; font-weight:600; color:var(--accent);">Phase 1 &mdash; Make the flow actually work</div>
-    <ul class="meaning" style="max-width:none; padding-left:18px; margin:6px 0;">
-      <li><code>getAvailableCards(dialect)</code> populates the content pool (was always <code>[]</code> &mdash; cards never rendered in prod)</li>
-      <li>Fuzzy title matching: "<em>naate wali</em>" resolves to "<em>Naate</em>"</li>
-      <li>New <code>content_aliases</code> Mongo collection + LLM-driven alias generation</li>
-    </ul>
-    <div style="font-size:0.85rem; font-weight:600; color:var(--accent); margin-top:6px;">Phase 2 &mdash; LLM smarter about when to recommend</div>
-    <ul class="meaning" style="max-width:none; padding-left:18px; margin:6px 0;">
-      <li>Recommendation history block injected into prompt so LLM self-regulates repetition</li>
-      <li>Current message number exposed so the LLM knows it's too early to recommend</li>
-      <li>Extended tag format: <code>[[RECOMMEND:Naate|confidence:high|reason:user_asked]]</code></li>
-    </ul>
-    <div style="font-size:0.85rem; font-weight:600; color:var(--accent); margin-top:6px;">Phase 3 &mdash; Server-side safety rails</div>
-    <ul class="meaning" style="max-width:none; padding-left:18px; margin:6px 0;">
-      <li>Kill switch, 10-msg early-message guard, 30-min per-content cooldown</li>
-      <li>Already-watched guard (drop if user consumed &ge;70%), hard cap 1 card/msg</li>
-      <li>Hallucination logging when LLM tags unresolvable titles</li>
-    </ul>
-    <div style="font-size:0.85rem; font-weight:600; color:var(--accent); margin-top:6px;">Phases 4&ndash;7 &mdash; Feedback + admin</div>
-    <ul class="meaning" style="max-width:none; padding-left:18px; margin:6px 0;">
-      <li>Dismiss endpoint (user &rarr; Redis + history &rarr; LLM knows not to re-push)</li>
-      <li>Admin CRUD for aliases + LLM-auto-generator per show</li>
-      <li>Kill/resume admin endpoints for safe rollout</li>
-    </ul>
-  </div>
-  <div class="insight" style="margin-top:12px;"><strong>Expected impact:</strong> Chat &rarr; watch conversion 67.9% &rarr; 75%+. Card-show rate 0% (broken today) &rarr; 8&ndash;15%. Blocks the recommendation mentions that already happen in conversation from being dead text.</div>
-  <div style="margin-top:10px; font-size:0.82rem;">
-    <a href="https://github.com/vatsanatech/stage-nest-backend/pull/1602" style="color:var(--accent);">github.com/vatsanatech/stage-nest-backend/pull/1602</a>
-  </div>
+  <p class="meaning" style="max-width:none; margin-top:10px;"><strong>What changed:</strong> When a bot mentions a show during chat, that mention turns into a tappable card &mdash; with the show's art and a direct link to watch it. Today the bot can recommend a show in the text, but there's no way to tap and go watch. This fixes that.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>With smart guardrails:</strong> bots won't push recommendations in the first few messages (they build rapport first), won't repeat the same show back-to-back, won't recommend something the user has already watched, and will respect when the user says "not interested."</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What you'll feel as a user:</strong> Chatting with a character naturally surfaces "oh, you should watch this" moments &mdash; a friend recommending a show, not an ad. One tap takes you from the chat into the content.</p>
+  <div class="insight" style="margin-top:12px;">Expected outcome: more chat sessions end with the user starting to watch something, especially for trial users who are deciding whether to subscribe.</div>
 </div>
 
 <div class="card" style="border-left:3px solid var(--accent);">
   <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-    <div style="font-weight:600; font-size:1rem;">&#x1F535; PR #5474 &mdash; Carousel UI + telemetry (Flutter)</div>
-    <span class="badge" style="background:rgba(88,166,255,0.15); color:var(--accent);">OPEN</span>
+    <div style="font-weight:600; font-size:1rem;">&#x1F535; The recommendation card, actually visible</div>
+    <span class="badge" style="background:rgba(88,166,255,0.15); color:var(--accent);">READY TO SHIP</span>
   </div>
-  <div style="font-size:0.78rem; color:var(--muted); margin-bottom:8px;">flutter_app &bull; 14 files changed</div>
-  <p class="meaning" style="max-width:none;"><strong>What:</strong> The companion client side. Makes the card widget actually appear (it rendered nothing in prod because the backend always returned <code>cards: []</code>), wires tap to deep-link navigation, adds shown/tapped/dismissed telemetry, and ships the full dismiss UX.</p>
-  <div style="margin-top:10px;">
-    <ul class="meaning" style="max-width:none; padding-left:18px; margin:6px 0;">
-      <li><strong>Carousel render:</strong> slide-in animation (300ms), optional "why this show?" reason micro-text from backend, swipe-to-dismiss gesture</li>
-      <li><strong>Navigation:</strong> tap now calls <code>DeeplinkRedirectionService.redirect</code> with scheme + host allowlist (was a no-op that only logged analytics)</li>
-      <li><strong>Telemetry:</strong> three new events &mdash; <code>recommendation_card_shown</code>, <code>recommendation_card_tapped</code> (enriched with confidence + reason), <code>recommendation_card_dismissed</code></li>
-      <li><strong>Dismiss UX:</strong> optimistic UI update, rollback on API failure, per-slug serialization to prevent double-tap races</li>
-    </ul>
-  </div>
-  <div class="insight" style="margin-top:12px;"><strong>Expected impact:</strong> The widget that has been invisible in production for months finally renders. Full funnel telemetry (shown &rarr; tapped &rarr; watched) becomes available for the first time &mdash; unblocks measuring card click-through rate, watch-after-tap rate, and auto-research's recommendation-pattern learning (Phase 8).</div>
-  <div style="margin-top:10px; font-size:0.82rem;">
-    <a href="https://github.com/vatsanatech/flutter_app/pull/5474" style="color:var(--accent);">github.com/vatsanatech/flutter_app/pull/5474</a>
-  </div>
+  <p class="meaning" style="max-width:none; margin-top:10px;"><strong>What changed:</strong> The app side of the recommendation card. Today the feature is silently broken &mdash; the card never shows up even when the bot tries to recommend something. This fixes the rendering, wires up the tap to actually open the show, and adds the polish: slide-in animation, swipe to dismiss if you're not interested, a short note under the card explaining why the bot suggested it.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What you'll feel as a user:</strong> A card appears below the bot's message at the right moment, not every moment. You can tap to watch or swipe away if you're not in the mood. If you swipe, the bot remembers and won't push the same thing again.</p>
+  <div class="insight" style="margin-top:12px;">Also unblocks full measurement &mdash; for the first time we'll know which recommendations work, which get dismissed, and how many end in a real watch. That data then feeds back into making bots even better at recommending.</div>
 </div>
 
 </div>
 
-<h3>How they build on each other</h3>
+<h3>How it all fits together</h3>
 
 <div class="card">
-<table>
-  <thead>
-    <tr><th class="num">Layer</th><th>What ships</th><th>Unblocks</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td class="num"><strong>#1564</strong></td>
-      <td>Better insights fuel the bot's system prompt</td>
-      <td class="meaning">Sessions go deeper &mdash; 10.9&times; more deep sessions as measured above</td>
-    </tr>
-    <tr>
-      <td class="num"><strong>#1602</strong></td>
-      <td>Bots can actually recommend content (backend resolves tags to real cards)</td>
-      <td class="meaning">Deeper sessions that mention shows can now drive content watches</td>
-    </tr>
-    <tr>
-      <td class="num"><strong>#5474</strong></td>
-      <td>The card appears, tap works, everything is measured</td>
-      <td class="meaning">We can finally see card CTR, watch-after-tap, and learn from it in Phase 8 auto-research</td>
-    </tr>
-  </tbody>
-</table>
-<div class="insight insight-good" style="margin-top:12px;"><strong>Theory of change:</strong> deeper sessions (done &mdash; #1564) &rarr; recommendation opportunities land in those deeper sessions (#1602) &rarr; users tap the card and watch (#5474 + deep links) &rarr; return rate improves because the user had a meaningful experience, not just a conversation.</div>
+<p class="meaning" style="max-width:none; margin-bottom:12px;">Think of it as three dominoes:</p>
+<ol class="meaning" style="max-width:none; padding-left:20px;">
+  <li><strong>Make bots more engaging</strong> &mdash; so users actually want to chat for longer (&#x2705; live).</li>
+  <li><strong>Let bots recommend content in-chat</strong> &mdash; so longer chats can translate into show discoveries (ready to ship).</li>
+  <li><strong>Make the recommendation card actually work on the app</strong> &mdash; so a discovery turns into a watch (ready to ship).</li>
+</ol>
+<div class="insight insight-good" style="margin-top:16px;">The thesis: character bots should feel like a friend who tells you stories, gossips about people you'd both like, and naturally suggests "hey, you should watch this" &mdash; rather than a chat toy that leaves you on the chat screen. Once all three dominoes fall, the same conversation that today ends with "bye" can end with the user watching an episode.</div>
 </div>
 
 <p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March-April 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification &bull; A/B experiment + trend data from ClickHouse + Prod API &bull; Last refresh: Apr 24, 2026</p>
