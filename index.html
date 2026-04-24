@@ -112,6 +112,7 @@
     <a href="#ab-experiment" style="color:var(--green);">A/B Experiment</a>
     <a href="#next-direction" style="color:var(--accent);">Next Direction</a>
     <a href="#trend-update" style="color:var(--yellow);">Trend Update</a>
+    <a href="#subscription-split" style="color:var(--purple);">Subscription Split</a>
     <a href="#prs-in-flight" style="color:var(--pink);">PRs In Flight</a>
   </div>
 </nav>
@@ -1474,6 +1475,217 @@
 <div class="card" style="border-left:3px solid var(--yellow);">
   <div style="font-weight:600; margin-bottom:8px;">&#x26A0; What isn't moving</div>
   <p class="meaning" style="max-width:none;">Deep engagement (20+ msgs) is stuck at 1.3% in both periods. Users can now get past "hi" but can't sustain past ~10 messages. This is the next lever &mdash; in-chat games and content hooks need to kick in mid-conversation.</p>
+</div>
+
+</div>
+
+<!-- SUBSCRIPTION SPLIT -->
+<h2 id="subscription-split" style="color:var(--purple);">&#x1F4B3; Chat Split by Subscription Type</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">April 1&ndash;22 sessions segmented by <code>subscription_status</code> captured at session-start. Shows who's actually talking to the bots, how deep their sessions go, and how each segment responded to the PR #1564 depth-sorted insights change.</p>
+
+<h3>Who's chatting</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Subscription status</th><th class="num">Sessions</th><th class="num">Unique users</th><th class="num">Share of sessions</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-gray">non_subscriber</span></td>
+      <td class="num">263,581</td>
+      <td class="num">85,716</td>
+      <td class="num">45.9%</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">trial_active</span></td>
+      <td class="num">233,866</td>
+      <td class="num">67,942</td>
+      <td class="num">40.7%</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">subscription_active</span></td>
+      <td class="num">47,302</td>
+      <td class="num">14,009</td>
+      <td class="num">8.2%</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-pink">trial_over</span></td>
+      <td class="num">15,112</td>
+      <td class="num">5,082</td>
+      <td class="num">2.6%</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-red">subscription_over</span></td>
+      <td class="num">14,257</td>
+      <td class="num">4,601</td>
+      <td class="num">2.5%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top:20px;">
+  <div class="bar-container">
+    <div class="bar bar-gray" style="width:45.9%"></div>
+    <div class="bar bar-yellow" style="width:40.7%"></div>
+    <div class="bar bar-green" style="width:8.2%"></div>
+    <div class="bar bar-pink" style="width:2.6%"></div>
+    <div class="bar bar-red" style="width:2.5%"></div>
+  </div>
+  <div style="display:flex; gap:16px; margin-top:8px; font-size:0.75rem; color:var(--muted); flex-wrap:wrap;">
+    <span>&#x2B1C; non-sub 46%</span>
+    <span>&#x1F7E1; trial 41%</span>
+    <span>&#x1F7E2; sub-active 8%</span>
+    <span>&#x1F4AE; trial-over 3%</span>
+    <span>&#x1F534; sub-over 2%</span>
+  </div>
+</div>
+
+<div class="insight" style="margin-top:16px;">
+<strong>87% of chat volume comes from people who aren't paying today</strong> &mdash; non-subscribers and trial-active users. Paid-active users are only 8% of sessions. Character bots are disproportionately a top-of-funnel / trial-nurture surface, not a retention tool for current paying subs.
+</div>
+</div>
+
+<h3>Engagement depth by segment (April 1&ndash;22)</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th class="num">Avg msgs</th>
+      <th class="num">Bounce %</th>
+      <th class="num">Shallow %</th>
+      <th class="num">Medium %</th>
+      <th class="num">Deep %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-gray">non_subscriber</span></td>
+      <td class="num">1.37</td>
+      <td class="num">82.0</td>
+      <td class="num">16.2</td>
+      <td class="num">1.4</td>
+      <td class="num">0.41</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">trial_active</span></td>
+      <td class="num">1.26</td>
+      <td class="num" style="color:var(--red);">83.6</td>
+      <td class="num">14.8</td>
+      <td class="num">1.3</td>
+      <td class="num" style="color:var(--red);">0.35</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">subscription_active</span></td>
+      <td class="num">1.37</td>
+      <td class="num">81.5</td>
+      <td class="num">16.6</td>
+      <td class="num">1.6</td>
+      <td class="num">0.36</td>
+    </tr>
+    <tr style="background:rgba(219,97,162,0.08);">
+      <td><span class="badge badge-pink">trial_over</span></td>
+      <td class="num better"><strong>1.54</strong></td>
+      <td class="num better"><strong>80.1</strong></td>
+      <td class="num better">17.5</td>
+      <td class="num better"><strong>1.8</strong></td>
+      <td class="num better"><strong>0.57</strong></td>
+    </tr>
+    <tr style="background:rgba(219,97,162,0.08);">
+      <td><span class="badge badge-red">subscription_over</span></td>
+      <td class="num">1.40</td>
+      <td class="num">82.3</td>
+      <td class="num">15.4</td>
+      <td class="num">1.8</td>
+      <td class="num">0.46</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="insight insight-warn" style="margin-top:16px;">
+<strong>The lapsed segments chat deeper than the active ones.</strong> trial_over users have the highest avg messages (1.54) and deep-session rate (0.57%) &mdash; 40% higher than trial_active. Likely reason: once content access lapses, chat is one of the few experiences still open to them, so they dwell. It's both a signal (they're engaged enough to come back) and a gap (we have no mechanism to reconvert them from chat).
+</div>
+</div>
+
+<h3>Did PR #1564 help every segment?</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">The depth-sorted auto-research fix should lift sessions across all segments since the improved insights are in the shared system prompt. Comparing pre-merge (Apr 9&ndash;15) vs post-merge (Apr 17&ndash;22) per segment:</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Segment</th>
+      <th class="num">Pre deep %</th>
+      <th class="num">Post deep %</th>
+      <th class="num">Lift</th>
+      <th class="num">Avg msgs (pre &rarr; post)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-gray">non_subscriber</span></td>
+      <td class="num">0.11</td>
+      <td class="num better">1.04</td>
+      <td class="num better">9.5&times;</td>
+      <td class="num">1.09 &rarr; 1.96</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">trial_active</span></td>
+      <td class="num">0.08</td>
+      <td class="num better">0.93</td>
+      <td class="num better">11.6&times;</td>
+      <td class="num">0.97 &rarr; 1.85</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">subscription_active</span></td>
+      <td class="num">0.08</td>
+      <td class="num better">0.74</td>
+      <td class="num better">9.3&times;</td>
+      <td class="num">1.11 &rarr; 1.76</td>
+    </tr>
+    <tr style="background:rgba(219,97,162,0.08);">
+      <td><span class="badge badge-pink">trial_over</span></td>
+      <td class="num">0.10</td>
+      <td class="num better"><strong>1.26</strong></td>
+      <td class="num better"><strong>12.6&times;</strong></td>
+      <td class="num">1.09 &rarr; 2.21</td>
+    </tr>
+    <tr style="background:rgba(248,81,73,0.08);">
+      <td><span class="badge badge-red">subscription_over</span></td>
+      <td class="num">0.06</td>
+      <td class="num better"><strong>1.08</strong></td>
+      <td class="num better" style="color:var(--green);"><strong>18&times;</strong></td>
+      <td class="num">1.01 &rarr; 1.99</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="insight insight-good" style="margin-top:16px;">
+<strong>Every segment lifted 9&ndash;18&times; on deep-session rate post-merge.</strong> Largest lift was subscription_over (18&times;) &mdash; the segment that was already most engaged per-session. Paid active users had the smallest lift (9.3&times;), possibly because they have more alternatives to chat when they need entertainment.
+</div>
+</div>
+
+<h3>What this suggests for Next Direction</h3>
+
+<div class="card-grid">
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="font-weight:600; margin-bottom:8px;">Trial is the critical funnel</div>
+  <p class="meaning" style="max-width:none;">41% of all chat sessions are from trial_active users. If a trial user is chatting, they've entered a state where the decision &laquo;convert to paid&raquo; is being made. The content recommendation carousel (PR #1602) needs to land hardest here &mdash; every trial chat is a chance to surface "here's what you'll get if you subscribe."</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--pink);">
+  <div style="font-weight:600; margin-bottom:8px;">Lapsed users are the dark horse</div>
+  <p class="meaning" style="max-width:none;">trial_over + subscription_over are only 5% of sessions but the deepest sessions. These are users who can't watch content but <em>still come back to chat</em>. A bespoke recommendation surface for them &mdash; "renew to watch this" &mdash; would convert a high-intent audience that today has no reactivation mechanism in-chat.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px;">Paid-active is underleveraged</div>
+  <p class="meaning" style="max-width:none;">Paid-active is only 8% of chat volume. Either they don't need chat (they're watching content), or the bots aren't serving them anything they can't get elsewhere. Worth exploring whether there's a specific paid-user use case &mdash; e.g., bots that discuss episodes they've already watched, game companions for evening downtime.</p>
 </div>
 
 </div>
