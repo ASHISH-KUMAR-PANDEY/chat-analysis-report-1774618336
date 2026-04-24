@@ -111,6 +111,7 @@
     <a href="#recommendations" style="color:var(--purple);">Recommendations</a>
     <a href="#ab-experiment" style="color:var(--green);">A/B Experiment</a>
     <a href="#next-direction" style="color:var(--accent);">Next Direction</a>
+    <a href="#trend-update" style="color:var(--yellow);">Trend Update</a>
   </div>
 </nav>
 
@@ -1261,7 +1262,145 @@
 </table>
 </div>
 
-<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March-April 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification &bull; A/B experiment data from ClickHouse + Prod API</p>
+<!-- TREND UPDATE -->
+<h2 id="trend-update" style="color:var(--yellow);">&#x1F4C8; Trend Update &mdash; Period-over-Period Comparison</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">Comparing the <strong>original report window (Mar 13&ndash;27)</strong> against a <strong>newer window (Mar 28 &ndash; Apr 8)</strong>. Data cutoff: ClickHouse replica is current through Apr 8, 2026. Post-Apr-16 impact of PR #1564 (depth-sorted candidate selection + cap 100) is <em>not</em> yet measurable &mdash; the analytics replica stopped syncing before the merge.</p>
+
+<h3>Volume Split</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">Mar 13&ndash;27 (P1)</th><th class="num">Mar 28 &ndash; Apr 8 (P2)</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Total messages</td><td class="num">2.22M</td><td class="num">0.38M</td><td class="meaning">Shorter window (12 days vs 15)</td></tr>
+    <tr><td>Unique users</td><td class="num">97,069</td><td class="num">34,326</td><td class="meaning">P2 includes the Apr&nbsp;1 traffic spike (30K new users in one day)</td></tr>
+    <tr><td>Unique characters active</td><td class="num">383</td><td class="num">385</td><td class="meaning">Character catalog held steady</td></tr>
+    <tr><td>Conversations</td><td class="num">385,936</td><td class="num">54,212</td><td class="meaning">Huge fall in total conversations &mdash; user base more concentrated</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Engagement Depth &mdash; The Key Shift</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Depth bucket</th><th class="num">P1 share</th><th class="num">P2 share</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bounce (1&ndash;2 msgs)</td>
+      <td class="num" style="color:var(--red);">86.2%</td>
+      <td class="num better">62.3%</td>
+      <td class="better">&minus;24 pp &mdash; large improvement</td>
+    </tr>
+    <tr>
+      <td>Shallow (3&ndash;9 msgs)</td>
+      <td class="num">10.2%</td>
+      <td class="num better">32.4%</td>
+      <td class="better">+22 pp &mdash; users staying past the opener</td>
+    </tr>
+    <tr>
+      <td>Medium (10&ndash;19 msgs)</td>
+      <td class="num">2.4%</td>
+      <td class="num better">4.1%</td>
+      <td class="better">+1.7 pp</td>
+    </tr>
+    <tr>
+      <td>Deep (20+ msgs)</td>
+      <td class="num">1.29%</td>
+      <td class="num">1.28%</td>
+      <td style="color:var(--muted);">flat</td>
+    </tr>
+    <tr>
+      <td><strong>Avg user msgs / conversation</strong></td>
+      <td class="num" style="color:var(--red);">1.63</td>
+      <td class="num better">3.31</td>
+      <td class="better">+103% &mdash; conversations twice as long on average</td>
+    </tr>
+  </tbody>
+</table>
+<div class="insight insight-good" style="margin-top:16px;">The bounce rate fell by 24 percentage points while every engaged bucket grew. But the <strong>deep tier stayed flat</strong> &mdash; the gains came from bouncers converting into shallow engagers, not shallow users becoming deep ones. The funnel is wider but not yet deeper.</div>
+</div>
+
+<h3>Explicit Content Trend</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Metric</th><th class="num">P1</th><th class="num">P2</th><th>Delta</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Explicit user rate (sexual keywords)</td>
+      <td class="num" style="color:var(--red);">13.0%</td>
+      <td class="num better">9.3%</td>
+      <td class="better">&minus;3.7 pp &mdash; healthier mix</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-top:8px; font-size:0.82rem; color:var(--muted);">Based on a narrow sexual-keyword filter (sex, chut, lund, nude, etc.). Broader 776-keyword scan may show different magnitude but same direction.</p>
+</div>
+
+<h3>Daily Volume Pattern</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Date</th><th class="num">Messages</th><th class="num">Users</th><th class="num">Convos</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Mar 22 (P1 peak)</td><td class="num">123K</td><td class="num">6,534</td><td class="num">10,734</td><td class="meaning">Typical P1 day</td></tr>
+    <tr><td>Mar 27 (P1 end)</td><td class="num">80K</td><td class="num">4,029</td><td class="num">6,821</td><td class="meaning">Trend was softening</td></tr>
+    <tr style="background:rgba(210,153,34,0.08);"><td>Apr 1 (P2 spike)</td><td class="num" style="color:var(--yellow);">729K</td><td class="num" style="color:var(--yellow);">30,580</td><td class="num">200,744</td><td class="meaning">&#x26A0; 10&times; baseline &mdash; marketing push / new-user flood</td></tr>
+    <tr><td>Apr 7 (P2 typical)</td><td class="num">66K</td><td class="num">7,604</td><td class="num">11,300</td><td class="meaning">Post-spike baseline settled higher than P1</td></tr>
+    <tr><td>Apr 8 (partial day)</td><td class="num">21K</td><td class="num">2,591</td><td class="num">3,747</td><td class="meaning">Replica stopped mid-day</td></tr>
+  </tbody>
+</table>
+<div class="insight insight-warn" style="margin-top:12px;">Apr 1 was a 10&times; traffic event &mdash; 30K users arriving in a single day. If those first-time users bounced, they would have inflated the bounce bucket; but P2's bounce rate still fell dramatically. Suggests the engagement improvement is real, not a compositional artifact.</div>
+</div>
+
+<h3>Return Rate (Platform-wide, All Time)</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Active Days</th><th class="num">Users</th><th class="num">Share</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1 day only</td><td class="num" style="color:var(--red);">107,162</td><td class="num">92.7%</td></tr>
+    <tr><td>2 days</td><td class="num">6,854</td><td class="num">5.9%</td></tr>
+    <tr><td>3&ndash;5 days</td><td class="num">1,467</td><td class="num">1.3%</td></tr>
+    <tr><td>6&ndash;10 days</td><td class="num">126</td><td class="num">0.1%</td></tr>
+    <tr><td>11+ days</td><td class="num">21</td><td class="num">&lt; 0.1%</td></tr>
+  </tbody>
+</table>
+<div class="insight" style="margin-top:12px;">93% of users ever only chat on a single day. The 7.3% who return for 2+ days are the engaged core. Meaningful chat direction's primary metric (platform return rate) targets moving this distribution leftward.</div>
+</div>
+
+<h3>What This Means for the Next Direction</h3>
+
+<div class="card-grid">
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px;">&#x2705; What's working</div>
+  <p class="meaning" style="max-width:none;">The opening hook is clearly improving. Bounce dropped 24 pp and average conversation length doubled. Either the auto-research insights deployed earlier are actually helping bots break the ice better, or the Apr&nbsp;1 cohort of new users was simply more engaged.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="font-weight:600; margin-bottom:8px;">&#x26A0; What isn't moving</div>
+  <p class="meaning" style="max-width:none;">Deep engagement (20+ msgs) is stuck at 1.3% in both periods. Users can now get past "hi" but can't sustain past ~10 messages. This is the next lever &mdash; in-chat games and content hooks need to kick in mid-conversation.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--red);">
+  <div style="font-weight:600; margin-bottom:8px;">&#x26D4; Can't yet measure</div>
+  <p class="meaning" style="max-width:none;">PR #1564 (depth-sorted auto-research candidates) merged Apr&nbsp;16. ClickHouse replica ends Apr&nbsp;8. No post-merge data is available yet. Once the replica catches up, the first check is whether the insights-refresh cycle starts affecting the deep-tier rate.</p>
+</div>
+</div>
+
+<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March-April 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification &bull; A/B experiment + trend data from ClickHouse + Prod API &bull; Last refresh: Apr 24, 2026</p>
 
 </div><!-- container -->
 </body>
