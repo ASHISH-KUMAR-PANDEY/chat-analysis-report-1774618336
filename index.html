@@ -1381,6 +1381,93 @@
 <div class="insight" style="margin-top:12px;">93% of users ever only chat on a single day. The 7.3% who return for 2+ days are the engaged core. Meaningful chat direction's primary metric (platform return rate) targets moving this distribution leftward.</div>
 </div>
 
+<h3>Return Rate Trend by Cohort (Has it improved?)</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">Cohorted by the week of each user's <em>first chat</em>. Equal observation windows (3 and 7 days after first chat) so later cohorts aren't unfairly penalized. Only cohorts with full 7-day observation available included.</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr><th>Cohort week (first chat)</th><th class="num">Cohort size</th><th class="num">3-day return</th><th class="num">7-day return</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Mar 8&ndash;14</td>
+      <td class="num">3,112</td>
+      <td class="num better">5.21%</td>
+      <td class="num better">8.23%</td>
+    </tr>
+    <tr>
+      <td>Mar 15&ndash;21</td>
+      <td class="num">30,664</td>
+      <td class="num">3.63%</td>
+      <td class="num">5.56%</td>
+    </tr>
+    <tr>
+      <td>Mar 22&ndash;28</td>
+      <td class="num">29,855</td>
+      <td class="num">3.27%</td>
+      <td class="num">4.74%</td>
+    </tr>
+    <tr>
+      <td>Mar 29 &ndash; Apr 1</td>
+      <td class="num">14,194</td>
+      <td class="num" style="color:var(--red);">3.10%</td>
+      <td class="num">4.86%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top:20px;">
+  <div style="font-size:0.82rem; color:var(--muted); margin-bottom:8px;">7-day return rate (visual)</div>
+  <div style="display:flex; align-items:flex-end; gap:24px; height:140px; padding:0 20px;">
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+      <div style="font-size:0.85rem; color:var(--green);">8.23%</div>
+      <div style="background:var(--green); width:60px; height:115px; border-radius:4px 4px 0 0;"></div>
+      <div style="font-size:0.7rem; color:var(--muted);">Mar 8</div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+      <div style="font-size:0.85rem; color:var(--yellow);">5.56%</div>
+      <div style="background:var(--yellow); width:60px; height:78px; border-radius:4px 4px 0 0;"></div>
+      <div style="font-size:0.7rem; color:var(--muted);">Mar 15</div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+      <div style="font-size:0.85rem; color:var(--yellow);">4.74%</div>
+      <div style="background:var(--yellow); width:60px; height:66px; border-radius:4px 4px 0 0;"></div>
+      <div style="font-size:0.7rem; color:var(--muted);">Mar 22</div>
+    </div>
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
+      <div style="font-size:0.85rem; color:var(--red);">4.86%</div>
+      <div style="background:var(--red); width:60px; height:68px; border-radius:4px 4px 0 0;"></div>
+      <div style="font-size:0.7rem; color:var(--muted);">Mar 29</div>
+    </div>
+  </div>
+</div>
+
+<div class="insight insight-warn" style="margin-top:20px;">
+<strong>Return rate has NOT improved.</strong> 7-day return fell from 8.23% (Mar 8 cohort) to ~4.8% (Mar 29 cohort). Trend is flat-to-declining &mdash; roughly &minus;0.5 pp per week before stabilising.
+<br><br>
+The Mar 8 number is inflated by a small (3K) cohort of early adopters who self-selected as engaged. The steady-state trend is <strong>Mar 15 (5.56%) &rarr; Mar 22 (4.74%) &rarr; Mar 29 (4.86%)</strong> &mdash; a mild decline, not an improvement.
+</div>
+
+<div class="card" style="margin-top:16px;">
+<div style="font-weight:600; margin-bottom:8px;">The paradox:</div>
+<table>
+  <thead>
+    <tr><th>Metric</th><th>Direction</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bounce rate</td><td class="better">&minus;24 pp improvement</td></tr>
+    <tr><td>Avg conversation length</td><td class="better">+103% improvement</td></tr>
+    <tr><td>Explicit user rate</td><td class="better">&minus;3.7 pp improvement</td></tr>
+    <tr><td>Deep tier (20+ msgs)</td><td style="color:var(--muted);">flat at 1.3%</td></tr>
+    <tr><td><strong>7-day return rate</strong></td><td class="worse">flat to mildly declining</td></tr>
+  </tbody>
+</table>
+<div class="insight insight-warn" style="margin-top:12px;">Better opening engagement is not translating into return visits. Users are having longer conversations but still not coming back. This validates the Next Direction hypothesis: it's <em>depth</em> and <em>cross-tool engagement</em> (games + content) that drive return &mdash; not just longer-openers. A 3-message conversation is still a 1-day session.</div>
+</div>
+</div>
+
 <h3>What This Means for the Next Direction</h3>
 
 <div class="card-grid">
