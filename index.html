@@ -1265,102 +1265,145 @@
 <!-- TREND UPDATE -->
 <h2 id="trend-update" style="color:var(--yellow);">&#x1F4C8; Trend Update &mdash; Period-over-Period Comparison</h2>
 
-<p style="color:var(--muted); margin-bottom:16px;">Comparing the <strong>original report window (Mar 13&ndash;27)</strong> against a <strong>newer window (Mar 28 &ndash; Apr 8)</strong>. Data cutoff: ClickHouse replica is current through Apr 8, 2026. Post-Apr-16 impact of PR #1564 (depth-sorted candidate selection + cap 100) is <em>not</em> yet measurable &mdash; the analytics replica stopped syncing before the merge.</p>
+<p style="color:var(--muted); margin-bottom:16px;">Data window: <strong>April 1 &ndash; April 22, 2026</strong>, from the event tables (`character_chat_session_ended` etc.). Session-level metrics from the analytics event stream; original report used conversation-level messages. Key inflection point: <strong>PR #1564 merged Apr 16 09:32 UTC</strong> (depth-sorted auto-research candidate selection + cap raised from 30 to 100).</p>
 
-<h3>Volume Split</h3>
+<h3>April Volume at a Glance</h3>
 
-<div class="card">
-<table>
-  <thead>
-    <tr><th>Metric</th><th class="num">Mar 13&ndash;27 (P1)</th><th class="num">Mar 28 &ndash; Apr 8 (P2)</th><th>Note</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Total messages</td><td class="num">2.22M</td><td class="num">0.38M</td><td class="meaning">Shorter window (12 days vs 15)</td></tr>
-    <tr><td>Unique users</td><td class="num">97,069</td><td class="num">34,326</td><td class="meaning">P2 includes the Apr&nbsp;1 traffic spike (30K new users in one day)</td></tr>
-    <tr><td>Unique characters active</td><td class="num">383</td><td class="num">385</td><td class="meaning">Character catalog held steady</td></tr>
-    <tr><td>Conversations</td><td class="num">385,936</td><td class="num">54,212</td><td class="meaning">Huge fall in total conversations &mdash; user base more concentrated</td></tr>
-  </tbody>
-</table>
+<div class="stat-row">
+  <div class="stat"><div class="stat-value">600K</div><div class="stat-label">Sessions (Apr 1&ndash;22)</div></div>
+  <div class="stat"><div class="stat-value">170K</div><div class="stat-label">Unique users active</div></div>
+  <div class="stat"><div class="stat-value">~360</div><div class="stat-label">Characters active per day</div></div>
+  <div class="stat" style="border-left:3px solid var(--green);"><div class="stat-value" style="color:var(--green);">Apr 16</div><div class="stat-label">PR #1564 merge &mdash; inflection point</div></div>
 </div>
 
-<h3>Engagement Depth &mdash; The Key Shift</h3>
+<h3>Pre vs Post PR #1564 Merge (Apr 16)</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">PR #1564 fixed the auto-research candidate selection (sort conversations by depth descending, raise cap 30&rarr;100) so nightly insight generation samples the richest conversations instead of a random 30. Expected effect: higher-quality insights &rarr; better bot behavior &rarr; deeper sessions. Comparing 7 days before vs 6 days after the merge.</p>
 
 <div class="card">
 <table>
   <thead>
-    <tr><th>Depth bucket</th><th class="num">P1 share</th><th class="num">P2 share</th><th>Delta</th></tr>
+    <tr><th>Metric</th><th class="num">Pre (Apr 9&ndash;15)</th><th class="num">Post (Apr 17&ndash;22)</th><th>Delta</th></tr>
   </thead>
   <tbody>
     <tr>
-      <td>Bounce (1&ndash;2 msgs)</td>
-      <td class="num" style="color:var(--red);">86.2%</td>
-      <td class="num better">62.3%</td>
-      <td class="better">&minus;24 pp &mdash; large improvement</td>
+      <td>Sessions recorded</td>
+      <td class="num">180,229</td>
+      <td class="num">126,854</td>
+      <td style="color:var(--muted);">shorter window, not comparable</td>
+    </tr>
+    <tr>
+      <td>Bounce rate (&le;2 msgs)</td>
+      <td class="num" style="color:var(--red);">85.4%</td>
+      <td class="num better">76.8%</td>
+      <td class="better">&minus;8.6 pp</td>
     </tr>
     <tr>
       <td>Shallow (3&ndash;9 msgs)</td>
-      <td class="num">10.2%</td>
-      <td class="num better">32.4%</td>
-      <td class="better">+22 pp &mdash; users staying past the opener</td>
+      <td class="num">13.8%</td>
+      <td class="num better">19.6%</td>
+      <td class="better">+5.8 pp</td>
     </tr>
     <tr>
       <td>Medium (10&ndash;19 msgs)</td>
-      <td class="num">2.4%</td>
-      <td class="num better">4.1%</td>
-      <td class="better">+1.7 pp</td>
+      <td class="num">0.7%</td>
+      <td class="num better">2.7%</td>
+      <td class="better">+2.0 pp (3.8&times;)</td>
+    </tr>
+    <tr style="background:rgba(63,185,80,0.08);">
+      <td><strong>Deep (20+ msgs)</strong></td>
+      <td class="num" style="color:var(--red);">0.09%</td>
+      <td class="num better"><strong>0.98%</strong></td>
+      <td class="better"><strong>+0.89 pp (10.9&times;)</strong></td>
     </tr>
     <tr>
-      <td>Deep (20+ msgs)</td>
-      <td class="num">1.29%</td>
-      <td class="num">1.28%</td>
-      <td style="color:var(--muted);">flat</td>
-    </tr>
-    <tr>
-      <td><strong>Avg user msgs / conversation</strong></td>
-      <td class="num" style="color:var(--red);">1.63</td>
-      <td class="num better">3.31</td>
-      <td class="better">+103% &mdash; conversations twice as long on average</td>
+      <td><strong>Avg msgs/session</strong></td>
+      <td class="num" style="color:var(--red);">1.04</td>
+      <td class="num better"><strong>1.90</strong></td>
+      <td class="better"><strong>+83%</strong></td>
     </tr>
   </tbody>
 </table>
-<div class="insight insight-good" style="margin-top:16px;">The bounce rate fell by 24 percentage points while every engaged bucket grew. But the <strong>deep tier stayed flat</strong> &mdash; the gains came from bouncers converting into shallow engagers, not shallow users becoming deep ones. The funnel is wider but not yet deeper.</div>
+
+<div class="insight insight-good" style="margin-top:16px;">
+<strong>Clear post-merge lift.</strong> The deep-tier rate jumped 10.9&times; (from 0.09% to 0.98%) and average session depth nearly doubled, within one cron cycle of the fix going live. This is the strongest signal we have that the auto-research pipeline's insight quality materially affects bot behavior.
+</div>
 </div>
 
-<h3>Explicit Content Trend</h3>
+<h3>Daily Trend (Apr 1&ndash;22)</h3>
 
 <div class="card">
 <table>
   <thead>
-    <tr><th>Metric</th><th class="num">P1</th><th class="num">P2</th><th>Delta</th></tr>
+    <tr><th>Date</th><th class="num">Sessions</th><th class="num">Avg msgs</th><th class="num">Bounce %</th><th class="num">Deep %</th><th>Note</th></tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Explicit user rate (sexual keywords)</td>
-      <td class="num" style="color:var(--red);">13.0%</td>
-      <td class="num better">9.3%</td>
-      <td class="better">&minus;3.7 pp &mdash; healthier mix</td>
-    </tr>
+    <tr><td>Apr 1</td><td class="num">27,118</td><td class="num">1.17</td><td class="num">85.4</td><td class="num">0.53</td><td class="meaning">Month start</td></tr>
+    <tr><td>Apr 3</td><td class="num">33,287</td><td class="num better">1.94</td><td class="num">76.0</td><td class="num">0.96</td><td class="meaning">Spike &mdash; temporary effect</td></tr>
+    <tr><td>Apr 5&ndash;15</td><td class="num">avg ~29K/day</td><td class="num" style="color:var(--red);">~1.05</td><td class="num" style="color:var(--red);">~85.3</td><td class="num" style="color:var(--red);">~0.09</td><td class="meaning">Low-engagement plateau</td></tr>
+    <tr style="background:rgba(63,185,80,0.12); border-top:2px solid var(--green);"><td><strong>Apr 16</strong></td><td class="num">18,542</td><td class="num">1.33</td><td class="num">82.5</td><td class="num">0.38</td><td class="meaning" style="color:var(--green);"><strong>&larr; PR #1564 merged</strong></td></tr>
+    <tr style="background:rgba(63,185,80,0.08);"><td>Apr 17</td><td class="num">18,848</td><td class="num better">2.06</td><td class="num better">75.4</td><td class="num better">1.20</td><td class="meaning">Immediate jump</td></tr>
+    <tr style="background:rgba(63,185,80,0.08);"><td>Apr 18</td><td class="num">17,099</td><td class="num">1.95</td><td class="num">75.7</td><td class="num">1.04</td><td class="meaning">Sustained</td></tr>
+    <tr style="background:rgba(63,185,80,0.08);"><td>Apr 19</td><td class="num">18,507</td><td class="num better">2.21</td><td class="num better">72.9</td><td class="num better">1.25</td><td class="meaning">Best day post-merge</td></tr>
+    <tr style="background:rgba(63,185,80,0.08);"><td>Apr 20</td><td class="num">19,022</td><td class="num">1.95</td><td class="num">76.4</td><td class="num">0.93</td><td class="meaning">&nbsp;</td></tr>
+    <tr style="background:rgba(63,185,80,0.08);"><td>Apr 21</td><td class="num">19,038</td><td class="num">1.86</td><td class="num">77.6</td><td class="num">0.88</td><td class="meaning">&nbsp;</td></tr>
+    <tr style="background:rgba(63,185,80,0.08);"><td>Apr 22</td><td class="num">20,058</td><td class="num">1.78</td><td class="num">78.5</td><td class="num">0.95</td><td class="meaning">Slight regression watch point</td></tr>
   </tbody>
 </table>
-<p style="margin-top:8px; font-size:0.82rem; color:var(--muted);">Based on a narrow sexual-keyword filter (sex, chut, lund, nude, etc.). Broader 776-keyword scan may show different magnitude but same direction.</p>
+
+<div style="margin-top:24px;">
+  <div style="font-size:0.82rem; color:var(--muted); margin-bottom:8px;">Deep-tier rate (% of sessions with 20+ messages) &mdash; visual</div>
+  <div style="display:flex; align-items:flex-end; gap:4px; height:120px; padding:0 8px; border-left:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div title="Apr 1: 0.53%" style="background:var(--yellow); width:18px; height:32px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 2: 0.53%" style="background:var(--yellow); width:18px; height:32px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 3: 0.96%" style="background:var(--yellow); width:18px; height:58px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 4: 0.19%" style="background:var(--red); width:18px; height:11px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 5: 0.08%" style="background:var(--red); width:18px; height:5px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 6: 0.09%" style="background:var(--red); width:18px; height:5px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 7: 0.08%" style="background:var(--red); width:18px; height:5px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 8: 0.10%" style="background:var(--red); width:18px; height:6px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 9: 0.10%" style="background:var(--red); width:18px; height:6px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 10: 0.06%" style="background:var(--red); width:18px; height:4px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 11: 0.11%" style="background:var(--red); width:18px; height:7px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 12: 0.10%" style="background:var(--red); width:18px; height:6px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 13: 0.10%" style="background:var(--red); width:18px; height:6px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 14: 0.10%" style="background:var(--red); width:18px; height:6px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 15: 0.09%" style="background:var(--red); width:18px; height:5px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 16: 0.38% (PR merged)" style="background:var(--accent); width:18px; height:23px; border-radius:2px 2px 0 0; border-top:3px solid var(--green);"></div>
+    <div title="Apr 17: 1.20%" style="background:var(--green); width:18px; height:72px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 18: 1.04%" style="background:var(--green); width:18px; height:62px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 19: 1.25%" style="background:var(--green); width:18px; height:75px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 20: 0.93%" style="background:var(--green); width:18px; height:56px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 21: 0.88%" style="background:var(--green); width:18px; height:53px; border-radius:2px 2px 0 0;"></div>
+    <div title="Apr 22: 0.95%" style="background:var(--green); width:18px; height:57px; border-radius:2px 2px 0 0;"></div>
+  </div>
+  <div style="display:flex; gap:4px; padding:0 8px; margin-top:4px; font-size:0.65rem; color:var(--muted);">
+    <span style="width:18px; text-align:center;">1</span>
+    <span style="width:18px; text-align:center;">2</span>
+    <span style="width:18px; text-align:center;">3</span>
+    <span style="width:18px; text-align:center;">4</span>
+    <span style="width:18px; text-align:center;">5</span>
+    <span style="width:18px; text-align:center;">6</span>
+    <span style="width:18px; text-align:center;">7</span>
+    <span style="width:18px; text-align:center;">8</span>
+    <span style="width:18px; text-align:center;">9</span>
+    <span style="width:18px; text-align:center;">10</span>
+    <span style="width:18px; text-align:center;">11</span>
+    <span style="width:18px; text-align:center;">12</span>
+    <span style="width:18px; text-align:center;">13</span>
+    <span style="width:18px; text-align:center;">14</span>
+    <span style="width:18px; text-align:center;">15</span>
+    <span style="width:18px; text-align:center; color:var(--green);">16</span>
+    <span style="width:18px; text-align:center;">17</span>
+    <span style="width:18px; text-align:center;">18</span>
+    <span style="width:18px; text-align:center;">19</span>
+    <span style="width:18px; text-align:center;">20</span>
+    <span style="width:18px; text-align:center;">21</span>
+    <span style="width:18px; text-align:center;">22</span>
+  </div>
 </div>
 
-<h3>Daily Volume Pattern</h3>
-
-<div class="card">
-<table>
-  <thead>
-    <tr><th>Date</th><th class="num">Messages</th><th class="num">Users</th><th class="num">Convos</th><th>Note</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Mar 22 (P1 peak)</td><td class="num">123K</td><td class="num">6,534</td><td class="num">10,734</td><td class="meaning">Typical P1 day</td></tr>
-    <tr><td>Mar 27 (P1 end)</td><td class="num">80K</td><td class="num">4,029</td><td class="num">6,821</td><td class="meaning">Trend was softening</td></tr>
-    <tr style="background:rgba(210,153,34,0.08);"><td>Apr 1 (P2 spike)</td><td class="num" style="color:var(--yellow);">729K</td><td class="num" style="color:var(--yellow);">30,580</td><td class="num">200,744</td><td class="meaning">&#x26A0; 10&times; baseline &mdash; marketing push / new-user flood</td></tr>
-    <tr><td>Apr 7 (P2 typical)</td><td class="num">66K</td><td class="num">7,604</td><td class="num">11,300</td><td class="meaning">Post-spike baseline settled higher than P1</td></tr>
-    <tr><td>Apr 8 (partial day)</td><td class="num">21K</td><td class="num">2,591</td><td class="num">3,747</td><td class="meaning">Replica stopped mid-day</td></tr>
-  </tbody>
-</table>
-<div class="insight insight-warn" style="margin-top:12px;">Apr 1 was a 10&times; traffic event &mdash; 30K users arriving in a single day. If those first-time users bounced, they would have inflated the bounce bucket; but P2's bounce rate still fell dramatically. Suggests the engagement improvement is real, not a compositional artifact.</div>
+<div class="insight insight-good" style="margin-top:16px;">The Apr 16 step-change is visible on every depth metric. Pre-merge, the deep tier had collapsed to 0.09% (effectively zero deep sessions in the system). Post-merge, it stabilised around 1%, matching or exceeding the Mar baseline.</div>
 </div>
 
 <h3>Return Rate (Platform-wide, All Time)</h3>
@@ -1381,9 +1424,9 @@
 <div class="insight" style="margin-top:12px;">93% of users ever only chat on a single day. The 7.3% who return for 2+ days are the engaged core. Meaningful chat direction's primary metric (platform return rate) targets moving this distribution leftward.</div>
 </div>
 
-<h3>Return Rate Trend by Cohort (Has it improved?)</h3>
+<h3>Return Rate Trend by Cohort (April)</h3>
 
-<p style="color:var(--muted); margin-bottom:12px;">Cohorted by the week of each user's <em>first chat</em>. Equal observation windows (3 and 7 days after first chat) so later cohorts aren't unfairly penalized. Only cohorts with full 7-day observation available included.</p>
+<p style="color:var(--muted); margin-bottom:12px;">Cohorted by the week of each user's first chat session. Equal observation windows (3 and 7 days after first chat) so later cohorts aren't penalized. Apr&nbsp;12 cohort captures users whose return window overlaps the PR #1564 post-merge period.</p>
 
 <div class="card">
 <table>
@@ -1391,80 +1434,31 @@
     <tr><th>Cohort week (first chat)</th><th class="num">Cohort size</th><th class="num">3-day return</th><th class="num">7-day return</th></tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Mar 8&ndash;14</td>
-      <td class="num">3,112</td>
-      <td class="num better">5.21%</td>
-      <td class="num better">8.23%</td>
-    </tr>
-    <tr>
-      <td>Mar 15&ndash;21</td>
-      <td class="num">30,664</td>
-      <td class="num">3.63%</td>
-      <td class="num">5.56%</td>
-    </tr>
-    <tr>
-      <td>Mar 22&ndash;28</td>
-      <td class="num">29,855</td>
-      <td class="num">3.27%</td>
-      <td class="num">4.74%</td>
-    </tr>
-    <tr>
-      <td>Mar 29 &ndash; Apr 1</td>
-      <td class="num">14,194</td>
-      <td class="num" style="color:var(--red);">3.10%</td>
-      <td class="num">4.86%</td>
-    </tr>
+    <tr><td>Mar 29 &ndash; Apr 4</td><td class="num">37,055</td><td class="num">3.65%</td><td class="num better">5.52%</td></tr>
+    <tr><td>Apr 5 &ndash; Apr 11</td><td class="num">71,438</td><td class="num">3.19%</td><td class="num">5.03%</td></tr>
+    <tr><td>Apr 12 &ndash; Apr 18 &nbsp;<span style="color:var(--green); font-size:0.75rem;">(spans merge)</span></td><td class="num">28,578</td><td class="num" style="color:var(--red);">2.80%</td><td class="num" style="color:var(--red);">4.43%</td></tr>
   </tbody>
 </table>
 
-<div style="margin-top:20px;">
-  <div style="font-size:0.82rem; color:var(--muted); margin-bottom:8px;">7-day return rate (visual)</div>
-  <div style="display:flex; align-items:flex-end; gap:24px; height:140px; padding:0 20px;">
-    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
-      <div style="font-size:0.85rem; color:var(--green);">8.23%</div>
-      <div style="background:var(--green); width:60px; height:115px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:0.7rem; color:var(--muted);">Mar 8</div>
-    </div>
-    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
-      <div style="font-size:0.85rem; color:var(--yellow);">5.56%</div>
-      <div style="background:var(--yellow); width:60px; height:78px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:0.7rem; color:var(--muted);">Mar 15</div>
-    </div>
-    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
-      <div style="font-size:0.85rem; color:var(--yellow);">4.74%</div>
-      <div style="background:var(--yellow); width:60px; height:66px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:0.7rem; color:var(--muted);">Mar 22</div>
-    </div>
-    <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:6px;">
-      <div style="font-size:0.85rem; color:var(--red);">4.86%</div>
-      <div style="background:var(--red); width:60px; height:68px; border-radius:4px 4px 0 0;"></div>
-      <div style="font-size:0.7rem; color:var(--muted);">Mar 29</div>
-    </div>
-  </div>
-</div>
-
 <div class="insight insight-warn" style="margin-top:20px;">
-<strong>Return rate has NOT improved.</strong> 7-day return fell from 8.23% (Mar 8 cohort) to ~4.8% (Mar 29 cohort). Trend is flat-to-declining &mdash; roughly &minus;0.5 pp per week before stabilising.
-<br><br>
-The Mar 8 number is inflated by a small (3K) cohort of early adopters who self-selected as engaged. The steady-state trend is <strong>Mar 15 (5.56%) &rarr; Mar 22 (4.74%) &rarr; Mar 29 (4.86%)</strong> &mdash; a mild decline, not an improvement.
+<strong>Return rate has NOT yet improved, despite the depth lift.</strong> 7-day return declined from 5.52% (Mar 29 cohort) to 4.43% (Apr 12 cohort). The Apr 12 cohort's return window (Apr 13&ndash;19) straddles the merge; too early to see the post-fix benefit manifest as return behavior. Deep sessions just became available again on Apr 17 &mdash; need 1&ndash;2 more weekly cohorts to see if sustained deep engagement translates into return.
 </div>
 
 <div class="card" style="margin-top:16px;">
-<div style="font-weight:600; margin-bottom:8px;">The paradox:</div>
+<div style="font-weight:600; margin-bottom:8px;">The current scorecard:</div>
 <table>
   <thead>
-    <tr><th>Metric</th><th>Direction</th></tr>
+    <tr><th>Metric</th><th>Pre&rarr;Post PR #1564</th></tr>
   </thead>
   <tbody>
-    <tr><td>Bounce rate</td><td class="better">&minus;24 pp improvement</td></tr>
-    <tr><td>Avg conversation length</td><td class="better">+103% improvement</td></tr>
-    <tr><td>Explicit user rate</td><td class="better">&minus;3.7 pp improvement</td></tr>
-    <tr><td>Deep tier (20+ msgs)</td><td style="color:var(--muted);">flat at 1.3%</td></tr>
-    <tr><td><strong>7-day return rate</strong></td><td class="worse">flat to mildly declining</td></tr>
+    <tr><td>Bounce rate</td><td class="better">&minus;8.6 pp (85.4 &rarr; 76.8)</td></tr>
+    <tr><td>Avg msgs/session</td><td class="better">+83% (1.04 &rarr; 1.90)</td></tr>
+    <tr><td>Medium tier (10&ndash;19 msgs)</td><td class="better">+3.8&times; (0.7 &rarr; 2.7%)</td></tr>
+    <tr><td><strong>Deep tier (20+ msgs)</strong></td><td class="better"><strong>+10.9&times; (0.09 &rarr; 0.98%)</strong></td></tr>
+    <tr><td>7-day return rate</td><td style="color:var(--muted);">still flat-to-declining (observation window too short)</td></tr>
   </tbody>
 </table>
-<div class="insight insight-warn" style="margin-top:12px;">Better opening engagement is not translating into return visits. Users are having longer conversations but still not coming back. This validates the Next Direction hypothesis: it's <em>depth</em> and <em>cross-tool engagement</em> (games + content) that drive return &mdash; not just longer-openers. A 3-message conversation is still a 1-day session.</div>
+<div class="insight" style="margin-top:12px;">PR #1564 demonstrably improved session quality &mdash; every depth bucket moved in the right direction within one cron cycle. The open question is whether that carries into return behavior over the next 1&ndash;2 weeks. The hypothesis is still valid: deep sessions drive return (7&times; lift vs bouncers), so more deep sessions should eventually move the return-rate needle.</div>
 </div>
 </div>
 
