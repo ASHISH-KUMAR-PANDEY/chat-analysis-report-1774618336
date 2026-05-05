@@ -112,6 +112,7 @@
     <a href="#ab-experiment" style="color:var(--green);">A/B Experiment</a>
     <a href="#next-direction" style="color:var(--accent);">Next Direction</a>
     <a href="#trend-update" style="color:var(--yellow);">Trend Update</a>
+    <a href="#roadmap" style="color:var(--accent);">Roadmap</a>
     <a href="#subscription-split" style="color:var(--purple);">Subscription Split</a>
     <a href="#prs-in-flight" style="color:var(--pink);">PRs In Flight</a>
   </div>
@@ -1477,6 +1478,99 @@
   <p class="meaning" style="max-width:none;">Deep engagement (20+ msgs) is stuck at 1.3% in both periods. Users can now get past "hi" but can't sustain past ~10 messages. This is the next lever &mdash; in-chat games and content hooks need to kick in mid-conversation.</p>
 </div>
 
+</div>
+
+<!-- ROADMAP -->
+<h2 id="roadmap" style="color:var(--accent);">&#x1F5FA; Character Bots Roadmap &mdash; Engagement &amp; Watch Depth</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">Four parallel workstreams under the same pillar &mdash; each independent, each pushing on a different lever for getting users to chat deeper, watch more, and come back. Two are ongoing improvements to existing surfaces; two are new surfaces queued to ship.</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Type</th>
+      <th>Workstream</th>
+      <th>Lever</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-yellow">ONGOING</span></td>
+      <td>Independent</td>
+      <td><strong>Meaningful chats for Auto-research</strong></td>
+      <td class="meaning">Make the bot personality learning loop self-improving</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">ONGOING</span></td>
+      <td>Independent</td>
+      <td><strong>Chat depth via recommendations &amp; Stage info</strong></td>
+      <td class="meaning">Convert deep chats into content watches</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-red">P0</span></td>
+      <td>Independent</td>
+      <td><strong>Chat via web link</strong></td>
+      <td class="meaning">Open the chat funnel to non-app users</td>
+    </tr>
+    <tr>
+      <td><span class="badge" style="background:rgba(88,166,255,0.15); color:var(--accent);">P1</span></td>
+      <td>Independent</td>
+      <td><strong>Voice call</strong></td>
+      <td class="meaning">Step-change emotional engagement</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="card-grid">
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+    <div style="font-weight:600; font-size:1rem;">&#x1F501; Meaningful chats for Auto-research</div>
+    <span class="badge badge-yellow">ONGOING</span>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What it is:</strong> The bots quietly learn each night from the most engaging real conversations &mdash; what hooks worked, what banter landed, what made users open up &mdash; and feed those patterns back into every character's personality. The fix that landed Apr 16 (depth-sorted candidates, cap raised to 100) made the learning much higher quality, and the visible 10x lift in deep sessions is the first proof.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Where it's going:</strong> Keep enriching what the pipeline learns from &mdash; not just conversation length, but successful recommendation moments, return-the-next-day patterns, and game engagement. Expand the analysis prompt so it captures emotional beats, not just topic patterns. Eventually the bots should re-train themselves weekly on whatever's actually converting users in production, with no manual prompt edits.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Why it matters:</strong> Without this, we're stuck shipping hand-written prompts that go stale. With it, every week the bots get measurably better at the things that actually drive watches and returns &mdash; the personality compounds.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--purple);">
+  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+    <div style="font-weight:600; font-size:1rem;">&#x1F4FA; Chat depth &mdash; recommendations &amp; Stage info</div>
+    <span class="badge badge-yellow">ONGOING</span>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What it is:</strong> When a bot mentions a show, that mention turns into a tappable card with a direct path to watch. The bots also weave Stage info naturally into chat &mdash; episode references, character backstories, "this happened in Episode 14" hooks &mdash; so the conversation itself drives discovery rather than ending at "bye". The two PRs currently in review (backend resolves the recommendation tags, Flutter renders the carousel + deep-link nav) are the immediate ship.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Where it's going:</strong> Beyond the first ship: per-character content rails (each bot recommends shows in its own voice), proactive Stage-info teases mid-conversation, smart cooldowns so we don't spam, and feedback signals (taps, dismisses, watches-after-tap) flowing back into the auto-research loop so bots learn which framings convert.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Why it matters:</strong> Today users have deeper chats but don't watch more. This is the bridge &mdash; turning a great conversation into a content session in the same flow.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--red);">
+  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+    <div style="font-weight:600; font-size:1rem;">&#x1F310; Chat via web link</div>
+    <span class="badge badge-red">P0</span>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What it is:</strong> Today, the only way to chat with a character is to download the Stage app, sign in, and find the right show. We're building a web-link entry point &mdash; a shareable URL (WhatsApp, push, marketing email, social post) that opens directly into a working chat with the character, no install required.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Why P0:</strong> The current chat funnel is gated by app install, which is a massive top-of-funnel cliff. A non-app user can't even try a bot. Web entry turns the bots into a viral surface &mdash; one user shares "you have to talk to Bhuri" and the recipient hits a working chat in two taps. Lowers cost-of-acquisition and adds a sharing loop the app itself doesn't have.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What needs to happen:</strong> A lightweight web client that hits the same chat APIs (no rewrite), session handling without forced sign-up (anonymous-first, prompt to install only after a meaningful exchange), and a deep link back into the app once the user wants more.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--accent);">
+  <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+    <div style="font-weight:600; font-size:1rem;">&#x1F4DE; Voice call</div>
+    <span class="badge" style="background:rgba(88,166,255,0.15); color:var(--accent);">P1</span>
+  </div>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What it is:</strong> Real-time voice calls with character bots. The character speaks in its own voice (we already have voice samples from the shows), the user speaks back, and the conversation flows audibly &mdash; not text. Same personality, same Stage-info hooks, same recommendations &mdash; just a much more emotionally intimate medium.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>Why P1:</strong> Voice is the highest-engagement format we could ship &mdash; closer to a phone call with a friend than a chat. The session-depth and emotional-bond uplift potential is significant. Slotted P1 because it requires real-time TTS, STT, and call infrastructure (latency, interruption handling, voice cloning consent) that text chat doesn't.</p>
+  <p class="meaning" style="max-width:none; margin-top:8px;"><strong>What needs to happen:</strong> Voice cloning per character (existing audio &rarr; per-character TTS model), a low-latency STT &rarr; LLM &rarr; TTS pipeline, call UI in the app, and clear privacy posture (recording, retention, opt-in). Probably starts with a few hero characters before fanning out to the full catalog.</p>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:16px; border-left:3px solid var(--green);">
+<div style="font-weight:600; margin-bottom:8px;">How they reinforce each other</div>
+<p class="meaning" style="max-width:none;">Auto-research keeps the personality fresh. Recommendations + Stage info turn that personality into watches. Web link lets people who haven't installed the app discover the personality at all. Voice takes the bond to a new emotional register. Each is independent, but together they form a flywheel: more entry points (web) &rarr; more conversations (better personality from auto-research) &rarr; more watches (recommendations) &rarr; richer data feeding back into auto-research, with voice as the eventual depth ceiling.</p>
 </div>
 
 <!-- SUBSCRIPTION SPLIT -->
