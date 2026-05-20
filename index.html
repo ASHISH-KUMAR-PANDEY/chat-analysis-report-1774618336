@@ -115,6 +115,7 @@
     <a href="#roadmap" style="color:var(--accent);">Roadmap</a>
     <a href="#subscription-split" style="color:var(--purple);">Subscription Split</a>
     <a href="#prs-in-flight" style="color:var(--pink);">PRs In Flight</a>
+    <a href="#lifecycle-cohorts" style="color:var(--green);">Lifecycle Cohorts</a>
   </div>
 </nav>
 
@@ -1836,7 +1837,303 @@
 <div class="insight insight-good" style="margin-top:16px;">The thesis: character bots should feel like a friend who tells you stories, gossips about people you'd both like, and naturally suggests "hey, you should watch this" &mdash; rather than a chat toy that leaves you on the chat screen. Once all three dominoes fall, the same conversation that today ends with "bye" can end with the user watching an episode.</div>
 </div>
 
-<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March-April 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification &bull; A/B experiment + trend data from ClickHouse + Prod API &bull; Last refresh: Apr 24, 2026</p>
+<!-- LIFECYCLE COHORTS -->
+<h2 id="lifecycle-cohorts" style="color:var(--green);">&#x1F465; Lifecycle Cohorts &mdash; Who Comes Back, And Who Stays Loyal</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">Pulled from <code>messages_backup</code> (Mar 13 &rarr; May 19, 5.5M user-sent messages) joined to <code>fct_user_subscription_history</code>. Users are placed in <em>mutually exclusive</em> lifecycle buckets by their furthest stage: <strong>Renewer</strong> (ever renewed) &rarr; <strong>NewSub</strong> (paid directly, never renewed) &rarr; <strong>Trial</strong> (only trialed) &rarr; <strong>Non-trial</strong> (no record in the subscription fact table).</p>
+
+<h3>How many from each subscription category ever chat?</h3>
+
+<div class="card">
+<p class="meaning" style="max-width:none; margin-bottom:12px;">Universe = users with at least one record in <code>fct_user_subscription_history</code> where <code>subscription_start_at_ist &ge; 2026-03-13</code>. "Ever chatted" = sent &ge;1 message in <code>messages_backup</code> at any time.</p>
+<table>
+  <thead>
+    <tr><th>Plan category</th><th class="num">Cohort users</th><th class="num">Ever chatted</th><th class="num">% chatted</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="badge badge-yellow">Trial</span></td>
+      <td class="num">679,127</td>
+      <td class="num better"><strong>100,749</strong></td>
+      <td class="num better"><strong>14.84%</strong></td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">New Subscription</span></td>
+      <td class="num">270,100</td>
+      <td class="num">28,798</td>
+      <td class="num">10.66%</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-purple">Renewal</span></td>
+      <td class="num">818,109</td>
+      <td class="num">19,223</td>
+      <td class="num" style="color:var(--red);"><strong>2.35%</strong></td>
+    </tr>
+  </tbody>
+</table>
+<div class="insight insight-warn" style="margin-top:16px;">
+<strong>Trial users are 6&times; more likely to ever touch character chat than Renewers.</strong> Even direct New Subscribers chat at ~10% but drop to 2.35% by the time they renew. Discovery of character chat is heavily front-loaded at trial onboarding and effectively absent from the paying-user surface.
+</div>
+</div>
+
+<h3>Day-on-day retention, conditioned on Day 0 chat activity</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">For each plan category, the cohort = users who chatted on their anchor day. <strong>Anchor for paying cohorts = <code>subscription_start_at_ist</code></strong> (trial start / first paid sub / first renewal). <strong>Anchor for Non-trial = first chat day.</strong> Denominator stays fixed at D0 chatters; each Dn % = "of those who chatted on D0, what % chatted on day N." Trial runs 0&ndash;7 days (trial window); paid &amp; non-trial run 0&ndash;30 days (billing cycle).</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Cohort</th>
+      <th class="num">D0 chatters</th>
+      <th class="num">D1</th>
+      <th class="num">D3</th>
+      <th class="num">D7</th>
+      <th class="num">D14</th>
+      <th class="num">D30</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(63,185,80,0.08);">
+      <td><span class="badge badge-purple">Renewer</span></td>
+      <td class="num">1,604</td>
+      <td class="num better"><strong>8.98%</strong></td>
+      <td class="num better"><strong>3.18%</strong></td>
+      <td class="num better"><strong>1.50%</strong></td>
+      <td class="num">0.69%</td>
+      <td class="num">0.19%</td>
+    </tr>
+    <tr style="background:rgba(63,185,80,0.08);">
+      <td><span class="badge badge-green">New Subscription</span></td>
+      <td class="num">1,891</td>
+      <td class="num better"><strong>9.31%</strong></td>
+      <td class="num better">2.91%</td>
+      <td class="num">0.85%</td>
+      <td class="num">0.53%</td>
+      <td class="num">0.21%</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">Trial</span></td>
+      <td class="num">75,767</td>
+      <td class="num">5.13%</td>
+      <td class="num">1.00%</td>
+      <td class="num">0.38%</td>
+      <td class="num">&mdash;</td>
+      <td class="num">&mdash;</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">Non-trial</span></td>
+      <td class="num">68,041</td>
+      <td class="num" style="color:var(--red);">2.12%</td>
+      <td class="num" style="color:var(--red);">0.41%</td>
+      <td class="num" style="color:var(--red);">0.14%</td>
+      <td class="num">0.08%</td>
+      <td class="num">0.03%</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="insight insight-good" style="margin-top:16px;">
+<strong>The ranking <em>flips</em> when conditioned on D0 activity.</strong> Trial has 40&times; the D0 chat volume (75K vs ~1.6K for paid) &mdash; but paying users who do chat retain <strong>2&times; better next-day</strong> (~9% vs ~5%) and <strong>4&times; better at D7</strong>. Renewers are the stickiest cohort, despite being the rarest to discover the feature. The discovery problem is the bottleneck, not the experience.
+</div>
+</div>
+
+<h3>Full D0&rarr;D30 retention curves (paid &amp; non-trial)</h3>
+
+<div class="card">
+<table style="font-size:0.85rem;">
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th class="num"><span class="badge badge-green">New Sub</span></th>
+      <th class="num"><span class="badge badge-purple">Renewer</span></th>
+      <th class="num"><span class="badge badge-gray">Non-trial</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>D0</td><td class="num">100%</td><td class="num">100%</td><td class="num">100%</td></tr>
+    <tr><td>D1</td><td class="num better"><strong>9.31%</strong></td><td class="num better"><strong>8.98%</strong></td><td class="num">2.12%</td></tr>
+    <tr><td>D2</td><td class="num">3.60%</td><td class="num">4.11%</td><td class="num">0.68%</td></tr>
+    <tr><td>D3</td><td class="num">2.91%</td><td class="num">3.18%</td><td class="num">0.41%</td></tr>
+    <tr><td>D4</td><td class="num">1.90%</td><td class="num">2.43%</td><td class="num">0.31%</td></tr>
+    <tr><td>D5</td><td class="num">1.37%</td><td class="num">1.43%</td><td class="num">0.23%</td></tr>
+    <tr><td>D6</td><td class="num">1.85%</td><td class="num">1.62%</td><td class="num">0.21%</td></tr>
+    <tr><td>D7</td><td class="num">0.85%</td><td class="num">1.50%</td><td class="num">0.14%</td></tr>
+    <tr><td>D10</td><td class="num">0.58%</td><td class="num">1.06%</td><td class="num">0.12%</td></tr>
+    <tr><td>D14</td><td class="num">0.53%</td><td class="num">0.69%</td><td class="num">0.08%</td></tr>
+    <tr><td>D21</td><td class="num">0.42%</td><td class="num">0.62%</td><td class="num">0.05%</td></tr>
+    <tr><td>D29</td><td class="num">0.26%</td><td class="num">0.37%</td><td class="num">0.03%</td></tr>
+    <tr><td>D30</td><td class="num">0.21%</td><td class="num">0.19%</td><td class="num">0.03%</td></tr>
+  </tbody>
+</table>
+<div class="insight" style="margin-top:16px;">
+<strong>Paid curves bottom out around D15 at 0.5&ndash;0.7%</strong> &mdash; a small but persistent floor of weekly returners. Non-trial flattens lower (~0.05%) and earlier. The small D29 ripple on the paid cohorts likely reflects the next billing-cycle touchpoint pulling some users back to the app.
+</div>
+</div>
+
+<h3>Depth distribution by cohort &mdash; how many distinct days do they chat?</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">"Depth" = number of distinct calendar days (IST) on which the user sent at least one message. Cohort = <em>all</em> chatters with first chat day &le; today&minus;7 (so they had a chance to return). 212,294 users total.</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Distinct chat days</th>
+      <th class="num"><span class="badge badge-yellow">Trial</span><br/>n=76,036</th>
+      <th class="num"><span class="badge badge-green">NewSub</span><br/>n=23,729</th>
+      <th class="num"><span class="badge badge-purple">Renewer</span><br/>n=24,771</th>
+      <th class="num"><span class="badge badge-gray">Non-trial</span><br/>n=87,758</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1 day only</td>
+      <td class="num">91.87%</td>
+      <td class="num">84.94%</td>
+      <td class="num better">82.50%</td>
+      <td class="num" style="color:var(--red);">95.54%</td>
+    </tr>
+    <tr>
+      <td>2 days</td>
+      <td class="num">6.89%</td>
+      <td class="num">11.46%</td>
+      <td class="num better"><strong>12.52%</strong></td>
+      <td class="num">3.60%</td>
+    </tr>
+    <tr>
+      <td>3 days</td>
+      <td class="num">0.90%</td>
+      <td class="num">2.32%</td>
+      <td class="num better"><strong>3.09%</strong></td>
+      <td class="num">0.50%</td>
+    </tr>
+    <tr>
+      <td>4&ndash;7 days</td>
+      <td class="num">0.31%</td>
+      <td class="num">1.16%</td>
+      <td class="num better"><strong>1.67%</strong></td>
+      <td class="num">0.30%</td>
+    </tr>
+    <tr>
+      <td>8&ndash;14 days</td>
+      <td class="num">0.03%</td>
+      <td class="num">0.10%</td>
+      <td class="num better"><strong>0.17%</strong></td>
+      <td class="num">0.05%</td>
+    </tr>
+    <tr>
+      <td>15+ days</td>
+      <td class="num">0.00%</td>
+      <td class="num">0.01%</td>
+      <td class="num better"><strong>0.04%</strong></td>
+      <td class="num">0.01%</td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin-top:20px;">
+  <thead>
+    <tr><th>Retention ladder &mdash; % reaching depth &ge; N</th><th class="num">Trial</th><th class="num">NewSub</th><th class="num">Renewer</th><th class="num">Non-trial</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>&ge; 2 days</td><td class="num">8.13%</td><td class="num">15.06%</td><td class="num better"><strong>17.50%</strong></td><td class="num">4.46%</td></tr>
+    <tr><td>&ge; 3 days</td><td class="num">1.24%</td><td class="num">3.60%</td><td class="num better"><strong>4.98%</strong></td><td class="num">0.86%</td></tr>
+    <tr><td>&ge; 4 days</td><td class="num">0.34%</td><td class="num">1.27%</td><td class="num better"><strong>1.88%</strong></td><td class="num">0.36%</td></tr>
+    <tr><td>&ge; 8 days</td><td class="num">0.03%</td><td class="num">0.11%</td><td class="num better"><strong>0.21%</strong></td><td class="num">0.06%</td></tr>
+  </tbody>
+</table>
+
+<div class="insight insight-good" style="margin-top:16px;">
+<strong>Clean monotonic ranking: Renewer &gt; NewSub &gt; Trial &gt; Non-trial at every depth threshold.</strong> Renewers are 2&times; more likely to reach depth-2 than Trial users and 4&times; more likely than Non-trial. The deeper you cut, the more disproportionately the cohort skews to paying users &mdash; despite paying users being the smallest fraction of the chat base.
+</div>
+</div>
+
+<h3>Same-character loyalty vs character-hopping</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">For each user, "first character" = the character they exchanged the most messages with on their first chat day. <strong>Multi-char</strong> = at least one chat day used a different character than the first. <strong>Same-char only</strong> = every chat day used the first character.</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Depth bucket</th>
+      <th class="num"><span class="badge badge-yellow">Trial</span> %multi</th>
+      <th class="num"><span class="badge badge-green">NewSub</span> %multi</th>
+      <th class="num"><span class="badge badge-purple">Renewer</span> %multi</th>
+      <th class="num"><span class="badge badge-gray">Non-trial</span> %multi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1 day only</td>
+      <td class="num">31.14%</td>
+      <td class="num">30.42%</td>
+      <td class="num better"><strong>27.25%</strong></td>
+      <td class="num" style="color:var(--red);"><strong>34.85%</strong></td>
+    </tr>
+    <tr>
+      <td>2 days</td>
+      <td class="num">86.73%</td>
+      <td class="num">88.64%</td>
+      <td class="num">88.39%</td>
+      <td class="num">87.34%</td>
+    </tr>
+    <tr>
+      <td>3 days</td>
+      <td class="num">95.91%</td>
+      <td class="num">97.10%</td>
+      <td class="num">96.61%</td>
+      <td class="num">95.68%</td>
+    </tr>
+    <tr>
+      <td>4&ndash;7 days</td>
+      <td class="num">98.28%</td>
+      <td class="num">98.91%</td>
+      <td class="num">99.03%</td>
+      <td class="num">99.23%</td>
+    </tr>
+    <tr>
+      <td>8+ days</td>
+      <td class="num">95.83%</td>
+      <td class="num">100.0%</td>
+      <td class="num">100.0%</td>
+      <td class="num">98.28%</td>
+    </tr>
+  </tbody>
+</table>
+<div class="insight insight-warn" style="margin-top:16px;">
+<strong>The "if they came back, they switched characters" finding holds across every cohort.</strong> 86&ndash;88% of users at depth-2 are multi-char regardless of subscription state. The cohort differences live entirely in the <em>1-day-only</em> bucket: Non-trial users browse 35% of the time, Renewers only 27%. <strong>Paying users have more deliberate intent on their single chat day; non-payers sample-and-leave more.</strong>
+</div>
+</div>
+
+<h3>What this rewrites about the funnel</h3>
+
+<div class="card-grid">
+
+<div class="card" style="border-left:3px solid var(--purple);">
+  <div style="font-weight:600; margin-bottom:8px;">Discovery is the bottleneck, not the product</div>
+  <p class="meaning" style="max-width:none;">Only 1,891 New Subscribers (out of 178K eligible) and 1,604 Renewers (out of 523K) ever hit the chat feature on D0. The ones who do retain at <strong>9% D1 and ~1.5% D7</strong> &mdash; respectable curves. The chat experience works for paying users. The funnel that gets them <em>to</em> the chat experience is broken.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px;">Renewers are the highest-ROI underserved cohort</div>
+  <p class="meaning" style="max-width:none;">Highest D7 retention of any group (1.50%), highest depth-2 rate (17.5%), highest depth-4+ concentration. These are users who renewed their Stage subscription &mdash; the most committed segment in the entire business &mdash; and only 2.35% of them have ever opened a character chat. Putting chat in front of Renewers at renewal time is the single highest-leverage move.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="font-weight:600; margin-bottom:8px;">Trial is volume, not stickiness</div>
+  <p class="meaning" style="max-width:none;">75K Trial users hit chat on D0 vs &lt;2K paying users &mdash; but Trial D1 retention is half of paying (5% vs 9%), and D7 is a quarter (0.38% vs 1.5%). Trial users sample broadly and most leave. The conversion lever isn't "make chat better for trial" &mdash; it's "make chat one of the reasons they convert."</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--gray);">
+  <div style="font-weight:600; margin-bottom:8px;">Coming back = trying a new character</div>
+  <p class="meaning" style="max-width:none;">87% of returners at depth-2 talk to a different character on day 2. This holds across every cohort. The value users find in character chat is <strong>the catalog of characters, not any single character</strong>. Investments in character-roster breadth and discovery (cross-character recommendations, "if you liked X try Y") will compound; investments in deepening any single character will not.</p>
+</div>
+
+</div>
+
+<p style="margin-top:48px; color:var(--muted); font-size:0.8rem; text-align:center;">Generated March-April 2026 &bull; 776 keywords &bull; 38 categories &bull; Priority-based mutually exclusive classification &bull; A/B experiment + trend data from ClickHouse + Prod API &bull; Lifecycle cohort analysis added May 20, 2026 (data through May 19) &bull; Last refresh: May 20, 2026</p>
 
 </div><!-- container -->
 </body>
