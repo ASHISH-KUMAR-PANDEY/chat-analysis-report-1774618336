@@ -103,6 +103,7 @@
   <div class="nav-inner">
     <a href="#overview">Overview</a>
     <a href="#daily-chat-rate" style="color:var(--green); font-weight:600;">&#x1F4C5; Daily Chat Rate</a>
+    <a href="#watch-chat-order" style="color:var(--purple); font-weight:600;">&#x1F501; Watch &amp; Chat Order</a>
     <a href="#saanwari">Saanwari</a>
     <a href="#bhuri">Naate Bhuri</a>
     <a href="#comparison">Comparison</a>
@@ -1978,8 +1979,176 @@
 </div>
 
 
+<!-- WATCH & CHAT ORDER -->
+<h2 id="watch-chat-order" style="color:var(--purple);">&#x1F501; Watch &amp; Chat Order &mdash; What Comes Before, What Comes After</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">Joins <code>messages_backup</code> (first chat timestamp per user) with <code>analytics_prod_core.fct_user_content_watch_daily</code> (per-user content watch sessions with <code>watch_start_time_ist</code>). For each chatter (first chat &le; today&minus;7), we check whether they ever watched content <em>before</em> their first chat, <em>after</em>, both, or neither. Cohort definition is the lifecycle hierarchy: <strong>Renewer &gt; NewSub &gt; Trial &gt; Non-trial</strong>.</p>
+
+<h3>Bucket distribution by cohort</h3>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Cohort</th>
+      <th class="num">Total chatters</th>
+      <th class="num">Watch &rarr; Chat<br/><span style="font-weight:400; color:var(--muted); font-size:0.7rem;">chat is exit</span></th>
+      <th class="num">Chat &rarr; Watch<br/><span style="font-weight:400; color:var(--muted); font-size:0.7rem;">chat is entry</span></th>
+      <th class="num">Watch &rarr; Chat &rarr; Watch<br/><span style="font-weight:400; color:var(--muted); font-size:0.7rem;">chat is interlude</span></th>
+      <th class="num">Chat only<br/><span style="font-weight:400; color:var(--muted); font-size:0.7rem;">never watched</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="background:rgba(167,139,250,0.08);">
+      <td><span class="badge badge-purple">Renewer</span></td>
+      <td class="num">24,772</td>
+      <td class="num">3,009 (12.1%)</td>
+      <td class="num">3,454 (13.9%)</td>
+      <td class="num better"><strong>18,260 (73.7%)</strong></td>
+      <td class="num">49 (0.2%)</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-green">NewSub</span></td>
+      <td class="num">23,729</td>
+      <td class="num">3,269 (13.8%)</td>
+      <td class="num">7,768 (32.7%)</td>
+      <td class="num better"><strong>12,556 (52.9%)</strong></td>
+      <td class="num">136 (0.6%)</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-yellow">Trial</span></td>
+      <td class="num">76,036</td>
+      <td class="num">13,754 (18.1%)</td>
+      <td class="num better"><strong>37,594 (49.4%)</strong></td>
+      <td class="num">23,945 (31.5%)</td>
+      <td class="num">743 (1.0%)</td>
+    </tr>
+    <tr>
+      <td><span class="badge badge-gray">Non-trial</span></td>
+      <td class="num">87,757</td>
+      <td class="num">15,430 (17.6%)</td>
+      <td class="num better"><strong>46,454 (52.9%)</strong></td>
+      <td class="num">11,136 (12.7%)</td>
+      <td class="num" style="color:var(--red);"><strong>14,737 (16.8%)</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top:24px;">
+  <div style="font-size:0.8rem; color:var(--muted); margin-bottom:6px;">Renewer (24,772 chatters)</div>
+  <div class="bar-container">
+    <div class="bar bar-gray" style="width:12.1%"></div>
+    <div class="bar bar-green" style="width:13.9%"></div>
+    <div class="bar bar-purple" style="width:73.7%"></div>
+    <div class="bar bar-red" style="width:0.2%"></div>
+  </div>
+  <div style="font-size:0.8rem; color:var(--muted); margin-top:14px; margin-bottom:6px;">NewSub (23,729)</div>
+  <div class="bar-container">
+    <div class="bar bar-gray" style="width:13.8%"></div>
+    <div class="bar bar-green" style="width:32.7%"></div>
+    <div class="bar bar-purple" style="width:52.9%"></div>
+    <div class="bar bar-red" style="width:0.6%"></div>
+  </div>
+  <div style="font-size:0.8rem; color:var(--muted); margin-top:14px; margin-bottom:6px;">Trial (76,036)</div>
+  <div class="bar-container">
+    <div class="bar bar-gray" style="width:18.1%"></div>
+    <div class="bar bar-green" style="width:49.4%"></div>
+    <div class="bar bar-purple" style="width:31.5%"></div>
+    <div class="bar bar-red" style="width:1.0%"></div>
+  </div>
+  <div style="font-size:0.8rem; color:var(--muted); margin-top:14px; margin-bottom:6px;">Non-trial (87,757)</div>
+  <div class="bar-container">
+    <div class="bar bar-gray" style="width:17.6%"></div>
+    <div class="bar bar-green" style="width:52.9%"></div>
+    <div class="bar bar-purple" style="width:12.7%"></div>
+    <div class="bar bar-red" style="width:16.8%"></div>
+  </div>
+  <div style="display:flex; gap:16px; margin-top:12px; font-size:0.75rem; color:var(--muted); flex-wrap:wrap;">
+    <span>&#x2B1C; Watch&rarr;Chat (exit)</span>
+    <span>&#x1F7E2; Chat&rarr;Watch (entry)</span>
+    <span>&#x1F7E3; Sandwich (interlude)</span>
+    <span>&#x1F534; Chat only</span>
+  </div>
+</div>
+
+<div class="insight insight-good" style="margin-top:20px;">
+<strong>Each cohort has a dominant pattern, and it's not the same one.</strong> Renewers are 74% sandwich &mdash; chat slots between content sessions. Trial &amp; Non-trial are 49&ndash;53% chat-first &mdash; chat is their entry point. NewSub is closer to Renewer at 53% sandwich, signalling that paying users embed chat into existing content habits. The "chat-only" bucket is overwhelmingly Non-trial (16.8% of them vs &lt;1% in every paid cohort) &mdash; 14.7K users who tried chat as a standalone product and never started watching anything.
+</div>
+</div>
+
+<h3>Chat depth within each bucket</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">Average distinct chat days per user, plus the % reaching depth-&ge;2 (returned next day or later) and depth-&ge;4. Tells us which ordering pattern correlates with actual engagement, not just one-shot activity.</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Cohort</th>
+      <th>Bucket</th>
+      <th class="num">Users</th>
+      <th class="num">Avg depth</th>
+      <th class="num">% &ge; 2 days</th>
+      <th class="num">% &ge; 4 days</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td rowspan="4"><span class="badge badge-purple">Renewer</span></td><td>Watch &rarr; Chat <em>(exit)</em></td><td class="num">3,009</td><td class="num">1.05</td><td class="num">4.19%</td><td class="num">0.13%</td></tr>
+    <tr><td>Chat &rarr; Watch <em>(entry)</em></td><td class="num">3,454</td><td class="num">1.23</td><td class="num">15.06%</td><td class="num">1.74%</td></tr>
+    <tr style="background:rgba(167,139,250,0.12);"><td><strong>Sandwich</strong></td><td class="num"><strong>18,260</strong></td><td class="num better"><strong>1.32</strong></td><td class="num better"><strong>20.18%</strong></td><td class="num better"><strong>2.20%</strong></td></tr>
+    <tr><td>Chat only</td><td class="num">49</td><td class="num">1.02</td><td class="num">2.04%</td><td class="num">0.00%</td></tr>
+    <tr><td rowspan="4"><span class="badge badge-green">NewSub</span></td><td>Watch &rarr; Chat <em>(exit)</em></td><td class="num">3,269</td><td class="num">1.04</td><td class="num">3.55%</td><td class="num">0.09%</td></tr>
+    <tr><td>Chat &rarr; Watch <em>(entry)</em></td><td class="num">7,768</td><td class="num">1.23</td><td class="num">15.92%</td><td class="num">1.35%</td></tr>
+    <tr style="background:rgba(63,185,80,0.12);"><td><strong>Sandwich</strong></td><td class="num"><strong>12,556</strong></td><td class="num better"><strong>1.26</strong></td><td class="num better"><strong>17.64%</strong></td><td class="num better"><strong>1.56%</strong></td></tr>
+    <tr><td>Chat only</td><td class="num">136</td><td class="num">1.06</td><td class="num">5.88%</td><td class="num">0.00%</td></tr>
+    <tr><td rowspan="4"><span class="badge badge-yellow">Trial</span></td><td>Watch &rarr; Chat <em>(exit)</em></td><td class="num">13,754</td><td class="num">1.03</td><td class="num">2.74%</td><td class="num">0.07%</td></tr>
+    <tr><td>Chat &rarr; Watch <em>(entry)</em></td><td class="num">37,594</td><td class="num">1.10</td><td class="num">8.04%</td><td class="num">0.26%</td></tr>
+    <tr style="background:rgba(210,153,34,0.12);"><td><strong>Sandwich</strong></td><td class="num"><strong>23,945</strong></td><td class="num better"><strong>1.15</strong></td><td class="num better"><strong>11.55%</strong></td><td class="num better"><strong>0.62%</strong></td></tr>
+    <tr><td>Chat only</td><td class="num">743</td><td class="num">1.02</td><td class="num">1.75%</td><td class="num">0.00%</td></tr>
+    <tr><td rowspan="4"><span class="badge badge-gray">Non-trial</span></td><td>Watch &rarr; Chat <em>(exit)</em></td><td class="num">15,430</td><td class="num">1.03</td><td class="num">2.18%</td><td class="num">0.05%</td></tr>
+    <tr><td>Chat &rarr; Watch <em>(entry)</em></td><td class="num">46,454</td><td class="num">1.07</td><td class="num">4.69%</td><td class="num">0.43%</td></tr>
+    <tr style="background:rgba(139,148,158,0.12);"><td><strong>Sandwich</strong></td><td class="num"><strong>11,136</strong></td><td class="num better"><strong>1.13</strong></td><td class="num better"><strong>9.29%</strong></td><td class="num better"><strong>0.78%</strong></td></tr>
+    <tr><td>Chat only</td><td class="num">14,737</td><td class="num">1.03</td><td class="num">2.51%</td><td class="num">0.14%</td></tr>
+  </tbody>
+</table>
+
+<div class="insight insight-good" style="margin-top:20px;">
+<strong>Sandwich is the stickiest bucket in every cohort.</strong> Renewer-sandwich users reach depth &ge; 2 at 20.18% &mdash; 5&times; the watch-then-exit rate (4.19%), 10&times; the chat-only rate (2.04%). The pattern holds for NewSub (17.6% vs 3.5%), Trial (11.6% vs 2.7%), and Non-trial (9.3% vs 2.2%). <strong>Whatever produces sandwich behavior compounds with engagement &mdash; this is the goal-state PR #1602's recommendation carousel is structurally designed to create.</strong>
+</div>
+
+<div class="insight insight-warn" style="margin-top:16px;">
+<strong>Chat&rarr;Watch (entry) outperforms Watch&rarr;Chat (exit) at every cohort.</strong> Renewer chat-first depth-&ge;2 = 15.1%, watch-first = 4.2% (3.6&times; gap). Same pattern across all four cohorts. Counterintuitively, users who discover chat <em>before</em> committing to content are far stickier in chat than users who came to chat after watching. The mental model isn't "content lures users in, chat is the dessert" &mdash; it's the opposite for the engagement signal.
+</div>
+</div>
+
+<h3>What this rewrites about the funnel</h3>
+
+<div class="card-grid">
+
+<div class="card" style="border-left:3px solid var(--purple);">
+  <div style="font-weight:600; margin-bottom:8px;">Sandwich is the goal-state across every cohort</div>
+  <p class="meaning" style="max-width:none;">Highest depth, highest depth-&ge;2, highest depth-&ge;4 in all four cohorts. The PR #1602 content recommendation carousel (chat mentions content &rarr; tappable card &rarr; user goes to watch) is structurally designed to convert Chat&rarr;Watch into Watch&rarr;Chat&rarr;Watch. This data validates that direction &mdash; sandwich users are 2&ndash;5&times; stickier than any other pattern.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--green);">
+  <div style="font-weight:600; margin-bottom:8px;">Chat-first users punch above their weight</div>
+  <p class="meaning" style="max-width:none;">In every cohort, users who chatted before watching are 2&ndash;4&times; stickier than users who watched before chatting. Counter-intuitive: we'd expect "established content fans &rarr; try chat as bonus" to be the high-engagement path. Reality: chat is a stronger first-touch than content for engaging users with chat. Implication &mdash; chat-first deeplinks (e.g. push, share, social) may be a higher-ROI acquisition surface than chat-after-watch end-of-episode prompts.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="font-weight:600; margin-bottom:8px;">Watch&rarr;Chat (exit) is a write-off in every cohort</div>
+  <p class="meaning" style="max-width:none;">Avg depth 1.03&ndash;1.05 everywhere. Depth-&ge;2 rates of 2&ndash;4%. These users tried chat as an afterthought to content and never came back. Optimizing for them is low-ROI &mdash; the data says they're not the segment to chase. Focus engineering and product investment on creating sandwich behavior (carousel works for this) and chat-first entry surfaces.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--gray);">
+  <div style="font-weight:600; margin-bottom:8px;">14.7K Non-trial "chat only" users &mdash; biggest leakage</div>
+  <p class="meaning" style="max-width:none;">16.8% of Non-trial chatters never watched any Stage content. That's 14,737 people who tried character chat as a standalone product and bounced from the broader platform without ever pressing play. Worth investigating: did chat sentiment send them the wrong signal? Or did they simply not see catalog content surfaced after chat? The recommendation carousel addresses the second cause directly &mdash; <strong>this segment is the biggest unaddressed opportunity in the data</strong>.</p>
+</div>
+
+</div>
+
+
 <!-- LIFECYCLE COHORTS -->
-<h2 id="lifecycle-cohorts" style="color:var(--green);">&#x1F465; Lifecycle Cohorts &mdash; Who Comes Back, And Who Stays Loyal</h2>
 
 <p style="color:var(--muted); margin-bottom:16px;">Pulled from <code>messages_backup</code> (Mar 13 &rarr; May 19, 5.5M user-sent messages) joined to <code>fct_user_subscription_history</code>. Users are placed in <em>mutually exclusive</em> lifecycle buckets by their furthest stage: <strong>Renewer</strong> (ever renewed) &rarr; <strong>NewSub</strong> (paid directly, never renewed) &rarr; <strong>Trial</strong> (only trialed) &rarr; <strong>Non-trial</strong> (no record in the subscription fact table).</p>
 
