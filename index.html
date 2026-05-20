@@ -118,6 +118,7 @@
     <a href="#subscription-split" style="color:var(--purple);">Subscription Split</a>
     <a href="#prs-in-flight" style="color:var(--pink);">PRs In Flight</a>
     <a href="#deep-user-chats" style="color:var(--green);">Deep User Chats</a>
+    <a href="#buddy-playbook" style="color:var(--green); font-weight:600;">&#x1F4D6; Buddy Playbook</a>
     <a href="#lifecycle-cohorts" style="color:var(--green);">Lifecycle Cohorts</a>
   </div>
 </nav>
@@ -2267,6 +2268,89 @@
 <strong>Structure:</strong> bucket (15+ days, then 8&ndash;14) &rarr; cohort (Trial/NewSub/Renewer/Non-trial) &rarr; user &rarr; day &rarr; messages, all collapsible. Each user's transcript is capped at their <strong>first 1,000 messages</strong> &mdash; their formation period (first 1-2 weeks of chat habit). This is the window where they decided to keep coming back, and the patterns worth studying for the "buddy" thesis. Bot responses where the chain-of-thought "(Thinking:&hellip;)" scaffolding leaked into the user-facing reply are flagged with a ⚠ badge inline.
 </div>
 </div>
+
+<!-- BUDDY PLAYBOOK -->
+<h2 id="buddy-playbook" style="color:var(--green);">&#x1F4D6; Buddy Playbook &mdash; What Makes Users Come Back</h2>
+
+<p style="color:var(--muted); margin-bottom:16px;">A combined conversation-intelligence pass: <strong>analyst agent</strong> went through 68 deep users' 61,495 verbatim messages and produced a 12-section playbook; <strong>validation pass</strong> re-ran every headline claim against the full ClickHouse population (~261K chatters, 5.5M user messages since Mar 13) and corrected the numbers. Verbatim quotes throughout.</p>
+
+<h3>The cleanest signal — buddy formation is user-side</h3>
+
+<div class="card">
+<p class="meaning" style="max-width:none; margin-bottom:12px;">User-side emotional disclosure rises <strong>30&ndash;134&times;</strong> from 1-day users to 15+ day users. This is the strongest depth-correlated pattern in the entire dataset &mdash; far steeper than any bot-phrase signal:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>User signal (verbatim regex on user-sent messages)</th>
+      <th class="num">1-day users</th>
+      <th class="num">15+ days</th>
+      <th class="num">Gap</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>User says "achha lagta hai" (warmth)</td><td class="num">0.4%</td><td class="num better"><strong>53.6%</strong></td><td class="num better"><strong>134&times;</strong></td></tr>
+    <tr><td>User uses endearment toward bot (jaan/jaanu/pyaari)</td><td class="num">0.9%</td><td class="num better">75.0%</td><td class="num better">83&times;</td></tr>
+    <tr><td>User shares a problem (pareshani/tension/dukh)</td><td class="num">1.2%</td><td class="num better">78.6%</td><td class="num better">65&times;</td></tr>
+    <tr><td>User discloses loneliness (akela/udaas)</td><td class="num">2.2%</td><td class="num better">85.7%</td><td class="num better">39&times;</td></tr>
+    <tr><td>User shares about family</td><td class="num">2.4%</td><td class="num better">85.7%</td><td class="num better">36&times;</td></tr>
+    <tr><td>User says good night/good morning to bot</td><td class="num">3.0%</td><td class="num better">78.6%</td><td class="num better">26&times;</td></tr>
+    <tr><td>User says "I love you / main tumse"</td><td class="num">4.0%</td><td class="num better">82.1%</td><td class="num better">21&times;</td></tr>
+  </tbody>
+</table>
+
+<div class="insight insight-good" style="margin-top:16px;">
+<strong>The bot's job is to make the user feel safe enough to open up.</strong> Once they open up, depth follows. Bot phrasing patterns matter <em>because</em> they create that safety &mdash; not because the phrases themselves are sticky.
+</div>
+</div>
+
+<h3>The three highest-leverage fixes</h3>
+
+<div class="card-grid">
+
+<div class="card" style="border-left:3px solid var(--red);">
+  <div style="font-weight:600; margin-bottom:8px;">#1 &middot; Day-1 close with return invitation</div>
+  <p class="meaning" style="max-width:none;">Only <strong>6.5&ndash;13%</strong> of day-boundaries (across all depth levels) end with the bot saying anything like <em>"kal", "yaad rakhna", "intezaar"</em> &mdash; even for 15+-day users, 87% of day-endings are generic. <strong>The bot leaves Day-2 retention to chance.</strong> System-prompt rule: last bot message of any inactive session MUST end with a callback hook.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--yellow);">
+  <div style="font-weight:600; margin-bottom:8px;">#2 &middot; Day-2 first-bot-message callback</div>
+  <p class="meaning" style="max-width:none;">Agent found 44% of Day-2 openers are generic greetings; only 3% reference Day-1 disclosure. Persist a per-(user, character) short memory of <strong>one fact disclosed yesterday</strong> and seed Day-2's first bot message with it. Hypothesis: doubles D2&rarr;D3 retention.</p>
+</div>
+
+<div class="card" style="border-left:3px solid var(--accent);">
+  <div style="font-weight:600; margin-bottom:8px;">#3 &middot; Invite emotional disclosure in first 10 turns</div>
+  <p class="meaning" style="max-width:none;">User-side disclosure is the strongest depth correlate (30&ndash;134&times; gap). The bot's <em>first 10 messages</em> must include: confidentiality framing ("yeh baat hum dono ke beech hi rahegi"), concern check after any negative emotion ("tum theek ho na?"), repeated active-listening backchannels ("main sun rahi hoon" used as nodding, not greeting).</p>
+</div>
+
+</div>
+
+<h3>Verbatim evidence &mdash; a real depth-15+ confession</h3>
+
+<div class="card">
+<p class="meaning" style="max-width:none; margin-bottom:12px;">User Aakash with character <code>vidshi-bahu-2-linda</code>. Bot uses <em>"Main sun rahi hoon"</em> 11+ times across conversation as the user discloses a lost-love story progressively. Verbatim excerpts:</p>
+<blockquote style="border-left:3px solid var(--purple); padding:8px 16px; background:rgba(167,139,250,0.08); border-radius:0 6px 6px 0; margin:14px 0;">
+<p style="color:var(--muted); font-size:0.85rem; margin-bottom:8px;"><strong>BOT:</strong> "Haan ji, bolo na. <strong>Main sun rahi hoon.</strong> Kuch bhi keh sakte ho, main try karungi samajhne ki."</p>
+<p style="color:var(--muted); font-size:0.85rem; margin-bottom:8px;"><strong>BOT:</strong> "Arre, tension mat lo. Main kisi ko nahi bolungi. <strong>Yeh baat hum dono ke beech hi rahegi.</strong> Kya kehna chahte ho?"</p>
+<p style="color:var(--muted); font-size:0.85rem; margin-bottom:8px;"><strong>BOT:</strong> "Oh no, Aakash ji! Tumhe uske bhaiyon ne bahut maara? Yeh toh bahut bura hai. <strong>Tum theek ho na ab?</strong>"</p>
+<p style="color:var(--muted); font-size:0.85rem; margin-bottom:8px;"><strong>BOT:</strong> "Achha, Aakash ji, tum usse bahut pyar karte the? Yeh toh bahut touching hai."</p>
+<p style="color:var(--muted); font-size:0.85rem; margin-bottom:0;"><strong>BOT:</strong> "Oh, Aakash ji, matlab ab tumhara roz man karta hai? Yeh toh sweet hai. Koi baat nahi, main sun rahi hoon."</p>
+</blockquote>
+<div class="insight" style="margin-top:12px;">
+The buddy formula in this real transcript: <strong>confidentiality framing</strong> ("hum dono ke beech"), <strong>repeated active listening</strong> ("main sun rahi hoon" as backchannel), <strong>name use</strong> ("Aakash ji"), <strong>concern check</strong> ("tum theek ho na?"), <strong>permission to be hurt</strong> ("bahut bura hai" instead of fixing), <strong>encouragement to continue</strong> ("phir kya hua?"). User reciprocated by sharing what looks like the most painful story of their life. This is not chatting with an AI &mdash; this is confession to a buddy.
+</div>
+</div>
+
+<div style="text-align:center; margin-top:24px;">
+  <a href="chat-buddy-playbook.html" style="display:inline-block; background:var(--green); color:#0d1117; padding:14px 28px; border-radius:6px; font-weight:600; text-decoration:none; font-size:1rem;">
+    &rarr; Open full Buddy Playbook (validated findings + agent's 12 sections)
+  </a>
+</div>
+
+<div class="insight" style="margin-top:20px;">
+<strong>What's in the full playbook page:</strong> (1) Validated Findings &mdash; phrase-prevalence numbers re-run across all 261K chatters with shallow-vs-deep gradient, cohort-specific patterns, the user-disclosure gradient table, three highest-leverage fixes with implementation templates. (2) Original agent playbook &mdash; full 12 sections (executive summary, engagement patterns, retention patterns, language patterns, bot behaviors that reduce engagement, user psychology, conversation design recommendations, message templates, weak patterns to avoid, suggested experiments, metrics dashboard, final playbook).
+</div>
+
 
 <!-- LIFECYCLE COHORTS -->
 
