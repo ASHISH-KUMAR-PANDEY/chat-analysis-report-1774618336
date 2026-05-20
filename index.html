@@ -2152,14 +2152,16 @@
 <!-- DEEP USER CHATS LINK -->
 <h2 id="deep-user-chats" style="color:var(--green);">&#x1F4DC; Deep User Chats &mdash; May 9&ndash;13 Transcripts</h2>
 
-<p style="color:var(--muted); margin-bottom:16px;">Verbatim chats from the top-message-volume users per lifecycle cohort who reached <strong>chat depth &gt; 3 days</strong> within May 9&ndash;13, 2026 (i.e., chatted on at least 4 of those 5 days). Top 10 per cohort, or all qualifying users where fewer than 10 exist. Hosted on a separate page to keep this report fast &mdash; click through for full collapsible transcripts.</p>
+<p style="color:var(--muted); margin-bottom:16px;">Verbatim chats from the top message-volume users per lifecycle cohort who reached <strong>chat depth &gt; 3 days</strong> within May 9&ndash;13, 2026 (chatted on at least 4 of those 5 days). Top 10 per cohort, or all qualifying users where fewer than 10 exist. Hosted on a separate page to keep this report fast.</p>
+
+<h3>Selection breakdown by subscription cohort</h3>
 
 <div class="card">
 <table>
   <thead>
     <tr>
       <th>Cohort</th>
-      <th class="num">Users with depth&gt;3</th>
+      <th class="num">Users with depth&gt;3 in window</th>
       <th class="num">Total messages (May 9&ndash;13)</th>
       <th class="num">Heaviest user (user msgs)</th>
     </tr>
@@ -2197,15 +2199,75 @@
     </tr>
   </tbody>
 </table>
+</div>
+
+<h3>Also bucketed by <em>lifetime chat depth</em> in the transcripts page</h3>
+
+<p style="color:var(--muted); margin-bottom:12px;">The standalone page also groups these same 31 users by their <strong>total lifetime chat depth</strong> &mdash; distinct calendar days they have ever chatted across all of <code>messages_backup</code> &mdash; so you can see who the truly deep users are versus the merely-active-this-week ones.</p>
+
+<div class="card">
+<table>
+  <thead>
+    <tr>
+      <th>Lifetime depth bucket</th>
+      <th class="num">Users</th>
+      <th class="num">Lifetime msg range (per user)</th>
+      <th>Cohort mix</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3 days only</td>
+      <td class="num">0</td>
+      <td class="num">&mdash;</td>
+      <td class="muted">(none &mdash; all 31 had &ge;4 days in May 9-13 alone)</td>
+    </tr>
+    <tr>
+      <td><strong>4&ndash;7 days</strong></td>
+      <td class="num"><strong>20</strong></td>
+      <td class="num">3 &ndash; 1,063</td>
+      <td>
+        <span class="badge badge-yellow">Trial ×8</span>
+        <span class="badge badge-green">NewSub ×4</span>
+        <span class="badge badge-purple">Renewer ×2</span>
+        <span class="badge badge-gray">Non-trial ×6</span>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>8&ndash;14 days</strong></td>
+      <td class="num"><strong>7</strong></td>
+      <td class="num">188 &ndash; 1,655</td>
+      <td>
+        <span class="badge badge-yellow">Trial ×2</span>
+        <span class="badge badge-green">NewSub ×2</span>
+        <span class="badge badge-purple">Renewer ×1</span>
+        <span class="badge badge-gray">Non-trial ×2</span>
+      </td>
+    </tr>
+    <tr style="background:rgba(63,185,80,0.06);">
+      <td><strong>15+ days</strong> <span class="badge badge-green" style="margin-left:6px;">deepest</span></td>
+      <td class="num better"><strong>4</strong></td>
+      <td class="num">1,239 &ndash; 24,664</td>
+      <td>
+        <span class="badge badge-green">NewSub ×1</span>
+        <span class="badge badge-gray">Non-trial ×3</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="insight" style="margin-top:16px;">
+The <strong>15+ days bucket has zero Trial users and zero Renewers</strong> &mdash; the absolute power chatters are all Non-trial (3) or NewSub (1). NewSub user <code>69d288cf…4e83</code> (30 lifetime days, 1,239 msgs) and the four Non-trial users (lifetime 19&ndash;42 days, up to 24,664 msgs) are the most extreme parasocial-engagement examples in the dataset.
+</div>
 
 <div style="text-align:center; margin-top:24px;">
   <a href="deep-chats-may-9-13.html" style="display:inline-block; background:var(--green); color:#0d1117; padding:12px 24px; border-radius:6px; font-weight:600; text-decoration:none;">
-    &rarr; Open full transcripts page (19 MB, opens in same tab)
+    &rarr; Open full transcripts page (bucketed by lifetime depth, 19 MB)
   </a>
 </div>
 
-<div class="insight" style="margin-top:20px;">
-<strong>Selection criterion:</strong> <code>uniqExact(chat_date) &gt; 3</code> on May 9&ndash;13, ranked within each cohort by total user-sent messages in the window. The transcripts page has a collapsible structure: cohort &rarr; user &rarr; day &rarr; messages. Bot responses where the chain-of-thought "(Thinking:&hellip;)" scaffolding leaked into the user-facing reply are flagged with a ⚠ badge inline.
+<div class="insight" style="margin-top:16px;">
+<strong>Selection criterion:</strong> <code>uniqExact(chat_date) &gt; 3</code> on May 9&ndash;13, ranked within each cohort by total user-sent messages in the window. The transcripts page groups: <strong>lifetime depth bucket</strong> &rarr; user (with cohort badge) &rarr; day &rarr; messages. Bot responses where the chain-of-thought "(Thinking:&hellip;)" scaffolding leaked into the user-facing reply are flagged with a ⚠ badge inline.
 </div>
 </div>
 
