@@ -2220,7 +2220,7 @@
 </div>
 </div>
 
-<h3>What's in the transcripts page (68 users, 61,495 messages)</h3>
+<h3>What's in the transcripts pages (4,727 users, 184,299 messages)</h3>
 
 <div class="card">
 <table>
@@ -2229,38 +2229,43 @@
       <th>Bucket</th>
       <th class="num">Users included</th>
       <th class="num">Messages</th>
-      <th>Cohort mix selected</th>
+      <th>Page</th>
     </tr>
   </thead>
   <tbody>
     <tr style="background:rgba(63,185,80,0.06);">
-      <td><strong>15+ days (ALL users)</strong></td>
+      <td><strong>15+ days</strong> <span class="muted" style="font-size:0.78rem;">(ALL 28)</span></td>
       <td class="num">28</td>
       <td class="num">25,166</td>
-      <td>
-        <span class="badge badge-gray">Non-trial ×12</span>
-        <span class="badge badge-purple">Renewer ×12</span>
-        <span class="badge badge-green">NewSub ×3</span>
-        <span class="badge badge-yellow">Trial ×1</span>
-      </td>
+      <td><span class="badge badge-green">Deep</span></td>
     </tr>
-    <tr style="background:rgba(167,139,250,0.06);">
-      <td><strong>8&ndash;14 days (top 10 per cohort)</strong></td>
+    <tr style="background:rgba(63,185,80,0.06);">
+      <td><strong>8&ndash;14 days</strong> <span class="muted" style="font-size:0.78rem;">(top 10/cohort)</span></td>
       <td class="num">40</td>
       <td class="num">36,329</td>
-      <td>
-        <span class="badge badge-yellow">Trial ×10</span>
-        <span class="badge badge-green">NewSub ×10</span>
-        <span class="badge badge-purple">Renewer ×10</span>
-        <span class="badge badge-gray">Non-trial ×10</span>
-      </td>
+      <td><span class="badge badge-green">Deep</span></td>
+    </tr>
+    <tr style="background:rgba(167,139,250,0.06);">
+      <td><strong>4&ndash;7 days</strong> <span class="muted" style="font-size:0.78rem;">(ALL, first 60 msgs each)</span></td>
+      <td class="num">1,331</td>
+      <td class="num">~64,500</td>
+      <td><span class="badge badge-purple">Shallow</span></td>
+    </tr>
+    <tr style="background:rgba(167,139,250,0.06);">
+      <td><strong>3 days</strong> <span class="muted" style="font-size:0.78rem;">(ALL, first 30 msgs each)</span></td>
+      <td class="num">3,328</td>
+      <td class="num">~58,300</td>
+      <td><span class="badge badge-purple">Shallow</span></td>
     </tr>
   </tbody>
 </table>
 
-<div style="text-align:center; margin-top:24px;">
+<div style="text-align:center; margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
   <a href="deep-user-chats.html" style="display:inline-block; background:var(--green); color:#0d1117; padding:12px 24px; border-radius:6px; font-weight:600; text-decoration:none;">
-    &rarr; Open full transcripts page (30 MB, opens in same tab)
+    &rarr; Deep transcripts (8+ days, 68 users, 16 MB)
+  </a>
+  <a href="deep-user-chats-shallow.html" style="display:inline-block; background:var(--purple); color:#0d1117; padding:12px 24px; border-radius:6px; font-weight:600; text-decoration:none;">
+    &rarr; Shallow transcripts (3 + 4-7 days, 4,659 users, 38 MB)
   </a>
 </div>
 
