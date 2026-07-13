@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Four Questions — Method &amp; Inferences</title>
+<style>
+  :root {
+    --bg: #0d1117; --card: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e;
+    --accent: #58a6ff; --red: #f85149; --yellow: #d29922; --pink: #db61a2; --green: #3fb950;
+    --purple: #bc8cff; --gray: #484f58;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 2rem; margin-bottom: 8px; }
+  h2 { font-size: 1.5rem; margin: 52px 0 8px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+  h3 { font-size: 1.1rem; margin: 26px 0 10px; color: var(--purple); }
+  h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 16px 0 6px; }
+  p { margin: 10px 0; }
+  .subtitle { color: var(--muted); margin-bottom: 8px; font-size: 0.95rem; }
+  .qlead { color: var(--muted); font-size: 0.98rem; margin: 4px 0 4px; }
+  a { color: var(--accent); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .badge-red { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-yellow { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-pink { background: rgba(219,97,162,0.15); color: var(--pink); }
+  .badge-green { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-purple { background: rgba(188,140,255,0.15); color: var(--purple); }
+  .badge-gray { background: rgba(72,79,88,0.3); color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin: 16px 0; }
+  .stat-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 16px 0; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 24px; flex: 1; min-width: 150px; }
+  .stat-value { font-size: 1.8rem; font-weight: 700; }
+  .stat-label { color: var(--muted); font-size: 0.85rem; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
+  th { text-align: left; padding: 9px 12px; background: rgba(110,118,129,0.1); border-bottom: 2px solid var(--border); color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: rgba(110,118,129,0.05); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .highlight { color: var(--accent); font-weight: 600; }
+  .worse { color: var(--red); font-weight: 600; }
+  .better { color: var(--green); font-weight: 600; }
+  .insight { padding: 12px 16px; border-left: 3px solid var(--accent); margin: 12px 0; background: rgba(88,166,255,0.05); border-radius: 0 6px 6px 0; font-size: 0.92rem; }
+  .insight-warn { border-left-color: var(--yellow); background: rgba(210,153,34,0.05); }
+  .insight-good { border-left-color: var(--green); background: rgba(63,185,80,0.05); }
+  .insight b { color: var(--text); }
+  .nav { position: sticky; top: 0; background: rgba(13,17,23,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 12px 0; z-index: 100; }
+  .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: flex; gap: 24px; font-size: 0.85rem; overflow-x: auto; }
+  .nav a { color: var(--muted); text-decoration: none; white-space: nowrap; }
+  .nav a:hover { color: var(--accent); }
+  ul { margin: 8px 0 8px 22px; } li { margin: 5px 0; }
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 800px) { .method-grid { grid-template-columns: 1fr; } }
+  code { background: rgba(110,118,129,0.15); padding: 1px 5px; border-radius: 4px; font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html">&larr; Main report</a>
+    <a href="#goal">Goal &amp; Method</a>
+    <a href="#q1" style="color:var(--accent);">Q1 · Return</a>
+    <a href="#q2" style="color:var(--green);">Q2 · What drives it</a>
+    <a href="#q3" style="color:var(--purple);">Q3 · Tipping point</a>
+    <a href="#q4" style="color:var(--pink);">Q4 · Feature &rarr; depth</a>
+    <a href="#conclusion" style="color:var(--yellow);">Conclusion</a>
+  </div>
+</nav>
+
+<div class="container">
+  <h1>The Four Questions &mdash; Method &amp; Inferences</h1>
+  <p class="subtitle">What behaviour drives more chatting <b>and</b> makes users come back &mdash; so we can replicate it. Answered across every subscription cohort.</p>
+
+  <!-- GOAL & METHOD -->
+  <h2 id="goal">Goal &amp; how we read the data</h2>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-value">136,959</div><div class="stat-label">chatters analysed</div></div>
+    <div class="stat"><div class="stat-value">60 days</div><div class="stat-label">May 9 &ndash; Jul 7, 2026</div></div>
+    <div class="stat"><div class="stat-value">7</div><div class="stat-label">subscription cohorts</div></div>
+    <div class="stat"><div class="stat-value">10.0M</div><div class="stat-label">messages (full-text)</div></div>
+  </div>
+  <p><b>The goal.</b> Isolate the <span class="highlight">causal, transferable</span> behaviours behind chatting more and coming back &mdash; separating real levers from mere markers of users who were already going to engage &mdash; so they can be engineered for the wider base (especially the ~1M renewers who barely touch chat).</p>
+  <div class="card">
+    <h4>Two decisions that shaped every answer</h4>
+    <ul>
+      <li><b>Depth &ne; Return.</b> "Chats more" and "comes back" are treated as two separate outcomes throughout.</li>
+      <li><b>The engagement-propensity trap.</b> Engaged users do <i>more of everything</i>, so raw correlations overstate every feature. A behaviour only counts as a lever if its effect <b>survives a depth-controlled test</b>: feature measured on day&nbsp;1, outcome measured strictly after, compared within message-volume strata.</li>
+    </ul>
+    <h4>Definitions &amp; sources</h4>
+    <ul>
+      <li><b>Return</b> = chat-to-chat, <i>any</i> character; return-7d = crossing the day&nbsp;1&rarr;day&nbsp;2 "cliff."</li>
+      <li><b>Cohort</b> assigned point-in-time as of each user's first chat day.</li>
+      <li>Sources: product event logs (events), the subscription-history table (cohorts), and the full chat-message store (10M messages, full text).</li>
+      <li>All findings are <b>quasi-causal</b> (observational) &mdash; the clean proof is a day-1 randomised test, not yet run.</li>
+    </ul>
+  </div>
+
+  <!-- Q1 -->
+  <h2 id="q1">Q1 &middot; How do users return?</h2>
+  <p class="qlead">Return mechanics: the shape of the curve, which door they come through, and where the habit forms.</p>
+  <div class="method-grid">
+    <div class="card"><h4>What we looked at</h4>
+      <ul><li>D0-anchored return curves (D1&ndash;D30) by cohort</li><li>Entry surface of each session (home rail, in-player bubble, chat tab, deeplink)</li><li>Across-visit continuation: P(reach visit N+1 | reached N)</li></ul></div>
+    <div class="card"><h4>How we looked at it</h4>
+      <ul><li>Right-censored return rates (only users with full follow-up)</li><li>ASOF join to attribute each session to a preceding entry click (90% coverage)</li><li>Conditional-retention / hazard curve to find where a habit locks in</li></ul></div>
+  </div>
+  <h4>Inference &mdash; return is one narrow, cliff-shaped funnel</h4>
+  <div class="insight insight-warn"><b>91% of users never make a second day.</b> Only ~9% cross the day-1&rarr;day-2 cliff. Those who survive keep going &mdash; continuation climbs 9% &rarr; 23% &rarr; 38% &rarr; 62% and plateaus in the high-70s by <b>visit 5&ndash;6</b> (a habit locks in) &mdash; but almost nobody gets there. <b>The first return is the whole game.</b></div>
+  <table>
+    <thead><tr><th>Cohort (at D0)</th><th class="num">Return-7d</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-green">Renewal</span> &middot; <span class="badge badge-green">New Subscription</span></td><td class="num better">10.4% / 10.3%</td></tr>
+      <tr><td><span class="badge badge-purple">Trial</span></td><td class="num">8.3%</td></tr>
+      <tr><td>Renewal expired</td><td class="num">5.4%</td></tr>
+      <tr><td>Trial / New-Sub expired</td><td class="num">~4.5%</td></tr>
+      <tr><td><span class="badge badge-gray">Free</span></td><td class="num worse">4.1%</td></tr>
+      <tr><td>Chat-then-subscribed <span class="badge badge-gray">edge</span></td><td class="num">20.6%</td></tr>
+    </tbody>
+  </table>
+  <h4>Inference &mdash; the biggest door is the weakest</h4>
+  <table>
+    <thead><tr><th>Entry surface</th><th class="num">Share of sessions</th><th class="num">First-touch return</th></tr></thead>
+    <tbody>
+      <tr><td>Home-feed character rail</td><td class="num">54.6%</td><td class="num worse">8.4%</td></tr>
+      <tr><td>Floating button</td><td class="num">18.1%</td><td class="num">9.0%</td></tr>
+      <tr><td>Bottom sheet</td><td class="num">13.1%</td><td class="num">11.6%</td></tr>
+      <tr><td>In-player chat bubble</td><td class="num">4.2%</td><td class="num better">13.6%</td></tr>
+      <tr><td>Dedicated Chat tab</td><td class="num">~0%</td><td class="num">dead</td></tr>
+    </tbody>
+  </table>
+  <div class="insight">Paying-active users return <b>~2.5&times;</b> better than free users. Return is to the <i>feature</i>, not a bot &mdash; ~87% switch characters on return. The in-player bubble (user already watching) is the highest-quality entry but barely used; the home rail is high-volume, low-quality.</div>
+
+  <!-- Q2 -->
+  <h2 id="q2">Q2 &middot; What makes them come back?</h2>
+  <p class="qlead">The triggers &mdash; separating real levers from markers, in every cohort.</p>
+  <div class="method-grid">
+    <div class="card"><h4>What we looked at</h4>
+      <ul><li>Candidate levers: games, selfie, emotional disclosure, content-play, groups, multi-character breadth</li><li>Conversation topics (romance, emotional, show-content, sexual, casual&hellip;)</li></ul></div>
+    <div class="card"><h4>How we looked at it</h4>
+      <ul><li>Depth-controlled day-1 test + dose-response (0 &rarr; 1 &rarr; 2+ levers), run within every cohort</li><li>Topic lexicon on user messages &rarr; retention by topic</li><li>Cross-checked on two independent datasets (events + transcripts)</li></ul></div>
+  </div>
+  <h4>Inference &mdash; three levers survive, and they lift the cliff in every cohort</h4>
+  <table>
+    <thead><tr><th>Cohort</th><th class="num">0 levers</th><th class="num">1 lever</th><th class="num">2+ levers</th></tr></thead>
+    <tbody>
+      <tr><td>Trial</td><td class="num">7.0%</td><td class="num">14.5%</td><td class="num better">28.2%</td></tr>
+      <tr><td>Renewal</td><td class="num">9.3%</td><td class="num">15.6%</td><td class="num better">28.7%</td></tr>
+      <tr><td>Free</td><td class="num">3.0%</td><td class="num">9.3%</td><td class="num better">23.2%</td></tr>
+    </tbody>
+  </table>
+  <p class="subtitle">Levers = games &middot; selfie &middot; emotional disclosure, adopted on day 1. One lever &asymp; doubles first-return; two-plus roughly triples it &mdash; in every cohort.</p>
+  <h4>Inference &mdash; the topics that retain vs. the topics that don't</h4>
+  <table>
+    <thead><tr><th>Topic (talked about on D0)</th><th class="num">% of chatters</th><th class="num">Return-7d</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-green">Emotional / personal</span></td><td class="num">8.8%</td><td class="num better">17.7%</td></tr>
+      <tr><td>Romance / affection</td><td class="num">15.0%</td><td class="num better">15.4%</td></tr>
+      <tr><td><span class="badge badge-purple">Show / content</span></td><td class="num">16.6%</td><td class="num better">14.7%</td></tr>
+      <tr><td>Sexual / explicit</td><td class="num">28.0%</td><td class="num worse">11.5%</td></tr>
+      <tr><td>Casual / greetings</td><td class="num">78.4%</td><td class="num worse">7.7%</td></tr>
+    </tbody>
+  </table>
+  <div class="insight insight-good"><b>The mechanism is emotional investment + a reason to return</b> &mdash; not longer sessions or more recommendation cards. Show-content retains near-top yet is only ~2.4% of messages: the one topic that helps retention <i>and</i> the streaming business, badly under-used.</div>
+  <div class="insight insight-warn"><b>What does NOT bring them back:</b> content-play (diverts to watching &mdash; a watch-time win, not chat-return), groups (~2% adoption, viral loop dead), raw session length, catalogue breadth, and character warmth-vs-aggression (no retention difference).</div>
+
+  <!-- Q3 -->
+  <h2 id="q3">Q3 &middot; What is the tipping point?</h2>
+  <p class="qlead">The point from which a user starts chatting more &mdash; and whether it's a lever or a mirage.</p>
+  <div class="method-grid">
+    <div class="card"><h4>What we looked at</h4>
+      <ul><li>Within-session: return vs. day-1 message count (fine buckets)</li><li>Across-visits: continuation probability by visit number</li></ul></div>
+    <div class="card"><h4>How we looked at it</h4>
+      <ul><li>Changepoint search on the depth&rarr;return curve</li><li>Conditional-continuation (survival) curve, censored for follow-up</li><li>Repeated within every cohort</li></ul></div>
+  </div>
+  <h4>Inference &mdash; two very different answers</h4>
+  <table>
+    <thead><tr><th>Day-1 messages</th><th class="num">Return-7d</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td class="num">3.5%</td></tr>
+      <tr><td>5&ndash;9</td><td class="num">5.0%</td></tr>
+      <tr><td>10&ndash;19</td><td class="num">7&ndash;8%</td></tr>
+      <tr><td>20&ndash;49</td><td class="num">10&ndash;14%</td></tr>
+      <tr><td>50&ndash;99</td><td class="num">22%</td></tr>
+      <tr><td>100+</td><td class="num better">41%</td></tr>
+    </tbody>
+  </table>
+  <div class="insight insight-warn"><b>Within a session there is no tipping point</b> &mdash; return rises smoothly with depth. This is a <b>marker of intent, not a lever</b>: deep users are deep because of who they are; you can't retain someone by padding their message count. (Confirmed: a past push raised depth ~11&times; with no lift in return.)</div>
+  <div class="insight insight-good"><b>The real tipping point is across visits: ~visit 5&ndash;6.</b> Once a user chats on 5&ndash;6 distinct days, they continue ~3-in-4 times &mdash; a genuine habit. The depth&rarr;return gradient holds in <b>every cohort</b> (same shape, the curve just shifts down for weaker ones). But because 91% never make the first return, all the leverage sits at the day-1&rarr;day-2 cliff, not at the tipping point.</div>
+
+  <!-- Q4 -->
+  <h2 id="q4">Q4 &middot; Which feature correlates most with chat depth?</h2>
+  <p class="qlead">Ranking the features by their association with how much a user chats.</p>
+  <div class="method-grid">
+    <div class="card"><h4>What we looked at</h4>
+      <ul><li>Depth of day-1 adopters vs. non-adopters for each feature</li><li>Depth by subscription cohort</li><li>Disclosure rate &amp; effect split across all 7 cohorts</li></ul></div>
+    <div class="card"><h4>How we looked at it</h4>
+      <ul><li>Avg total messages &amp; % deep (20+) by adoption</li><li>Disclosure detected via a high-precision keyword lexicon on user messages</li></ul></div>
+  </div>
+  <h4>Inference &mdash; disclosure dominates</h4>
+  <table>
+    <thead><tr><th>Feature (adopted day 1)</th><th class="num">Avg messages: adopter vs not</th><th class="num">Depth multiple</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-green">Emotional disclosure</span></td><td class="num">100&ndash;120 vs 14</td><td class="num better">~8.6&times;</td></tr>
+      <tr><td>Selfie</td><td class="num">46 vs 16</td><td class="num better">2.9&times;</td></tr>
+      <tr><td>Games</td><td class="num">35 vs 17</td><td class="num better">2.0&times;</td></tr>
+    </tbody>
+  </table>
+  <p><b>Disclosure</b> = the user opening up about something personal or emotional on day 1 &mdash; warmth ("aapse baat karke achha lagta hai"), loneliness ("akela"), distress ("pareshan"), affection ("pyaar"). It is by far the strongest correlate of both depth and return.</p>
+  <h4>Inference &mdash; depth is flat across cohorts; disclosure's payoff is biggest where retention is worst</h4>
+  <table>
+    <thead><tr><th>Cohort</th><th class="num">% who disclose (D0)</th><th class="num">Return: disclosers</th><th class="num">vs non-disclosers</th><th class="num">Lift</th></tr></thead>
+    <tbody>
+      <tr><td>Renewal</td><td class="num">4.1%</td><td class="num">28.7%</td><td class="num">9.5%</td><td class="num">3.0&times;</td></tr>
+      <tr><td>New Subscription</td><td class="num">4.4%</td><td class="num">29.9%</td><td class="num">9.9%</td><td class="num">3.0&times;</td></tr>
+      <tr><td>Trial</td><td class="num">4.6%</td><td class="num">23.9%</td><td class="num">7.6%</td><td class="num">3.1&times;</td></tr>
+      <tr><td>Renewal expired</td><td class="num">5.6%</td><td class="num">24.4%</td><td class="num">4.4%</td><td class="num better">5.5&times;</td></tr>
+      <tr><td><span class="badge badge-gray">Free</span></td><td class="num">4.6%</td><td class="num">18.4%</td><td class="num">3.4%</td><td class="num better">5.4&times;</td></tr>
+    </tbody>
+  </table>
+  <div class="insight"><b>Everyone discloses at ~4&ndash;6% regardless of plan</b> &mdash; subscription type doesn't decide whether a user opens up, and ~95% of every cohort never does (largely because they're never invited to). <b>Depth itself is flat across cohorts</b> (~13&ndash;15 day-1 messages, ~20% deep, including Free) &mdash; subscription type predicts <i>return</i>, not depth. The return-lift from disclosing is 3&ndash;5.5&times; in every cohort, and <b>largest in the weakest, biggest cohorts (Free, lapsed)</b>.</div>
+
+  <!-- CONCLUSION -->
+  <h2 id="conclusion">The conclusion, in one place</h2>
+  <div class="insight insight-good" style="font-size:1rem;"><b>Depth is universal; return is stratified.</b> Everyone chats about the same amount; whether they come back is set by their cohort and by whether an emotional-investment moment happened early. The <b>same three levers (disclosure &#8811; selfie &gt; games)</b> and <b>three topics (emotional, show-content, romance)</b> drive both depth and the first-return cliff <b>in every cohort</b> &mdash; so the mechanism is genuinely transferable.</div>
+  <h3>What to do</h3>
+  <ul>
+    <li><b>Engineer an emotional-investment moment into the first session</b> &mdash; invite disclosure early (confidentiality framing, active listening), offer a game, prompt a selfie. This attacks the day-1&rarr;day-2 cliff, where 91% are lost. Levers are badly under-supplied (most users get zero on day 1).</li>
+    <li><b>The renewer problem is discovery, not stickiness.</b> Paying-active users retain <i>best</i> &mdash; they just rarely find chat. Route them in via high-intent surfaces (the in-player bubble), not the trial-flavoured home rail.</li>
+    <li><b>Eliciting disclosure pays most on Free &amp; lapsed users</b> (5&times;+ return lift) &mdash; the largest, weakest cohorts. It is the single most transferable move.</li>
+    <li><b>Weave show-content into chat</b> &mdash; the one topic that retains chatters <i>and</i> drives watching, currently ~2.4% of messages.</li>
+  </ul>
+  <h3>What to stop</h3>
+  <ul>
+    <li>Optimising raw session depth for retention (it's a marker, not a lever).</li>
+    <li>Chasing groups (dead adoption, no viral loop).</li>
+    <li>Treating content-recommendation cards as a retention play (they're a watch-time win &mdash; a different KPI).</li>
+  </ul>
+  <div class="insight insight-warn"><b>Caveats.</b> All findings are quasi-causal (observational) &mdash; the clean proof is a day-1 randomised test (offer a lever, measure the day-1&rarr;day-2 crossing). "Return" here is chat-to-chat; the platform/watch-return version (arguably the truer business metric) is built and ready to run. Topic and disclosure labels are high-precision keyword proxies, so their measured effects are floors.</div>
+
+  <p class="subtitle" style="margin-top:40px;">Scope: last 60 days (May 9 &ndash; Jul 7, 2026) &middot; 136,959 chatters &middot; 7 subscription cohorts. &nbsp; <a href="index.html">&larr; Back to main report</a></p>
+</div>
+</body>
+</html>
