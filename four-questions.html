@@ -61,6 +61,7 @@
   <div class="nav-inner">
     <a href="index.html">&larr; Main report</a>
     <a href="#goal">Goal &amp; Method</a>
+    <a href="#discovery" style="color:var(--yellow);">Discovery funnel</a>
     <a href="#q1" style="color:var(--accent);">Q1 · Return</a>
     <a href="#q2" style="color:var(--green);">Q2 · What drives it</a>
     <a href="#q3" style="color:var(--purple);">Q3 · Tipping point</a>
@@ -96,6 +97,24 @@
       <li>All findings are <b>quasi-causal</b> (observational) &mdash; the clean proof is a day-1 randomised test, not yet run.</li>
     </ul>
   </div>
+
+  <!-- DISCOVERY FUNNEL -->
+  <h2 id="discovery">Before the four questions: who even reaches chat?</h2>
+  <p class="qlead">Discovery is a <b>two-stage</b> funnel &mdash; open the app, then find chat. Conflating the two is misleading, so we split them by subscription type (60-day window).</p>
+  <table>
+    <thead><tr><th>Subscription type</th><th class="num">Population</th><th class="num">Stage 1: opened app</th><th class="num">Stage 2: app-openers &rarr; chat</th><th class="num">Net: population &rarr; chat</th></tr></thead>
+    <tbody>
+      <tr><td><span class="badge badge-green">Renewal</span></td><td class="num">797,623</td><td class="num worse">19.8%</td><td class="num">16.1%</td><td class="num">3.18%</td></tr>
+      <tr><td><span class="badge badge-green">New Subscription</span></td><td class="num">141,305</td><td class="num better">75.8%</td><td class="num better">26.7%</td><td class="num better">20.2%</td></tr>
+      <tr><td><span class="badge badge-purple">Trial</span></td><td class="num">182,738</td><td class="num">73.0%</td><td class="num">20.1%</td><td class="num">14.6%</td></tr>
+      <tr><td>Trial expired</td><td class="num">4,513,023</td><td class="num">10.9%</td><td class="num">23.5%</td><td class="num">2.55%</td></tr>
+      <tr><td>New Sub expired</td><td class="num">2,445,976</td><td class="num">5.3%</td><td class="num">15.5%</td><td class="num">0.81%</td></tr>
+      <tr><td>Renewal expired</td><td class="num">2,837,909</td><td class="num">6.3%</td><td class="num">9.4%</td><td class="num">0.59%</td></tr>
+      <tr><td><span class="badge badge-gray">Free</span></td><td class="num">43,973,081</td><td class="num worse">2.0%</td><td class="num">15.2%</td><td class="num">0.30%</td></tr>
+    </tbody>
+  </table>
+  <div class="insight insight-warn"><b>&ldquo;Renewers can&rsquo;t find chat&rdquo; is ~80% an app-open problem, not a chat problem.</b> Only <b>19.8%</b> of ~800K renewers open the app at all in 60 days (vs 73&ndash;76% for trial &amp; new subs). Of those who do, 16.1% reach chat &mdash; mediocre but not catastrophic (Free is 15.2%, Trial 20.1%). So 3.18% = <b>19.8% &times; 16.1%</b>. Chat placement can only move the second number; the dormant 80% need broader re-engagement, outside chat.</div>
+  <div class="insight insight-good"><b>New Subscribers are the best discoverers</b> (75.8% open, 26.7% reach chat) and the best retainers &mdash; an under-exploited, high-intent, in-app audience. And <b>Trial-expired is the 2nd-largest chatter pool by volume</b> (115K chatters from a 4.5M base), with Free the largest in absolute terms (134K chatters).</div>
 
   <!-- Q1 -->
   <h2 id="q1">Q1 &middot; How do users return?</h2>
@@ -227,7 +246,8 @@
   <h3>What to do</h3>
   <ul>
     <li><b>Engineer an emotional-investment moment into the first session</b> &mdash; invite disclosure early (confidentiality framing, active listening), offer a game, prompt a selfie. This attacks the day-1&rarr;day-2 cliff, where 91% are lost. Levers are badly under-supplied (most users get zero on day 1).</li>
-    <li><b>The renewer problem is discovery, not stickiness.</b> Paying-active users retain <i>best</i> &mdash; they just rarely find chat. Route them in via high-intent surfaces (the in-player bubble), not the trial-flavoured home rail.</li>
+    <li><b>The renewer gap is mostly an app-open problem, not a chat problem.</b> Renewers retain <i>best</i> once chatting, but reach chat at just 3.18% &mdash; which decomposes to <b>19.8% open the app &times; 16.1% of those find chat</b>. Chat can only fix the second stage (route the ~20% who show up toward the in-player bubble, not the trial-flavoured home rail); the dormant 80% are a broader re-engagement problem outside chat's control.</li>
+    <li><b>Target New Subscribers and Trial-expired, not just renewers.</b> New Subs are the best discoverers (75.8% open, 26.7% reach chat) <i>and</i> best retainers &mdash; high-intent and in-app. Trial-expired is the 2nd-largest chatter pool by volume (115K). Both are more addressable than dormant renewers.</li>
     <li><b>Eliciting disclosure pays most on Free &amp; lapsed users</b> (5&times;+ return lift) &mdash; the largest, weakest cohorts. It is the single most transferable move.</li>
     <li><b>Weave show-content into chat</b> &mdash; the one topic that retains chatters <i>and</i> drives watching, currently ~2.4% of messages.</li>
   </ul>
