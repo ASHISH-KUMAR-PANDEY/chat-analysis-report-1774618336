@@ -80,10 +80,10 @@
   <!-- GOAL & METHOD -->
   <h2 id="goal">Goal &amp; how we read the data</h2>
   <div class="stat-row">
-    <div class="stat"><div class="stat-value">136,959</div><div class="stat-label">chatters analysed</div></div>
-    <div class="stat"><div class="stat-value">60 days</div><div class="stat-label">May 9 &ndash; Jul 7, 2026</div></div>
+    <div class="stat"><div class="stat-value">178,414</div><div class="stat-label">chatters (behavioral, 90d to Jul 25)</div></div>
+    <div class="stat"><div class="stat-value">90 days</div><div class="stat-label">all data to Jul 25, 2026</div></div>
     <div class="stat"><div class="stat-value">7</div><div class="stat-label">subscription cohorts</div></div>
-    <div class="stat"><div class="stat-value">10.0M</div><div class="stat-label">messages (full-text)</div></div>
+    <div class="stat"><div class="stat-value">3.4M</div><div class="stat-label">user messages analysed (90d)</div></div>
   </div>
   <p><b>The goal.</b> Isolate the <span class="highlight">causal, transferable</span> behaviours behind chatting more and coming back &mdash; separating real levers from mere markers of users who were already going to engage &mdash; so they can be engineered for the wider base (especially the ~1M renewers who barely touch chat).</p>
   <div class="card">
@@ -103,21 +103,21 @@
 
   <!-- DISCOVERY FUNNEL -->
   <h2 id="discovery">Before the four questions: who even reaches chat?</h2>
-  <p class="qlead">Discovery is a <b>two-stage</b> funnel &mdash; open the app, then find chat. Conflating the two is misleading, so we split them by subscription type (60-day window).</p>
+  <p class="qlead">Discovery is a <b>two-stage</b> funnel &mdash; open the app, then find chat. Conflating the two is misleading, so we split them by subscription type (90-day window).</p>
   <table>
     <thead><tr><th>Subscription type</th><th class="num">Stage 1: opened app</th><th class="num">Stage 2: app-openers &rarr; chat</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge badge-green">Renewal</span></td><td class="num worse">19.8%</td><td class="num">16.1%</td></tr>
-      <tr><td><span class="badge badge-green">New Subscription</span></td><td class="num better">75.8%</td><td class="num better">26.7%</td></tr>
-      <tr><td><span class="badge badge-purple">Trial</span></td><td class="num">73.0%</td><td class="num">20.1%</td></tr>
-      <tr><td>Trial expired</td><td class="num">10.9%</td><td class="num">23.5%</td></tr>
-      <tr><td>New Sub expired</td><td class="num">5.3%</td><td class="num">15.5%</td></tr>
-      <tr><td>Renewal expired</td><td class="num">6.3%</td><td class="num">9.4%</td></tr>
-      <tr><td><span class="badge badge-gray">Free</span></td><td class="num worse">2.0%</td><td class="num">15.2%</td></tr>
+      <tr><td><span class="badge badge-green">Renewal</span></td><td class="num worse">25.9%</td><td class="num">19.8%</td></tr>
+      <tr><td><span class="badge badge-green">New Subscription</span></td><td class="num better">81.3%</td><td class="num better">21.3%</td></tr>
+      <tr><td><span class="badge badge-purple">Trial</span></td><td class="num">74.9%</td><td class="num">16.3%</td></tr>
+      <tr><td>Trial expired</td><td class="num">16.3%</td><td class="num">22.8%</td></tr>
+      <tr><td>New Sub expired</td><td class="num">7.7%</td><td class="num">19.1%</td></tr>
+      <tr><td>Renewal expired</td><td class="num">8.3%</td><td class="num">12.0%</td></tr>
+      <tr><td><span class="badge badge-gray">Free</span></td><td class="num worse">2.7%</td><td class="num">15.4%</td></tr>
     </tbody>
   </table>
-  <div class="insight insight-warn"><b>&ldquo;Renewers can&rsquo;t find chat&rdquo; is ~80% an app-open problem, not a chat problem.</b> Only <b>19.8%</b> of ~800K renewers open the app at all in 60 days (vs 73&ndash;76% for trial &amp; new subs). Of those who do, 16.1% reach chat &mdash; mediocre but not catastrophic (Free is 15.2%, Trial 20.1%). So 3.18% = <b>19.8% &times; 16.1%</b>. Chat placement can only move the second number; the dormant 80% need broader re-engagement, outside chat.</div>
-  <div class="insight insight-good"><b>New Subscribers are the best discoverers</b> (75.8% open, 26.7% reach chat) and the best retainers &mdash; an under-exploited, high-intent, in-app audience. And <b>Trial-expired is the 2nd-largest chatter pool by volume</b> (115K chatters from a 4.5M base), with Free the largest in absolute terms (134K chatters).</div>
+  <div class="insight insight-warn"><b>&ldquo;Renewers can&rsquo;t find chat&rdquo; is ~75% an app-open problem, not a chat problem.</b> Only <b>25.9%</b> of ~725K renewers open the app at all in 90 days (vs 75&ndash;81% for trial &amp; new subs). Of those who do, 19.8% reach chat &mdash; mediocre but not catastrophic (Free is 15.4%, Trial 16.3%). So ~5.1% = <b>25.9% &times; 19.8%</b>. Chat placement can only move the second number; the dormant ~74% need broader re-engagement, outside chat.</div>
+  <div class="insight insight-good"><b>New Subscribers are the best discoverers</b> (81.3% open, 21.3% reach chat) and the best retainers &mdash; an under-exploited, high-intent, in-app audience. And <b>Trial-expired is the 2nd-largest chatter pool by volume</b> (~173K chatters from a 4.7M base), with Free the largest in absolute terms (~185K chatters).</div>
 
   <!-- Q1 -->
   <h2 id="q1">Q1 &middot; How do users return?</h2>
@@ -129,15 +129,15 @@
       <ul><li>Right-censored return rates (only users with full follow-up)</li><li>ASOF join to attribute each session to a preceding entry click (90% coverage)</li><li>Conditional-retention / hazard curve to find where a habit locks in</li></ul></div>
   </div>
   <h4>Inference &mdash; return is one narrow, cliff-shaped funnel</h4>
-  <div class="insight insight-warn"><b>91% of users never make a second day.</b> Only ~9% cross the day-1&rarr;day-2 cliff. Those who survive keep going &mdash; continuation climbs 9% &rarr; 23% &rarr; 38% &rarr; 62% and plateaus in the high-70s by <b>visit 5&ndash;6</b> (a habit locks in) &mdash; but almost nobody gets there. <b>The first return is the whole game.</b></div>
+  <div class="insight insight-warn"><b>~93% of users never make a second day.</b> Only ~7% cross the day-1&rarr;day-2 cliff. Those who survive keep going &mdash; continuation climbs 8% &rarr; 22% &rarr; 38% &rarr; 50% &rarr; 57% &rarr; 72% and plateaus in the high-70s/80s by <b>visit 6&ndash;8</b> (a habit locks in) &mdash; but almost nobody gets there. <b>The first return is the whole game.</b></div>
   <table>
     <thead><tr><th>Cohort (at D0)</th><th class="num">Return-7d</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge badge-green">Renewal</span> &middot; <span class="badge badge-green">New Subscription</span></td><td class="num better">10.4% / 10.3%</td></tr>
-      <tr><td><span class="badge badge-purple">Trial</span></td><td class="num">8.3%</td></tr>
-      <tr><td>Renewal expired</td><td class="num">5.4%</td></tr>
+      <tr><td><span class="badge badge-green">Renewal</span> &middot; <span class="badge badge-green">New Subscription</span></td><td class="num better">10.5% / 10.4%</td></tr>
+      <tr><td><span class="badge badge-purple">Trial</span></td><td class="num">8.0%</td></tr>
+      <tr><td>Renewal expired</td><td class="num">5.6%</td></tr>
       <tr><td>Trial / New-Sub expired</td><td class="num">~4.5%</td></tr>
-      <tr><td><span class="badge badge-gray">Free</span></td><td class="num worse">4.1%</td></tr>
+      <tr><td><span class="badge badge-gray">Free</span></td><td class="num worse">4.4%</td></tr>
       <tr><td>Chat-then-subscribed <span class="badge badge-gray">edge</span></td><td class="num">~12&ndash;21%*</td></tr>
     </tbody>
   </table>
@@ -145,10 +145,10 @@
   <table>
     <thead><tr><th>Entry surface</th><th class="num">Share of sessions</th><th class="num">First-touch return</th></tr></thead>
     <tbody>
-      <tr><td>Home-feed character rail</td><td class="num">54.6%</td><td class="num worse">8.4%</td></tr>
-      <tr><td>Floating button</td><td class="num">18.1%</td><td class="num">9.0%</td></tr>
-      <tr><td>Bottom sheet</td><td class="num">13.1%</td><td class="num">11.6%</td></tr>
-      <tr><td>In-player chat bubble</td><td class="num">4.2%</td><td class="num better">13.6%</td></tr>
+      <tr><td>Home-feed character rail</td><td class="num">59.8%</td><td class="num worse">6.2%</td></tr>
+      <tr><td>Floating button</td><td class="num">21.0%</td><td class="num">6.8%</td></tr>
+      <tr><td>Bottom sheet</td><td class="num">15.3%</td><td class="num">8.1%</td></tr>
+      <tr><td>In-player chat bubble</td><td class="num">3.1%</td><td class="num better">10.5%</td></tr>
       <tr><td>Dedicated Chat tab</td><td class="num">~0%</td><td class="num">dead</td></tr>
     </tbody>
   </table>
@@ -167,21 +167,21 @@
   <table>
     <thead><tr><th>Cohort</th><th class="num">0 levers</th><th class="num">1 lever</th><th class="num">2+ levers</th></tr></thead>
     <tbody>
-      <tr><td>Trial</td><td class="num">7.0%</td><td class="num">14.5%</td><td class="num better">28.2%</td></tr>
-      <tr><td>Renewal</td><td class="num">9.3%</td><td class="num">15.6%</td><td class="num better">28.7%</td></tr>
-      <tr><td>Free</td><td class="num">3.0%</td><td class="num">9.3%</td><td class="num better">23.2%</td></tr>
+      <tr><td>Trial</td><td class="num">7.4%</td><td class="num">12.8%</td><td class="num better">22.9%</td></tr>
+      <tr><td>Renewal</td><td class="num">9.9%</td><td class="num">14.4%</td><td class="num better">21.7%</td></tr>
+      <tr><td>Free</td><td class="num">3.8%</td><td class="num">8.6%</td><td class="num better">17.6%</td></tr>
     </tbody>
   </table>
-  <p class="subtitle">Levers = games &middot; selfie &middot; emotional disclosure, adopted on day 1. One lever &asymp; doubles first-return; two-plus roughly triples it &mdash; in every cohort.</p>
-  <h4>Inference &mdash; the topics that retain vs. the topics that don't</h4>
+  <p class="subtitle">Levers = games &middot; selfie &middot; emotional disclosure, adopted on day 1. One lever &asymp; doubles first-return; two-plus roughly triples it &mdash; in every cohort. <span style="color:var(--muted);">(90-day window to Jul 25; the monotonic 0&rarr;1&rarr;2+ shape holds in every cohort.)</span></p>
+  <h4>Inference &mdash; the topics that retain vs. the topics that don't <span style="font-weight:400; color:var(--muted); text-transform:none; letter-spacing:0;">(topic labels from message text &mdash; refreshed to Jul 25)</span></h4>
   <table>
     <thead><tr><th>Topic (talked about on D0)</th><th class="num">% of chatters</th><th class="num">Return-7d</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge badge-green">Emotional / personal</span></td><td class="num">8.8%</td><td class="num better">17.7%</td></tr>
-      <tr><td>Romance / affection</td><td class="num">15.0%</td><td class="num better">15.4%</td></tr>
-      <tr><td><span class="badge badge-purple">Show / content</span></td><td class="num">16.6%</td><td class="num better">14.7%</td></tr>
-      <tr><td>Sexual / explicit</td><td class="num">28.0%</td><td class="num worse">11.5%</td></tr>
-      <tr><td>Casual / greetings</td><td class="num">78.4%</td><td class="num worse">7.7%</td></tr>
+      <tr><td><span class="badge badge-green">Emotional / personal</span></td><td class="num">8.1%</td><td class="num better">18.3%</td></tr>
+      <tr><td>Romance / affection</td><td class="num">11.8%</td><td class="num better">16.4%</td></tr>
+      <tr><td><span class="badge badge-purple">Show / content</span></td><td class="num">15.2%</td><td class="num better">14.7%</td></tr>
+      <tr><td>Sexual / explicit</td><td class="num">26.5%</td><td class="num worse">11.3%</td></tr>
+      <tr><td>Casual / greetings</td><td class="num">43.6%</td><td class="num worse">10.1%</td></tr>
     </tbody>
   </table>
   <div class="insight insight-good"><b>The mechanism is emotional investment + a reason to return</b> &mdash; not longer sessions or more recommendation cards. Show-content retains near-top yet is only ~2.4% of messages: the one topic that helps retention <i>and</i> the streaming business, badly under-used.</div>
@@ -200,16 +200,16 @@
   <table>
     <thead><tr><th>Day-1 messages</th><th class="num">Return-7d</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td class="num">3.5%</td></tr>
-      <tr><td>5&ndash;9</td><td class="num">5.0%</td></tr>
-      <tr><td>10&ndash;19</td><td class="num">7&ndash;8%</td></tr>
-      <tr><td>20&ndash;49</td><td class="num">10&ndash;14%</td></tr>
-      <tr><td>50&ndash;99</td><td class="num">22%</td></tr>
-      <tr><td>100+</td><td class="num better">41%</td></tr>
+      <tr><td>1</td><td class="num">3.4%</td></tr>
+      <tr><td>5&ndash;9</td><td class="num">4.9%</td></tr>
+      <tr><td>10&ndash;19</td><td class="num">7.1%</td></tr>
+      <tr><td>20&ndash;49</td><td class="num">11.8%</td></tr>
+      <tr><td>50&ndash;99</td><td class="num">22.1%</td></tr>
+      <tr><td>100+</td><td class="num better">42.1%</td></tr>
     </tbody>
   </table>
   <div class="insight insight-warn"><b>Within a session there is no tipping point</b> &mdash; return rises smoothly with depth. This is a <b>marker of intent, not a lever</b>: deep users are deep because of who they are; you can't retain someone by padding their message count. (Confirmed: a past push raised depth ~11&times; with no lift in return.)</div>
-  <div class="insight insight-good"><b>The real tipping point is across visits: ~visit 5&ndash;6.</b> Once a user chats on 5&ndash;6 distinct days, they continue ~3-in-4 times &mdash; a genuine habit. The depth&rarr;return gradient holds in <b>every cohort</b> (same shape, the curve just shifts down for weaker ones). But because 91% never make the first return, all the leverage sits at the day-1&rarr;day-2 cliff, not at the tipping point.</div>
+  <div class="insight insight-good"><b>The real tipping point is across visits: ~visit 5&ndash;6.</b> Once a user chats on 5&ndash;6 distinct days, they continue ~3-in-4 times &mdash; a genuine habit. The depth&rarr;return gradient holds in <b>every cohort</b> (same shape, the curve just shifts down for weaker ones). But because ~93% never make the first return, all the leverage sits at the day-1&rarr;day-2 cliff, not at the tipping point.</div>
 
   <!-- Q4 -->
   <h2 id="q4">Q4 &middot; Which feature correlates most with chat depth?</h2>
@@ -224,25 +224,25 @@
   <table>
     <thead><tr><th>Feature (adopted day 1)</th><th class="num">Avg messages: adopter vs not</th><th class="num">Depth multiple</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge badge-green">Emotional disclosure</span></td><td class="num">dominant</td><td class="num better">~9&ndash;11&times;</td></tr>
+      <tr><td><span class="badge badge-green">Emotional disclosure</span></td><td class="num">dominant</td><td class="num better">~8&ndash;9&times;</td></tr>
       <tr><td>Games</td><td class="num">&mdash;</td><td class="num better">~4&times;</td></tr>
       <tr><td>Selfie</td><td class="num">&mdash;</td><td class="num better">~4&times;</td></tr>
     </tbody>
   </table>
   <p><b>Disclosure</b> = the user opening up about something personal or emotional on day 1 &mdash; warmth ("aapse baat karke achha lagta hai"), loneliness ("akela"), distress ("pareshan"), affection ("pyaar"). It is by far the strongest correlate of both depth and return.</p>
-  <div class="insight insight-warn" style="font-size:0.85rem;">Caveat: the depth multiple is a <b>confounded upper bound</b> &mdash; the feature happens mid-session, so it partly counts the messages it generated. On the Jul-27 refresh games and selfie were roughly tied (~4&times;), so treat their order as within noise; only disclosure's dominance is robust. *Chat-then-subscribed and the character-switch rate are definition-sensitive (12&ndash;21% and 58&ndash;64% on re-run) &mdash; reconcile the definition before quoting a single figure.</div>
-  <h4>Inference &mdash; depth is flat across cohorts; disclosure's payoff is biggest where retention is worst</h4>
+  <div class="insight insight-warn" style="font-size:0.85rem;">Caveat: the depth multiple is a <b>confounded upper bound</b> &mdash; the feature happens mid-session, so it partly counts the messages it generated. On the 90-day window games and selfie are roughly tied (~3.8&times; each), so treat their order as within noise; only disclosure's dominance is robust. *Chat-then-subscribed and the character-switch rate are definition-sensitive (12&ndash;21% and 58&ndash;64% on re-run) &mdash; reconcile the definition before quoting a single figure.</div>
+  <h4>Inference &mdash; depth is flat across cohorts; disclosure's payoff is biggest where retention is worst <span style="font-weight:400; color:var(--muted); text-transform:none; letter-spacing:0;">(disclosure from message text &mdash; refreshed to Jul 25)</span></h4>
   <table>
     <thead><tr><th>Cohort</th><th class="num">% who disclose (D0)</th><th class="num">Return: disclosers</th><th class="num">vs non-disclosers</th><th class="num">Lift</th></tr></thead>
     <tbody>
-      <tr><td>Renewal</td><td class="num">4.1%</td><td class="num">28.7%</td><td class="num">9.5%</td><td class="num">3.0&times;</td></tr>
-      <tr><td>New Subscription</td><td class="num">4.4%</td><td class="num">29.9%</td><td class="num">9.9%</td><td class="num">3.0&times;</td></tr>
-      <tr><td>Trial</td><td class="num">4.6%</td><td class="num">23.9%</td><td class="num">7.6%</td><td class="num">3.1&times;</td></tr>
-      <tr><td>Renewal expired</td><td class="num">5.6%</td><td class="num">24.4%</td><td class="num">4.4%</td><td class="num better">5.5&times;</td></tr>
-      <tr><td><span class="badge badge-gray">Free</span></td><td class="num">4.6%</td><td class="num">18.4%</td><td class="num">3.4%</td><td class="num better">5.4&times;</td></tr>
+      <tr><td>Renewal</td><td class="num">4.8%</td><td class="num">29.4%</td><td class="num">10.5%</td><td class="num">2.8&times;</td></tr>
+      <tr><td>New Subscription</td><td class="num">4.5%</td><td class="num">31.4%</td><td class="num">10.4%</td><td class="num">3.0&times;</td></tr>
+      <tr><td>Trial</td><td class="num">4.9%</td><td class="num">23.5%</td><td class="num">7.7%</td><td class="num">3.1&times;</td></tr>
+      <tr><td>Renewal expired</td><td class="num">5.1%</td><td class="num">24.4%</td><td class="num">4.8%</td><td class="num better">5.1&times;</td></tr>
+      <tr><td><span class="badge badge-gray">Free</span></td><td class="num">4.4%</td><td class="num">18.0%</td><td class="num">3.6%</td><td class="num better">5.0&times;</td></tr>
     </tbody>
   </table>
-  <div class="insight"><b>Everyone discloses at ~4&ndash;6% regardless of plan</b> &mdash; subscription type doesn't decide whether a user opens up, and ~95% of every cohort never does (largely because they're never invited to). <b>Depth itself is flat across cohorts</b> (~13&ndash;15 day-1 messages, ~20% deep, including Free) &mdash; subscription type predicts <i>return</i>, not depth. The return-lift from disclosing is 3&ndash;5.5&times; in every cohort, and <b>largest in the weakest, biggest cohorts (Free, lapsed)</b>.</div>
+  <div class="insight"><b>Everyone discloses at ~4&ndash;6% regardless of plan</b> &mdash; subscription type doesn't decide whether a user opens up, and ~95% of every cohort never does (largely because they're never invited to). <b>Depth itself is flat across cohorts</b> (~12&ndash;15 day-1 messages, ~16&ndash;19% deep, including Free) &mdash; subscription type predicts <i>return</i>, not depth. The return-lift from disclosing is 2.8&ndash;5.1&times; in every cohort, and <b>largest in the weakest, biggest cohorts (Free, lapsed)</b>.</div>
 
   <!-- BUSINESS LINK -->
   <h2 id="business">Does chat move the business? (watch-time, app-return, renewal)</h2>
@@ -260,12 +260,12 @@
 
   <!-- CONCLUSION -->
   <h2 id="conclusion">The conclusion, in one place</h2>
-  <div class="insight insight-good" style="font-size:1rem;"><b>Depth is universal; return is stratified.</b> Everyone chats about the same amount; whether they come back is set by their cohort and by whether an emotional-investment moment happened early. The <b>same three levers (disclosure &#8811; selfie &gt; games)</b> and <b>three topics (emotional, show-content, romance)</b> drive both depth and the first-return cliff <b>in every cohort</b> &mdash; so the mechanism is genuinely transferable.</div>
+  <div class="insight insight-good" style="font-size:1rem;"><b>Depth is universal; return is stratified.</b> Everyone chats about the same amount; whether they come back is set by their cohort and by whether an emotional-investment moment happened early. The <b>same three levers (disclosure &#8811; selfie &asymp; games)</b> and <b>three topics (emotional, show-content, romance)</b> drive both depth and the first-return cliff <b>in every cohort</b> &mdash; so the mechanism is genuinely transferable.</div>
   <h3>What to do</h3>
   <ul>
-    <li><b>Engineer an emotional-investment moment into the first session</b> &mdash; invite disclosure early (confidentiality framing, active listening), offer a game, prompt a selfie. This attacks the day-1&rarr;day-2 cliff, where 91% are lost. Levers are badly under-supplied (most users get zero on day 1).</li>
-    <li><b>The renewer gap is mostly an app-open problem, not a chat problem.</b> Renewers retain <i>best</i> once chatting, but reach chat at just 3.18% &mdash; which decomposes to <b>19.8% open the app &times; 16.1% of those find chat</b>. Chat can only fix the second stage (route the ~20% who show up toward the in-player bubble, not the trial-flavoured home rail); the dormant 80% are a broader re-engagement problem outside chat's control.</li>
-    <li><b>Target New Subscribers and Trial-expired, not just renewers.</b> New Subs are the best discoverers (75.8% open, 26.7% reach chat) <i>and</i> best retainers &mdash; high-intent and in-app. Trial-expired is the 2nd-largest chatter pool by volume (115K). Both are more addressable than dormant renewers.</li>
+    <li><b>Engineer an emotional-investment moment into the first session</b> &mdash; invite disclosure early (confidentiality framing, active listening), offer a game, prompt a selfie. This attacks the day-1&rarr;day-2 cliff, where ~93% are lost. Levers are badly under-supplied (most users get zero on day 1).</li>
+    <li><b>The renewer gap is mostly an app-open problem, not a chat problem.</b> Renewers retain <i>best</i> once chatting, but reach chat at just ~5.1% &mdash; which decomposes to <b>25.9% open the app &times; 19.8% of those find chat</b>. Chat can only fix the second stage (route the ~26% who show up toward the in-player bubble, not the trial-flavoured home rail); the dormant ~74% are a broader re-engagement problem outside chat's control.</li>
+    <li><b>Target New Subscribers and Trial-expired, not just renewers.</b> New Subs are the best discoverers (81.3% open, 21.3% reach chat) <i>and</i> best retainers &mdash; high-intent and in-app. Trial-expired is the 2nd-largest chatter pool by volume (~173K). Both are more addressable than dormant renewers.</li>
     <li><b>Eliciting disclosure pays most on Free &amp; lapsed users</b> (5&times;+ return lift) &mdash; the largest, weakest cohorts. It is the single most transferable move.</li>
     <li><b>Weave show-content into chat</b> &mdash; the one topic that retains chatters <i>and</i> drives watching, currently ~2.4% of messages.</li>
   </ul>
@@ -278,7 +278,7 @@
   </ul>
   <div class="insight insight-warn"><b>Caveats.</b> All findings are quasi-causal (observational) &mdash; the clean proof is a day-1 randomised test (offer a lever, measure the day-1&rarr;day-2 crossing). "Return" here is chat-to-chat; the platform/watch-return version has now been run (see "Does chat move the business?") &mdash; chat lifts watch-time for paying cohorts but does not improve app-return and chatters renew slightly less. Topic and disclosure labels are high-precision keyword proxies, so their measured effects are floors.</div>
 
-  <p class="subtitle" style="margin-top:40px;">Scope: last 60 days (May 9 &ndash; Jul 7, 2026) &middot; 136,959 chatters &middot; 7 subscription cohorts. &nbsp; <a href="index.html">&larr; Back to main report</a></p>
+  <p class="subtitle" style="margin-top:40px;">Scope: last 90 days through Jul 25, 2026 (~178K chatters); topic &amp; disclosure signals from a fresh 90-day Scylla pull (3.4M user messages to Jul 25) &middot; 7 subscription cohorts. &nbsp; <a href="index.html">&larr; Back to main report</a></p>
 </div>
 </body>
 </html>
