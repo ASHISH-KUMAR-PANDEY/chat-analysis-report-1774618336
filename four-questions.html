@@ -66,6 +66,7 @@
     <a href="#q2" style="color:var(--green);">Q2 · What drives it</a>
     <a href="#q3" style="color:var(--purple);">Q3 · Tipping point</a>
     <a href="#q4" style="color:var(--pink);">Q4 · Feature &rarr; depth</a>
+    <a href="#business" style="color:var(--green);">Business impact</a>
     <a href="#conclusion" style="color:var(--yellow);">Conclusion</a>
   </div>
 </nav>
@@ -135,7 +136,7 @@
       <tr><td>Renewal expired</td><td class="num">5.4%</td></tr>
       <tr><td>Trial / New-Sub expired</td><td class="num">~4.5%</td></tr>
       <tr><td><span class="badge badge-gray">Free</span></td><td class="num worse">4.1%</td></tr>
-      <tr><td>Chat-then-subscribed <span class="badge badge-gray">edge</span></td><td class="num">20.6%</td></tr>
+      <tr><td>Chat-then-subscribed <span class="badge badge-gray">edge</span></td><td class="num">~12&ndash;21%*</td></tr>
     </tbody>
   </table>
   <h4>Inference &mdash; the biggest door is the weakest</h4>
@@ -149,7 +150,7 @@
       <tr><td>Dedicated Chat tab</td><td class="num">~0%</td><td class="num">dead</td></tr>
     </tbody>
   </table>
-  <div class="insight">Paying-active users return <b>~2.5&times;</b> better than free users. Return is to the <i>feature</i>, not a bot &mdash; ~87% switch characters on return. The in-player bubble (user already watching) is the highest-quality entry but barely used; the home rail is high-volume, low-quality.</div>
+  <div class="insight">Paying-active users return <b>~2.5&times;</b> better than free users. Return is to the <i>feature</i>, not a bot &mdash; a <b>majority (~58&ndash;64%)</b> switch characters on return. The in-player bubble (user already watching) is the highest-quality entry but barely used; the home rail is high-volume, low-quality.</div>
 
   <!-- Q2 -->
   <h2 id="q2">Q2 &middot; What makes them come back?</h2>
@@ -221,12 +222,13 @@
   <table>
     <thead><tr><th>Feature (adopted day 1)</th><th class="num">Avg messages: adopter vs not</th><th class="num">Depth multiple</th></tr></thead>
     <tbody>
-      <tr><td><span class="badge badge-green">Emotional disclosure</span></td><td class="num">100&ndash;120 vs 14</td><td class="num better">~8.6&times;</td></tr>
-      <tr><td>Selfie</td><td class="num">46 vs 16</td><td class="num better">2.9&times;</td></tr>
-      <tr><td>Games</td><td class="num">35 vs 17</td><td class="num better">2.0&times;</td></tr>
+      <tr><td><span class="badge badge-green">Emotional disclosure</span></td><td class="num">dominant</td><td class="num better">~9&ndash;11&times;</td></tr>
+      <tr><td>Games</td><td class="num">&mdash;</td><td class="num better">~4&times;</td></tr>
+      <tr><td>Selfie</td><td class="num">&mdash;</td><td class="num better">~4&times;</td></tr>
     </tbody>
   </table>
   <p><b>Disclosure</b> = the user opening up about something personal or emotional on day 1 &mdash; warmth ("aapse baat karke achha lagta hai"), loneliness ("akela"), distress ("pareshan"), affection ("pyaar"). It is by far the strongest correlate of both depth and return.</p>
+  <div class="insight insight-warn" style="font-size:0.85rem;">Caveat: the depth multiple is a <b>confounded upper bound</b> &mdash; the feature happens mid-session, so it partly counts the messages it generated. On the Jul-27 refresh games and selfie were roughly tied (~4&times;), so treat their order as within noise; only disclosure's dominance is robust. *Chat-then-subscribed and the character-switch rate are definition-sensitive (12&ndash;21% and 58&ndash;64% on re-run) &mdash; reconcile the definition before quoting a single figure.</div>
   <h4>Inference &mdash; depth is flat across cohorts; disclosure's payoff is biggest where retention is worst</h4>
   <table>
     <thead><tr><th>Cohort</th><th class="num">% who disclose (D0)</th><th class="num">Return: disclosers</th><th class="num">vs non-disclosers</th><th class="num">Lift</th></tr></thead>
@@ -239,6 +241,20 @@
     </tbody>
   </table>
   <div class="insight"><b>Everyone discloses at ~4&ndash;6% regardless of plan</b> &mdash; subscription type doesn't decide whether a user opens up, and ~95% of every cohort never does (largely because they're never invited to). <b>Depth itself is flat across cohorts</b> (~13&ndash;15 day-1 messages, ~20% deep, including Free) &mdash; subscription type predicts <i>return</i>, not depth. The return-lift from disclosing is 3&ndash;5.5&times; in every cohort, and <b>largest in the weakest, biggest cohorts (Free, lapsed)</b>.</div>
+
+  <!-- BUSINESS LINK -->
+  <h2 id="business">Does chat move the business? (watch-time, app-return, renewal)</h2>
+  <p class="qlead">Q1&ndash;Q4 optimise <i>chat-to-chat return</i>. But STAGE is a watch/subscription business &mdash; so we tested whether chatting drives the real outcomes. Base: <b>1.23M June app-openers</b>; outcomes measured in July; matched on cohort &times; pre-period watch bucket (raw + matched); quasi-causal, not an RCT.</p>
+  <table>
+    <thead><tr><th>Business outcome</th><th>Verdict</th><th>Matched result</th></tr></thead>
+    <tbody>
+      <tr><td>Watch-time</td><td class="better">&#x2705; Yes</td><td>Chatters watch <b>+49%</b> more July minutes (12.5 vs 8.4) &mdash; and it <i>survives</i> matching (chatters were <i>lighter</i> pre-period watchers). Concentrated in paying cohorts (active subs +54%, churned subs +168%).</td></tr>
+      <tr><td>App return</td><td class="worse">&#x274C; No</td><td>Matched slightly negative (21.2% vs 23.0%). Paying chatters open a bit more often, but "return at all" doesn't improve.</td></tr>
+      <tr><td>Subscription renewal</td><td class="worse">&#x274C; Negative</td><td>Among in-window expirers, chatters renew <b>less</b> &mdash; matched 18.2% vs 23.4%, across all 3 plans. Expiring chatters had watched half as much pre-period &rarr; chat <i>flags</i> a disengaging user, it doesn't save them.</td></tr>
+    </tbody>
+  </table>
+  <div class="insight insight-good"><b>Chat-return (the north-star) is not a vanity metric &mdash; on the engagement axis.</b> Matched on message volume, chat-returners (2+ days) get <b>+127% July watch-time</b> (20.0 vs 8.8) and <b>~2&times; app-return</b> (32% vs 18%). So chat-return genuinely tracks watch/engagement value &mdash; but it does <b>not</b> track the renewal event.</div>
+  <div class="insight insight-warn"><b>Reframe the value prop.</b> Chat is a <b>watch-time / engagement lever for paying (content-access) cohorts</b> &mdash; <i>not</i> a subscription-retention or renewer-rescue play; the matched renewal effect is <b>negative</b>. The chat&rarr;content bridge (~119K plays / 77K users in June) is real but bridge-users watch/return <i>less</i> forward (the "divert off" pattern). Confidence medium &mdash; reverse causality (users chat <i>because</i> they're drifting from content) fits every table; only an RCT reading July watch-minutes + next-cycle renewal settles it.</div>
 
   <!-- CONCLUSION -->
   <h2 id="conclusion">The conclusion, in one place</h2>
@@ -256,8 +272,9 @@
     <li>Optimising raw session depth for retention (it's a marker, not a lever).</li>
     <li>Chasing groups (dead adoption, no viral loop).</li>
     <li>Treating content-recommendation cards as a retention play (they're a watch-time win &mdash; a different KPI).</li>
+    <li><b>Pitching chat as a renewal / churn fix</b> &mdash; matched data shows chatters renew <i>less</i>; treat chat as a watch-time &amp; engagement lever for paying cohorts, not a subscription-retention play.</li>
   </ul>
-  <div class="insight insight-warn"><b>Caveats.</b> All findings are quasi-causal (observational) &mdash; the clean proof is a day-1 randomised test (offer a lever, measure the day-1&rarr;day-2 crossing). "Return" here is chat-to-chat; the platform/watch-return version (arguably the truer business metric) is built and ready to run. Topic and disclosure labels are high-precision keyword proxies, so their measured effects are floors.</div>
+  <div class="insight insight-warn"><b>Caveats.</b> All findings are quasi-causal (observational) &mdash; the clean proof is a day-1 randomised test (offer a lever, measure the day-1&rarr;day-2 crossing). "Return" here is chat-to-chat; the platform/watch-return version has now been run (see "Does chat move the business?") &mdash; chat lifts watch-time for paying cohorts but does not improve app-return and chatters renew slightly less. Topic and disclosure labels are high-precision keyword proxies, so their measured effects are floors.</div>
 
   <p class="subtitle" style="margin-top:40px;">Scope: last 60 days (May 9 &ndash; Jul 7, 2026) &middot; 136,959 chatters &middot; 7 subscription cohorts. &nbsp; <a href="index.html">&larr; Back to main report</a></p>
 </div>
